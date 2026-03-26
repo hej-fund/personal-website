@@ -169,6 +169,9 @@ body {
 .back-arrow {
     font-size: 1rem;
     transition: transform 0.3s ease;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
 }
 
 .back-btn:hover .back-arrow {
