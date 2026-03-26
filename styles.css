@@ -557,27 +557,37 @@ body {
     font-weight: 400;
     font-size: 0.9rem;
     letter-spacing: 0.03em;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s ease, padding-right 0.3s ease;
+    transition: background 0.3s ease;
 }
 
-.btn-submit-bug::after {
-    content: "→";
-    position: absolute;
-    right: 1rem;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
-    color: white;
+.btn-submit-bug:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-.btn-submit-bug:hover {
+.btn-submit-bug:not(:disabled):hover {
     background: #c0392b;
-    padding-right: 2rem;
 }
 
-.btn-submit-bug:hover::after {
-    opacity: 1;
-    transform: translateX(0);
+.bug-form-status {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 6px;
+    display: none;
+}
+
+.bug-form-status.success {
+    display: block;
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.bug-form-status.error {
+    display: block;
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
 }
