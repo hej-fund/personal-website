@@ -18,7 +18,7 @@ body {
     text-align: left;
     padding-left: 7%;
 
-    background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background: url('Background/guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -128,7 +128,7 @@ body {
     padding: 0 2rem;
     color: white;
 
-    background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background: url('Background/guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -231,7 +231,7 @@ body {
     align-items: flex-start;
     padding: 8rem 7% 6rem;
 
-    background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background: url('Background/guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
     position: relative;
 }
 
@@ -385,4 +385,49 @@ body {
 .project-card .btn {
     align-self: flex-start;
     margin-top: 0.5rem;
+}
+
+/* ─── Report Bug button ───────────────────────────────── */
+.btn-report {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+    padding: 0.75rem 1.5rem;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+.btn-report::after {
+    content: "→";
+    position: absolute;
+    right: 1rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-report:hover {
+    background: #c0392b;
+    padding-right: 2rem;
+}
+
+.btn-report:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.btn-report--bottom {
+    top: auto;
+    bottom: 1.5rem;
 }
