@@ -293,6 +293,36 @@ body {
     text-decoration-color: white;
 }
 
+/* ─── Contact row ─────────────────────────────────────── */
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: white;
+}
+
+.social-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
 /* ─── Projects grid ───────────────────────────────────── */
 .projects-grid {
     display: grid;
