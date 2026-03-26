@@ -217,3 +217,136 @@ body {
     letter-spacing: 0.05em;
     margin: 0.75rem 0 0;
 }
+
+/* ─── Interior pages (About, Projects) ───────────────── */
+.page-hero {
+    min-height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8rem 7% 6rem;
+
+    background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    position: relative;
+}
+
+.page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+.page-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+}
+
+.page-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+    margin: 0 0 1.5rem;
+    color: white;
+}
+
+.page-content .eyebrow {
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 0.75rem;
+}
+
+.page-content .subtitle {
+    margin: 0 0 3rem;
+}
+
+/* Body text */
+.body-text {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 2rem;
+    margin-top: 1rem;
+}
+
+.body-text p {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 1.25rem;
+}
+
+.inline-link {
+    color: white;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(255, 255, 255, 0.4);
+    transition: text-decoration-color 0.2s ease;
+}
+
+.inline-link:hover {
+    text-decoration-color: white;
+}
+
+/* ─── Projects grid ───────────────────────────────────── */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 2rem;
+}
+
+.project-card {
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.project-card:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.project-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+.project-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.6rem;
+    letter-spacing: 0.02em;
+    color: white;
+    margin: 0;
+}
+
+.project-card p {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    flex: 1;
+}
+
+.project-card .btn {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+}
