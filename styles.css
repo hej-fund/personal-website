@@ -577,9 +577,19 @@ body {
     border-color: rgba(255, 255, 255, 0.35);
 }
 
-.btn-submit-bug {
-    align-self: flex-start;
+.bug-form-group input.field-error,
+.bug-form-group textarea.field-error {
+    border-color: #e74c3c;
+}
+
+.bug-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     margin-top: 0.25rem;
+}
+
+.btn-submit-bug {
     padding: 0.75rem 1.5rem;
     background: #e74c3c;
     color: white;
@@ -600,6 +610,24 @@ body {
 
 .btn-submit-bug:not(:disabled):hover {
     background: #c0392b;
+}
+
+.btn-clear-bug {
+    padding: 0.75rem 1.5rem;
+    background: #b8860b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    transition: background 0.3s ease;
+}
+
+.btn-clear-bug:hover {
+    background: #9a7009;
 }
 
 .bug-form-status {

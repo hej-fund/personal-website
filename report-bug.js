@@ -32,14 +32,17 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
             <form class="bug-form" id="bugForm">
                 <div class="bug-form-group">
                     <label for="bugPage">Page</label>
-                    <input type="text" id="bugPage" placeholder="e.g. Projects, Photography...">
+                    <input type="text" id="bugPage" placeholder="e.g. Projects, Photography..." autocomplete="off">
                 </div>
                 <div class="bug-form-group">
                     <label for="bugDescription">Description</label>
-                    <textarea id="bugDescription" rows="5" placeholder="Describe the issue you encountered..."></textarea>
+                    <textarea id="bugDescription" rows="5" placeholder="Describe the issue you encountered..." autocomplete="off"></textarea>
                 </div>
                 <div class="bug-form-status" id="bugFormStatus"></div>
-                <button type="submit" class="btn-submit-bug" id="bugSubmitBtn">Submit Report</button>
+                <div class="bug-form-actions">
+                    <button type="submit" class="btn-submit-bug" id="bugSubmitBtn">Submit Report</button>
+                    <button type="button" class="btn-clear-bug" id="bugClearBtn">Clear</button>
+                </div>
             </form>
         </div>
     `;
@@ -49,6 +52,7 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
     const closeBtn  = document.getElementById('bugModalClose');
     const form      = document.getElementById('bugForm');
     const submitBtn = document.getElementById('bugSubmitBtn');
+    const clearBtn  = document.getElementById('bugClearBtn');
     const msgBox    = document.getElementById('bugFormStatus');
 
     function sanitize(str) {
@@ -60,11 +64,48 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
             .replace(/'/g, '&#x27;');
     }
 
-    function openModal() {
-        overlay.classList.add('active');
+    const pageInput = document.getElementById('bugPage');
+    const descInput = document.getElementById('bugDescription');
+
+    function saveState() {
+        sessionStorage.setItem('bugPage', pageInput.value);
+        sessionStorage.setItem('bugDesc', descInput.value);
+        sessionStorage.setItem('bugPageErr', pageInput.classList.contains('field-error'));
+        sessionStorage.setItem('bugDescErr', descInput.classList.contains('field-error'));
+        sessionStorage.setItem('bugMsg', msgBox.textContent);
+        sessionStorage.setItem('bugMsgClass', msgBox.className);
+    }
+
+    function restoreState() {
+        pageInput.value = sessionStorage.getItem('bugPage') || '';
+        descInput.value = sessionStorage.getItem('bugDesc') || '';
+        pageInput.classList.toggle('field-error', sessionStorage.getItem('bugPageErr') === 'true');
+        descInput.classList.toggle('field-error', sessionStorage.getItem('bugDescErr') === 'true');
+        msgBox.textContent = sessionStorage.getItem('bugMsg') || '';
+        msgBox.className = sessionStorage.getItem('bugMsgClass') || 'bug-form-status';
+    }
+
+    function resetForm() {
+        form.reset();
+        pageInput.classList.remove('field-error');
+        descInput.classList.remove('field-error');
         msgBox.className = 'bug-form-status';
         msgBox.textContent = '';
-        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Report';
+        submitBtn.style.background = '';
+        submitBtn.style.opacity = '';
+        sessionStorage.removeItem('bugPage');
+        sessionStorage.removeItem('bugDesc');
+        sessionStorage.removeItem('bugPageErr');
+        sessionStorage.removeItem('bugDescErr');
+        sessionStorage.removeItem('bugMsg');
+        sessionStorage.removeItem('bugMsgClass');
+    }
+
+    function openModal() {
+        restoreState();
+        overlay.classList.add('active');
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Report';
         submitBtn.style.background = '';
@@ -72,8 +113,18 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
     }
 
     function closeModal() {
+        saveState();
         overlay.classList.remove('active');
     }
+
+    clearBtn.addEventListener('click', resetForm);
+
+    pageInput.addEventListener('input', function () {
+        if (this.value.trim()) this.classList.remove('field-error');
+    });
+    descInput.addEventListener('input', function () {
+        if (this.value.trim()) this.classList.remove('field-error');
+    });
 
     document.querySelector('.btn-report').addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
@@ -83,8 +134,11 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const page        = document.getElementById('bugPage').value.trim();
-        const description = document.getElementById('bugDescription').value.trim();
+        const page        = pageInput.value.trim();
+        const description = descInput.value.trim();
+
+        pageInput.classList.toggle('field-error', !page);
+        descInput.classList.toggle('field-error', !description);
 
         if (!page || !description) {
             msgBox.className = 'bug-form-status error';
@@ -109,7 +163,7 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
             submitBtn.textContent = 'Thank You!';
             submitBtn.style.background = '#2ecc71';
             submitBtn.style.opacity = '1';
-            setTimeout(closeModal, 750);
+            setTimeout(() => { closeModal(); resetForm(); }, 750);
         }).catch(() => {
             msgBox.className = 'bug-form-status error';
             msgBox.textContent = 'Failed to send. Please try again.';
