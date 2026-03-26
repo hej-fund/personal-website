@@ -1,0 +1,84 @@
+/* Basic page setup */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Hero section */
+.hero {
+    height: 100vh;
+    color: black;
+    display: flex;
+    flex-direction: column;     /* stack name and buttons vertically */
+    justify-content: center;    /* vertical centering in viewport */
+    align-items: flex-start;    /* keep content on the left */
+    text-align: left;           /* text aligns left */
+    padding-left: 5%;           /* space from the left edge */
+
+    background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background-size: cover;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Typewriter name */
+#typed-name {
+    border-right: 2px solid white;
+    padding-right: 2px;
+    animation: blink 0.7s steps(1) infinite;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { border-color: white; }
+    25%, 75% { border-color: transparent; }
+}
+
+/* Button container */
+.buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem; /* space below the name */
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    background: #2ecc71; /* green */
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Arrow after text */
+.btn::after {
+    content: "→";
+    position: absolute;
+    right: 1rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    color: black;
+}
+
+/* Hover effect */
+.btn:hover {
+    background: #27ae60; /* darker green */
+    padding-right: 2rem;
+    box-shadow: 
+        0 0 10px rgba(46, 204, 113, 0.6),
+        0 0 20px rgba(46, 204, 113, 0.4);
+}
+
+.btn:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
