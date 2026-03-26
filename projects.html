@@ -7,6 +7,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .project-card--photo {
+            position: relative;
+            overflow: hidden;
+            border-color: rgba(255,255,255,1);
+            background: transparent;
+        }
+
+        .project-card-bg {
+            position: absolute;
+            inset: 0;
+            background: url('dariusz-sankowski-mj2NwYH3wBA-unsplash.jpg') center/cover no-repeat;
+            opacity: 0.8;
+            z-index: 0;
+        }
+
+        .project-card--photo .project-label,
+        .project-card--photo h2,
+        .project-card--photo p,
+        .project-card--photo .btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-card--photo p {
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .project-card--photo h2 {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .project-card--photo .project-label {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+    </style>
 </head>
 <body>
 
@@ -23,7 +60,8 @@
 
         <div class="projects-grid">
 
-            <div class="project-card">
+            <div class="project-card project-card--photo">
+                <div class="project-card-bg"></div>
                 <p class="project-label">01</p>
                 <h2>Photography</h2>
                 <p>A personal collection of photos shot across various countries and landscapes.</p>

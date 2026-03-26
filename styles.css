@@ -347,8 +347,11 @@ body {
 }
 
 .project-card:hover {
-    border-color: rgba(255, 255, 255, 0.35);
-    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.project-card--photo:hover {
+    border-color: rgba(255,255,255,1);
 }
 
 .project-label {
