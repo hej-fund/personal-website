@@ -431,3 +431,153 @@ body {
     top: auto;
     bottom: 1.5rem;
 }
+
+/* ─── Bug report modal ────────────────────────────────── */
+.bug-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+}
+
+.bug-modal-overlay.active {
+    display: flex;
+}
+
+.bug-modal {
+    position: relative;
+    background: #0f1419;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 2.5rem 2.5rem 2rem;
+    width: 100%;
+    max-width: 460px;
+    margin: 1rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.bug-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.bug-modal-close:hover {
+    color: white;
+}
+
+.bug-modal-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 0 0.6rem;
+}
+
+.bug-modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    color: white;
+    margin: 0 0 1.75rem;
+}
+
+.bug-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.bug-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.bug-form-group label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.bug-form-group input,
+.bug-form-group textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+    color: white;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+.bug-form-group input::placeholder,
+.bug-form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.bug-form-group input:focus,
+.bug-form-group textarea:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-submit-bug {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease, padding-right 0.3s ease;
+}
+
+.btn-submit-bug::after {
+    content: "→";
+    position: absolute;
+    right: 1rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-submit-bug:hover {
+    background: #c0392b;
+    padding-right: 2rem;
+}
+
+.btn-submit-bug:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
