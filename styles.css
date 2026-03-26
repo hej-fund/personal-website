@@ -1,64 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap');
+
 /* Basic page setup */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
 }
 
-/* Hero section */
+/* ─── Hero section ────────────────────────────────────── */
 .hero {
     height: 100vh;
-    color: black;
+    color: white;
     display: flex;
-    flex-direction: column;     /* stack name and buttons vertically */
-    justify-content: center;    /* vertical centering in viewport */
-    align-items: flex-start;    /* keep content on the left */
-    text-align: left;           /* text aligns left */
-    padding-left: 5%;           /* space from the left edge */
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 7%;
 
     background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
     background-size: cover;
+    position: relative;
+}
+
+/* Overlay for readability */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 0;
 }
 
 .hero-content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+}
+
+/* Eyebrow label above name */
+.hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 1rem;
 }
 
 /* Typewriter name */
 #typed-name {
-    border-right: 2px solid white;
-    padding-right: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: white;
+    margin-bottom: 2.5rem;
+
+    border-right: 1.5px solid rgba(255, 255, 255, 0.7);
+    padding-right: 4px;
     animation: blink 0.7s steps(1) infinite;
-    font-size: 3rem;
-    margin-bottom: 2rem;
 }
 
 @keyframes blink {
-    0%, 50%, 100% { border-color: white; }
-    25%, 75% { border-color: transparent; }
+    0%, 50%, 100% { border-color: rgba(255, 255, 255, 0.7); }
+    25%, 75%       { border-color: transparent; }
 }
 
-/* Button container */
+/* ─── Button container ────────────────────────────────── */
 .buttons {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem; /* space below the name */
+    margin-top: 0.5rem;
 }
 
-/* Buttons */
+/* ─── Buttons ─────────────────────────────────────────── */
 .btn {
     padding: 0.75rem 1.5rem;
-    background: #2ecc71; /* green */
+    background: #2ecc71;
     color: black;
     text-decoration: none;
     border-radius: 6px;
+
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 
-/* Arrow after text */
+/* Arrow */
 .btn::after {
     content: "→";
     position: absolute;
@@ -69,16 +107,113 @@ body {
     color: black;
 }
 
-/* Hover effect */
 .btn:hover {
-    background: #27ae60; /* darker green */
+    background: #27ae60;
     padding-right: 2rem;
-    box-shadow: 
-        0 0 10px rgba(46, 204, 113, 0.6),
-        0 0 20px rgba(46, 204, 113, 0.4);
 }
 
 .btn:hover::after {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* ─── Coming soon page ───────────────────────────────── */
+.coming-soon-hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+    color: white;
+
+    background: url('guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/* Overlay */
+.coming-soon-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    z-index: 0;
+}
+
+/* Back button */
+.back-btn {
+    position: absolute;
+    top: 2.2rem;
+    left: 2.5rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s ease, gap 0.3s ease;
+}
+
+.back-btn:hover {
+    color: rgba(255, 255, 255, 1);
+    gap: 0.75rem;
+}
+
+.back-arrow {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover .back-arrow {
+    transform: translateX(-3px);
+}
+
+/* Hero content (coming soon) */
+.coming-soon-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Eyebrow label */
+.eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 0.75rem;
+}
+
+/* Main heading */
+.coming-soon-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(4rem, 10vw, 7.5rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    margin: 0;
+    color: #fff;
+}
+
+/* Subtitle */
+.subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.05em;
+    margin: 0.75rem 0 0;
 }

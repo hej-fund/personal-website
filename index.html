@@ -2,41 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Your Name</title>
+    <title>Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="hero">
+<div class="hero">
     <div class="hero-content">
-        <h1><span id="typed-name"></span></h1>
+        <!-- Optional eyebrow: remove if not needed -->
+        <p class="hero-eyebrow">Welcome</p>
+
+        <h1 id="typed-name"></h1>
 
         <div class="buttons">
             <a href="about.html" class="btn">About</a>
             <a href="projects.html" class="btn">Projects</a>
             <a href="blog.html" class="btn">Blog</a>
-            <a href="Resume.pdf" class="btn" target="_blank">Resume</a>
+            <a href="resume.pdf" class="btn">Resume</a>
         </div>
     </div>
-</header>
+</div>
 
-<!-- Typewriter script -->
 <script>
-    const name = "Rohan Hejmadi"; // replace with your actual name
-    const typedName = document.getElementById("typed-name");
+    const name = "Rohan Hejmadi";
+    const el = document.getElementById("typed-name");
     let i = 0;
-
-    function typeWriter() {
+    function type() {
         if (i < name.length) {
-            typedName.textContent += name.charAt(i);
-            i++;
-            setTimeout(typeWriter, 150); // typing speed in ms
+            el.textContent += name[i++];
+            setTimeout(type, 90);
         } else {
-            typedName.style.borderRight = "none"; // remove cursor after typing
+            el.style.borderColor = "transparent";
+            el.style.animation = "none";
         }
     }
-
-    window.onload = typeWriter;
+    type();
 </script>
 
 </body>
