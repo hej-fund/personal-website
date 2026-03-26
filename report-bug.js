@@ -51,14 +51,14 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
     const submitBtn = document.getElementById('bugSubmitBtn');
     const msgBox    = document.getElementById('bugFormStatus');
 
-    // function sanitize(str) {
-    //     return str
-    //         .replace(/&/g, '&amp;')
-    //         .replace(/</g, '&lt;')
-    //         .replace(/>/g, '&gt;')
-    //         .replace(/"/g, '&quot;')
-    //         .replace(/'/g, '&#x27;');
-    // }
+    function sanitize(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#x27;');
+    }
 
     function openModal() {
         overlay.classList.add('active');
@@ -97,30 +97,24 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
         msgBox.className = 'bug-form-status';
         msgBox.textContent = '';
 
-        submitBtn.textContent = 'Thank You!';
-        submitBtn.style.background = '#2ecc71';
-        submitBtn.style.opacity = '1';
-        setTimeout(closeModal, 750);
-
-        // EMAILJS DISABLED — re-enable by uncommenting the block below
-        // const submittedAt = new Date().toLocaleString('en-US', {
-        //     weekday: 'short', year: 'numeric', month: 'short',
-        //     day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
-        // });
-        // emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        //     page:         sanitize(page),
-        //     description:  sanitize(description),
-        //     submitted_at: submittedAt,
-        // }).then(() => {
-        //     submitBtn.textContent = 'Thank You!';
-        //     submitBtn.style.background = '#2ecc71';
-        //     submitBtn.style.opacity = '1';
-        //     setTimeout(closeModal, 750);
-        // }).catch(() => {
-        //     msgBox.className = 'bug-form-status error';
-        //     msgBox.textContent = 'Failed to send. Please try again.';
-        //     submitBtn.disabled = false;
-        //     submitBtn.textContent = 'Submit Report';
-        // });
+        const submittedAt = new Date().toLocaleString('en-US', {
+            weekday: 'short', year: 'numeric', month: 'short',
+            day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
+        });
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            page:         sanitize(page),
+            description:  sanitize(description),
+            submitted_at: submittedAt,
+        }).then(() => {
+            submitBtn.textContent = 'Thank You!';
+            submitBtn.style.background = '#2ecc71';
+            submitBtn.style.opacity = '1';
+            setTimeout(closeModal, 750);
+        }).catch(() => {
+            msgBox.className = 'bug-form-status error';
+            msgBox.textContent = 'Failed to send. Please try again.';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Report';
+        });
     });
 })();
