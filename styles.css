@@ -178,6 +178,34 @@ body {
     transform: translateX(-3px);
 }
 
+.license-btn {
+    position: fixed;
+    bottom: 2.2rem;
+    left: 2.5rem;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.license-btn::before {
+    content: "©";
+    font-size: 0.85rem;
+    opacity: 0.75;
+}
+
+.license-btn:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
 /* Hero content (coming soon) */
 .coming-soon-hero .hero-content {
     position: relative;
