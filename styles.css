@@ -454,7 +454,7 @@ body {
     top: 1.5rem;
     right: 1.5rem;
     z-index: 1000;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     background: #e74c3c;
     color: white;
     border: none;
@@ -462,7 +462,7 @@ body {
     cursor: pointer;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     letter-spacing: 0.03em;
     overflow: hidden;
     transition: background 0.3s ease;
@@ -618,7 +618,7 @@ body {
 }
 
 .btn-submit-bug {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     background: #e74c3c;
     color: white;
     border: none;
@@ -626,7 +626,7 @@ body {
     cursor: pointer;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     letter-spacing: 0.03em;
     transition: background 0.3s ease;
 }
@@ -641,7 +641,7 @@ body {
 }
 
 .btn-clear-bug {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     background: #b8860b;
     color: white;
     border: none;
@@ -649,7 +649,7 @@ body {
     cursor: pointer;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     letter-spacing: 0.03em;
     transition: background 0.3s ease;
 }
