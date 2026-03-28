@@ -3,17 +3,18 @@
     .monogram {
       font-family: "Cormorant Garamond", "Times New Roman", serif;
       font-size: 260px;
-      fill: white;
       dominant-baseline: middle;
       text-anchor: middle;
       letter-spacing: -10px;
+      paint-order: stroke fill;
+      stroke-width: 36px;
     }
   </style>
 
-  <!-- Transparent background (implicit) -->
   <rect width="100%" height="100%" fill="none"/>
 
-  <!-- RH Monogram -->
-  <text x="26%" y="189.0" class="monogram">R</text>
-  <text x="64%" y="68%" class="monogram">H</text>
+  <g transform="translate(213.5 200) scale(1.065) translate(-200 -200)">
+    <text x="26%" y="189.0" class="monogram" fill="#8070b8" stroke="black">R</text>
+    <text x="64%" y="68%" class="monogram" fill="#a8acdf" stroke="black">H</text>
+  </g>
 </svg>
