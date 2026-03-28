@@ -396,7 +396,6 @@
     <button class="lightbox-nav lightbox-prev" id="lightbox-prev" onclick="navigateLightbox(-1)">&#8592;</button>
     <div class="lightbox-img-wrap">
         <img class="lightbox-img" id="lightbox-img" src="" alt="">
-        <span class="lightbox-caption" id="lightbox-caption"></span>
     </div>
     <button class="lightbox-nav lightbox-next" id="lightbox-next" onclick="navigateLightbox(1)">&#8594;</button>
 </div>
@@ -437,7 +436,6 @@
         const img = currentItems[index];
         document.getElementById('lightbox-img').src = img.src;
         document.getElementById('lightbox-img').alt = img.alt;
-        document.getElementById('lightbox-caption').textContent = img.alt || '';
         updateNavArrows();
     }
 
