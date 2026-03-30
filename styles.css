@@ -18,7 +18,7 @@ body {
     text-align: left;
     padding-left: 7%;
 
-    background: url('Background/guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background: url('Background/guerrillabuzz-SYofhg_IX3A-unsplash.jpg') center/cover no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -128,7 +128,7 @@ body {
     padding: 0 2rem;
     color: white;
 
-    background: url('Background/guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background: url('Background/guerrillabuzz-SYofhg_IX3A-unsplash.jpg') center/cover no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -259,7 +259,7 @@ body {
     align-items: flex-start;
     padding: 8rem 7% 6rem;
 
-    background: url('Background/guerrillabuzz-3TU34jaW88k-unsplash.jpg') center/cover no-repeat;
+    background: url('Background/guerrillabuzz-SYofhg_IX3A-unsplash.jpg') center/cover no-repeat;
     position: relative;
 }
 
@@ -457,7 +457,7 @@ body {
     right: 1.5rem;
     z-index: 1000;
     padding: 0.5rem 1rem;
-    background: #e74c3c;
+    background: #ff2020;
     color: white;
     border: none;
     border-radius: 6px;
@@ -481,7 +481,7 @@ body {
 }
 
 .btn-report:hover {
-    background: #c0392b;
+    background: #e00000;
     padding-right: 2rem;
 }
 
@@ -609,7 +609,7 @@ body {
 
 .bug-form-group input.field-error,
 .bug-form-group textarea.field-error {
-    border-color: #e74c3c;
+    border-color: #ff2020;
 }
 
 .bug-form-actions {
@@ -621,7 +621,7 @@ body {
 
 .btn-submit-bug {
     padding: 0.5rem 1rem;
-    background: #e74c3c;
+    background: #ff2020;
     color: white;
     border: none;
     border-radius: 6px;
@@ -639,7 +639,7 @@ body {
 }
 
 .btn-submit-bug:not(:disabled):hover {
-    background: #c0392b;
+    background: #e00000;
 }
 
 .btn-clear-bug {
@@ -679,6 +679,6 @@ body {
 .bug-form-status.error {
     display: block;
     background: rgba(231, 76, 60, 0.15);
-    color: #e74c3c;
+    color: #ff2020;
     border: 1px solid rgba(231, 76, 60, 0.3);
 }
