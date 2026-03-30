@@ -21,9 +21,13 @@
         .project-card-bg {
             position: absolute;
             inset: 0;
-            background: url('william-thomas-ny6tO4ItOEY-unsplash.jpg') center/cover no-repeat;
-            opacity: 0.8;
+            background: center/cover no-repeat;
+            opacity: 1;
             z-index: 0;
+        }
+
+        .project-card--photo .project-card-bg {
+            background-image: url('william-thomas-ny6tO4ItOEY-unsplash.jpg');
         }
 
         .project-card--photo .project-label,
@@ -45,6 +49,38 @@
 
         .project-card--photo .project-label {
             text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .project-card--games {
+            position: relative;
+            overflow: hidden;
+            border-color: rgba(255,255,255,1);
+            background: transparent;
+        }
+
+        .project-card--games .project-label,
+        .project-card--games h2,
+        .project-card--games .btn {
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-card--games h2 {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .project-card--games .project-label {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .project-card--games .project-card-bg {
+            background-image: url('patrick-fOYg1lkZA7Y-unsplash.jpg');
+            background-size: 160%;
+        }
+
+        .project-card--games:hover {
+            border-color: rgba(255,255,255,1);
         }
 
         .btn--disabled:hover {
@@ -83,7 +119,8 @@
                 <a href="photography.html" class="btn" style="margin-top: auto;">View</a>
             </div>
 
-            <div class="project-card">
+            <div class="project-card project-card--games">
+                <div class="project-card-bg"></div>
                 <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                     <p class="project-label">02</p>
                     <h2>Games</h2>
