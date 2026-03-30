@@ -16,8 +16,6 @@
             overflow: hidden;
             border-color: rgba(255,255,255,1);
             background: transparent;
-            width: 460.79px;
-            min-height: 166.27px;
         }
 
         .project-card-bg {
@@ -48,6 +46,15 @@
         .project-card--photo .project-label {
             text-shadow: 0 1px 4px rgba(0,0,0,0.8);
         }
+
+        .btn--disabled:hover {
+            background: #2ecc71;
+            padding-right: 1.5rem;
+        }
+
+        .btn--disabled:hover::after {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +81,14 @@
                     <h2>Photography</h2>
                 </div>
                 <a href="photography.html" class="btn" style="margin-top: auto;">View</a>
+            </div>
+
+            <div class="project-card">
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <p class="project-label">02</p>
+                    <h2>Games</h2>
+                </div>
+                <span class="btn btn--disabled" style="margin-top: auto; opacity: 0.4; cursor: default;">Coming Soon</span>
             </div>
 
         </div>
