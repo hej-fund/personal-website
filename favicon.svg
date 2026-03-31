@@ -5,8 +5,8 @@
       <stop offset="100%" style="stop-color:#c0392b"/>
     </linearGradient>
     <linearGradient id="hGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#a89bc2"/>
-      <stop offset="100%" style="stop-color:#7c6fa0"/>
+      <stop offset="0%" style="stop-color:#7b3fa8"/>
+      <stop offset="100%" style="stop-color:#4e2070"/>
     </linearGradient>
     <filter id="glow">
       <feGaussianBlur stdDeviation="3" result="blur"/>
