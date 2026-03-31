@@ -1,0 +1,483 @@
+import { useState, useMemo, useEffect, useCallback } from "react";
+
+const GRID = 8;
+const CELL = 64;
+const PAD = 36;
+
+const DELTA = { up: [-1, 0], down: [1, 0], left: [0, -1], right: [0, 1] };
+const REFLECT = {
+  "/":  { right: "up", left: "down", up: "right", down: "left" },
+  "\\": { right: "down", left: "up", up: "left", down: "right" },
+};
+
+const PALETTE = {
+  red:  { beam: "#ff2d55", glow: "#ff2d5560" },
+  blue: { beam: "#0af",    glow: "#00aaff60" },
+};
+
+/*  ── LEVEL ──────────────────────────────────────────
+    Red  laser → row 1, enters from left
+    Blue laser ↓ col 6, enters from top
+
+    Red  target ● (6, 6)
+    Blue target ● (6, 1)
+
+    Walls: (3, 3)  (4, 6)
+
+    Solution (4 mirrors):
+      \  at (1, 4) — red turns down
+      /  at (6, 4) — red turns right → (6,6) ✓
+      /  at (2, 6) — blue turns left
+      \  at (2, 1) — blue turns down  → (6,1) ✓
+───────────────────────────────────────────────────── */
+const LEVEL = {
+  name: "First Light",
+  hint: "Guide each beam to its matching target",
+  sources: [
+    { row: 1, col: -1, dir: "right", color: "red" },
+    { row: -1, col: 6, dir: "down",  color: "blue" },
+  ],
+  targets: [
+    { row: 6, col: 6, color: "red" },
+    { row: 6, col: 1, color: "blue" },
+  ],
+  walls: [
+    { row: 3, col: 3 },
+    { row: 4, col: 6 },
+  ],
+};
+
+const kk = (r, c) => `${r},${c}`;
+const px = (col) => col * CELL + CELL / 2 + PAD;
+const py = (row) => row * CELL + CELL / 2 + PAD;
+
+function traceBeam(src, mirrors, walls, targets) {
+  const wallSet = new Set(walls.map((w) => kk(w.row, w.col)));
+  const tgtMap = Object.fromEntries(targets.map((t) => [kk(t.row, t.col), t]));
+
+  const pts = [{ x: px(src.col), y: py(src.row) }];
+  let dir = src.dir;
+  let [dr, dc] = DELTA[dir];
+  let r = src.row + dr;
+  let c = src.col + dc;
+  const visited = new Set();
+  const hits = [];
+
+  for (let i = 0; i < 200; i++) {
+    if (r < 0 || r >= GRID || c < 0 || c >= GRID) {
+      pts.push({ x: px(c), y: py(r) });
+      break;
+    }
+    const vk = `${r},${c},${dir}`;
+    if (visited.has(vk)) break;
+    visited.add(vk);
+
+    if (wallSet.has(kk(r, c))) {
+      pts.push({
+        x: px(c) - (DELTA[dir][1] * CELL) / 2,
+        y: py(r) - (DELTA[dir][0] * CELL) / 2,
+      });
+      break;
+    }
+
+    if (tgtMap[kk(r, c)]) hits.push(tgtMap[kk(r, c)]);
+
+    const m = mirrors[kk(r, c)];
+    if (m) {
+      pts.push({ x: px(c), y: py(r) });
+      dir = REFLECT[m][dir];
+    }
+
+    [dr, dc] = DELTA[dir];
+    r += dr;
+    c += dc;
+  }
+  return { pts, hits, color: src.color };
+}
+
+export default function MirrorMaze() {
+  const [mirrors, setMirrors] = useState({});
+  const [won, setWon] = useState(false);
+  const [showWin, setShowWin] = useState(false);
+
+  useEffect(() => {
+    document.body.style.margin = "0";
+    document.body.style.overflow = "auto";
+  }, []);
+
+  const wallSet  = useMemo(() => new Set(LEVEL.walls.map((w) => kk(w.row, w.col))), []);
+  const tgtSet   = useMemo(() => new Set(LEVEL.targets.map((t) => kk(t.row, t.col))), []);
+  const entrySet = useMemo(() => {
+    const s = new Set();
+    LEVEL.sources.forEach((src) => {
+      const [dr, dc] = DELTA[src.dir];
+      s.add(kk(src.row + dr, src.col + dc));
+    });
+    return s;
+  }, []);
+
+  const beams = useMemo(
+    () => LEVEL.sources.map((s) => traceBeam(s, mirrors, LEVEL.walls, LEVEL.targets)),
+    [mirrors]
+  );
+
+  const litSet = useMemo(() => {
+    const s = new Set();
+    beams.forEach((b) =>
+      b.hits.forEach((h) => {
+        if (h.color === b.color) s.add(kk(h.row, h.col));
+      })
+    );
+    return s;
+  }, [beams]);
+
+  const solved = litSet.size === LEVEL.targets.length;
+
+  useEffect(() => {
+    if (solved && !won) {
+      setWon(true);
+      setTimeout(() => setShowWin(true), 400);
+    }
+  }, [solved, won]);
+
+  const click = useCallback(
+    (r, c) => {
+      if (won) return;
+      const id = kk(r, c);
+      if (wallSet.has(id) || tgtSet.has(id) || entrySet.has(id)) return;
+      setMirrors((prev) => {
+        const n = { ...prev };
+        if (!n[id]) n[id] = "/";
+        else if (n[id] === "/") n[id] = "\\";
+        else delete n[id];
+        return n;
+      });
+    },
+    [won, wallSet, tgtSet, entrySet]
+  );
+
+  const reset = () => {
+    setMirrors({});
+    setWon(false);
+    setShowWin(false);
+  };
+
+  const W = GRID * CELL + PAD * 2;
+  const mc = Object.keys(mirrors).length;
+
+  return (
+    <div style={S.root}>
+      <style>{CSS}</style>
+
+      {/* header */}
+      <div className="fu" style={S.head}>
+        <div style={S.logoRow}>
+          <svg width="30" height="30" viewBox="0 0 30 30">
+            <path d="M4 15L15 4L26 15L15 26Z" fill="none" stroke="#0f6" strokeWidth="1.5" opacity=".5" />
+            <path d="M9 15L15 9L21 15L15 21Z" fill="none" stroke="#0f6" strokeWidth="2" />
+            <circle cx="15" cy="15" r="2.2" fill="#0f6" />
+          </svg>
+          <h1 style={S.title}>MIRROR MAZE</h1>
+        </div>
+        <span style={S.badge}>
+          <b style={S.badgeLbl}>LEVEL 01</b>
+          {LEVEL.name}
+        </span>
+      </div>
+
+      <p className="fu d1" style={S.hint}>{LEVEL.hint}</p>
+
+      {/* board */}
+      <div
+        className="fu d2"
+        style={{
+          ...S.board,
+          ...(showWin
+            ? { boxShadow: "0 0 60px rgba(0,255,100,.15), 0 24px 64px rgba(0,0,0,.45)" }
+            : {}),
+        }}
+      >
+        <div style={{ position: "relative", width: W, height: W }}>
+          <svg width={W} height={W} style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}>
+            <defs>
+              {Object.entries(PALETTE).map(([id, c]) => (
+                <filter key={id} id={`g-${id}`} x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="6" result="b" />
+                  <feFlood floodColor={c.beam} floodOpacity=".5" result="c" />
+                  <feComposite in="c" in2="b" operator="in" result="cb" />
+                  <feMerge>
+                    <feMergeNode in="cb" />
+                    <feMergeNode in="cb" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              ))}
+            </defs>
+
+            {/* grid */}
+            {Array.from({ length: GRID + 1 }, (_, i) => (
+              <g key={`gl${i}`}>
+                <line x1={PAD + i * CELL} y1={PAD} x2={PAD + i * CELL} y2={PAD + GRID * CELL} stroke="rgba(255,255,255,.055)" />
+                <line x1={PAD} y1={PAD + i * CELL} x2={PAD + GRID * CELL} y2={PAD + i * CELL} stroke="rgba(255,255,255,.055)" />
+              </g>
+            ))}
+            {Array.from({ length: GRID + 1 }, (_, r) =>
+              Array.from({ length: GRID + 1 }, (_, c) => (
+                <circle key={`d${r}${c}`} cx={PAD + c * CELL} cy={PAD + r * CELL} r="1.2" fill="rgba(255,255,255,.09)" />
+              ))
+            )}
+
+            {/* walls */}
+            {LEVEL.walls.map((w, i) => {
+              const x = w.col * CELL + PAD + 5;
+              const y = w.row * CELL + PAD + 5;
+              const s = CELL - 10;
+              return (
+                <g key={`w${i}`}>
+                  <rect x={x} y={y} width={s} height={s} rx="5" fill="rgba(16,20,32,.95)" stroke="rgba(255,255,255,.07)" />
+                  <line x1={x + 10} y1={y + 10} x2={x + s - 10} y2={y + s - 10} stroke="rgba(255,255,255,.055)" strokeWidth="1.5" />
+                  <line x1={x + s - 10} y1={y + 10} x2={x + 10} y2={y + s - 10} stroke="rgba(255,255,255,.055)" strokeWidth="1.5" />
+                </g>
+              );
+            })}
+
+            {/* sources */}
+            {LEVEL.sources.map((src, i) => {
+              const pal = PALETTE[src.color];
+              const sx = px(src.col);
+              const sy = py(src.row);
+              const a = 11;
+              const arrow =
+                src.dir === "right" ? `M${sx - 3} ${sy - a}L${sx + a + 1} ${sy}L${sx - 3} ${sy + a}Z` :
+                src.dir === "down"  ? `M${sx - a} ${sy - 3}L${sx} ${sy + a + 1}L${sx + a} ${sy - 3}Z` :
+                src.dir === "left"  ? `M${sx + 3} ${sy - a}L${sx - a - 1} ${sy}L${sx + 3} ${sy + a}Z` :
+                                      `M${sx - a} ${sy + 3}L${sx} ${sy - a - 1}L${sx + a} ${sy + 3}Z`;
+              return (
+                <g key={`src${i}`}>
+                  <circle cx={sx} cy={sy} r="20" fill={pal.beam} opacity=".08" className="ps" />
+                  <circle cx={sx} cy={sy} r="13" fill={pal.beam} opacity=".15" />
+                  <path d={arrow} fill={pal.beam} opacity=".85" />
+                </g>
+              );
+            })}
+
+            {/* targets */}
+            {LEVEL.targets.map((t, i) => {
+              const pal = PALETTE[t.color];
+              const x = px(t.col);
+              const y = py(t.row);
+              const lit = litSet.has(kk(t.row, t.col));
+              return (
+                <g key={`tgt${i}`}>
+                  <circle cx={x} cy={y} r="22" fill="none" stroke={pal.beam} strokeWidth="1" opacity=".25"
+                    className={lit ? "pl" : "ps"} style={{ transformOrigin: `${x}px ${y}px` }} />
+                  <circle cx={x} cy={y} r="16" fill="none" stroke={pal.beam}
+                    strokeWidth={lit ? 2.5 : 1.5} opacity={lit ? 1 : 0.35}
+                    strokeDasharray={lit ? "none" : "4 3"} />
+                  <circle cx={x} cy={y} r={lit ? 7 : 4.5}
+                    fill={lit ? pal.beam : "none"} stroke={pal.beam}
+                    strokeWidth="2" opacity={lit ? 1 : 0.35} />
+                  {lit && <circle cx={x} cy={y} r="24" fill={pal.beam} opacity=".1" />}
+                </g>
+              );
+            })}
+
+            {/* beams */}
+            {beams.map((b, bi) => {
+              if (b.pts.length < 2) return null;
+              const pal = PALETTE[b.color];
+              const d = b.pts.map((p, j) => `${j ? "L" : "M"}${p.x} ${p.y}`).join(" ");
+              return (
+                <g key={`bm${bi}`}>
+                  <path d={d} fill="none" stroke={pal.beam} strokeWidth="14" opacity=".07" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d={d} fill="none" stroke={pal.beam} strokeWidth="6" opacity=".22" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d={d} fill="none" stroke={pal.beam} strokeWidth="2.5" opacity=".85" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d={d} fill="none" stroke="#fff" strokeWidth="1" opacity=".4" strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+              );
+            })}
+
+            {/* mirrors */}
+            {Object.entries(mirrors).map(([id, type]) => {
+              const [r, c] = id.split(",").map(Number);
+              const x0 = c * CELL + PAD;
+              const y0 = r * CELL + PAD;
+              const p = 13;
+              const [x1, y1, x2, y2] =
+                type === "/"
+                  ? [x0 + p, y0 + CELL - p, x0 + CELL - p, y0 + p]
+                  : [x0 + p, y0 + p, x0 + CELL - p, y0 + CELL - p];
+              return (
+                <g key={`mr${id}`} className="mp">
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(170,210,255,.25)" strokeWidth="9" strokeLinecap="round" />
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(170,210,255,.8)" strokeWidth="3" strokeLinecap="round" />
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#fff" strokeWidth="1" strokeLinecap="round" opacity=".55" />
+                  <circle cx={x1} cy={y1} r="3.5" fill="rgba(180,215,255,.85)" />
+                  <circle cx={x2} cy={y2} r="3.5" fill="rgba(180,215,255,.85)" />
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* click layer */}
+          {Array.from({ length: GRID }, (_, r) =>
+            Array.from({ length: GRID }, (_, c) => {
+              const id = kk(r, c);
+              const ok = !wallSet.has(id) && !tgtSet.has(id) && !entrySet.has(id);
+              return (
+                <div
+                  key={id}
+                  className={ok && !won ? "ch" : ""}
+                  onClick={() => ok && click(r, c)}
+                  style={{
+                    position: "absolute",
+                    left: c * CELL + PAD,
+                    top: r * CELL + PAD,
+                    width: CELL,
+                    height: CELL,
+                    cursor: ok && !won ? "pointer" : "default",
+                    borderRadius: 4,
+                    zIndex: 2,
+                  }}
+                />
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      {/* controls */}
+      <div className="fu d3" style={S.controls}>
+        <div style={S.stat}>
+          <span style={S.statLbl}>MIRRORS</span>
+          <span style={S.statVal}>{mc}</span>
+        </div>
+        <button onClick={reset} style={S.btn} className="br">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style={{ marginRight: 6 }}>
+            <path d="M2 8a6 6 0 0110.2-4.3L10 6h5V1l-2.1 2.1A7.5 7.5 0 00.5 8H2zm12 0a6 6 0 01-10.2 4.3L6 10H1v5l2.1-2.1A7.5 7.5 0 0015.5 8H14z" />
+          </svg>
+          RESET
+        </button>
+        <div style={S.stat}>
+          <span style={S.statLbl}>TARGETS</span>
+          <span style={S.statVal}>
+            {litSet.size}
+            <span style={{ opacity: 0.35 }}> / {LEVEL.targets.length}</span>
+          </span>
+        </div>
+      </div>
+
+      <div className="fu d4" style={S.legend}>
+        <span style={S.li}>
+          <span style={{ ...S.ld, background: "rgba(170,210,255,.8)" }} />
+          Click cell → place mirror
+        </span>
+        <span style={S.li}>
+          <span style={{ ...S.ld, background: "rgba(170,210,255,.8)", borderRadius: 1, transform: "rotate(45deg)" }} />
+          Click mirror → rotate
+        </span>
+        <span style={S.li}>
+          <span style={{ ...S.ld, background: "rgba(255,90,90,.55)" }} />
+          Click again → remove
+        </span>
+      </div>
+
+      {/* win overlay */}
+      {showWin && (
+        <div style={S.ov} className="fu">
+          <div style={S.wc}>
+            <svg width="52" height="52" viewBox="0 0 52 52" className="fl">
+              <circle cx="26" cy="26" r="24" fill="none" stroke="#0f6" strokeWidth="2.5" />
+              <path d="M15 26L22 33L37 19" fill="none" stroke="#0f6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <h2 style={S.wt}>PUZZLE COMPLETE</h2>
+            <p style={S.ws}>Solved with {mc} mirror{mc !== 1 ? "s" : ""}</p>
+            <button onClick={reset} style={S.wb} className="br">
+              PLAY AGAIN
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*{box-sizing:border-box}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ps{0%,100%{opacity:.25;transform:scale(1)}50%{opacity:.55;transform:scale(1.12)}}
+@keyframes pl{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.18)}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes mp{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.fu{animation:fu .7s cubic-bezier(.16,1,.3,1) both}
+.d1{animation-delay:.15s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.5s}
+.ps{animation:ps 3s ease-in-out infinite}
+.pl{animation:pl 1.4s ease-in-out infinite}
+.fl{animation:fl 3s ease-in-out infinite}
+.mp{animation:mp .2s ease-out both}
+.ch{transition:background .12s}
+.ch:hover{background:rgba(255,255,255,.05)!important}
+.ch:active{background:rgba(255,255,255,.09)!important}
+.br{transition:all .2s}
+.br:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.2)!important}
+`;
+
+const S = {
+  root: {
+    minHeight: "100vh",
+    background: "linear-gradient(168deg,#080a12 0%,#0c0f1c 50%,#0e1225 100%)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "28px 16px 40px",
+    fontFamily: "'Oxanium',sans-serif",
+    color: "#dde4ec",
+  },
+  head: { display: "flex", flexDirection: "column", alignItems: "center", gap: 10 },
+  logoRow: { display: "flex", alignItems: "center", gap: 10 },
+  title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
+  badge: {
+    display: "flex", alignItems: "center", gap: 10, padding: "3px 16px", borderRadius: 20,
+    background: "rgba(0,255,100,.05)", border: "1px solid rgba(0,255,100,.13)",
+    fontSize: 13, color: "rgba(0,255,100,.85)", letterSpacing: 1,
+  },
+  badgeLbl: { fontSize: 9, fontWeight: 700, letterSpacing: 2, color: "rgba(0,255,100,.55)", fontFamily: "'IBM Plex Mono',monospace" },
+  hint: { margin: "6px 0 18px", fontSize: 13, color: "rgba(190,200,215,.4)", letterSpacing: 1, fontWeight: 300 },
+  board: {
+    position: "relative", background: "rgba(6,8,16,.55)", borderRadius: 14, padding: 10,
+    border: "1px solid rgba(255,255,255,.05)",
+    boxShadow: "0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03)",
+    transition: "box-shadow .6s ease",
+  },
+  controls: { display: "flex", alignItems: "center", gap: 28, marginTop: 20 },
+  stat: { display: "flex", flexDirection: "column", alignItems: "center", gap: 1, minWidth: 72 },
+  statLbl: { fontSize: 9, fontWeight: 600, letterSpacing: 2.5, color: "rgba(190,200,215,.35)", fontFamily: "'IBM Plex Mono',monospace" },
+  statVal: { fontSize: 22, fontWeight: 700 },
+  btn: {
+    display: "flex", alignItems: "center", padding: "10px 26px", borderRadius: 8,
+    border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.03)",
+    color: "rgba(190,200,215,.65)", fontSize: 11, fontWeight: 600, letterSpacing: 2.5,
+    fontFamily: "'Oxanium',sans-serif", cursor: "pointer",
+  },
+  legend: { display: "flex", gap: 18, marginTop: 14, flexWrap: "wrap", justifyContent: "center" },
+  li: { display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "rgba(190,200,215,.3)", letterSpacing: .4 },
+  ld: { width: 7, height: 7, borderRadius: "50%", display: "inline-block" },
+  ov: {
+    position: "fixed", inset: 0, background: "rgba(4,6,12,.82)", backdropFilter: "blur(10px)",
+    display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100,
+  },
+  wc: {
+    display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+    padding: "44px 60px", borderRadius: 18, background: "rgba(12,16,28,.95)",
+    border: "1px solid rgba(0,255,100,.18)", boxShadow: "0 0 80px rgba(0,255,100,.08)",
+  },
+  wt: { margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 5, color: "#0f6" },
+  ws: { margin: 0, fontSize: 14, color: "rgba(190,200,215,.55)", fontWeight: 300 },
+  wb: {
+    marginTop: 6, padding: "11px 34px", borderRadius: 8,
+    border: "1px solid rgba(0,255,100,.25)", background: "rgba(0,255,100,.08)",
+    color: "#0f6", fontSize: 12, fontWeight: 600, letterSpacing: 2.5,
+    fontFamily: "'Oxanium',sans-serif", cursor: "pointer",
+  },
+};

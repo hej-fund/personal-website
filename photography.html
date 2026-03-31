@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Photography — Rohan Hejmadi</title>
-    <meta name="description" content="A personal collection of photographs by Rohan Hejmadi, shot across various countries and landscapes.">
+    <meta name="description" content="A personal selection of photographs by Rohan Hejmadi, shot across various countries and landscapes.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
@@ -11,16 +11,11 @@
     <link rel="canonical" href="https://rohanhejmadi.com/photography.html">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .photo-page {
-            min-height: 100vh;
+        .page-hero {
             background: #080c10;
-            color: white;
-            padding: 0 0 6rem;
-            position: relative;
         }
 
-        /* Grain only on background, not on images */
-        .photo-page::before {
+        .page-hero::before {
             content: "";
             position: fixed;
             inset: 0;
@@ -30,96 +25,6 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 128px 128px;
-        }
-
-        /* All content sits above the grain */
-        .photo-header,
-        .photo-section {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ── Header ── */
-        .photo-header {
-            padding: 3rem 7% 3rem;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .photo-header-left .eyebrow {
-            color: rgba(255,255,255,0.45);
-            margin: 0 0 0.5rem;
-        }
-
-        .photo-header h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            line-height: 1;
-            letter-spacing: 0.03em;
-            margin: 0;
-            color: white;
-        }
-
-        .photo-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: rgba(255,255,255,0.5);
-            text-decoration: none;
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            transition: color 0.3s ease, gap 0.3s ease;
-            padding-bottom: 0.3rem;
-        }
-
-        .photo-back:hover { color: white; gap: 0.75rem; }
-
-        .photo-back .back-arrow {
-            font-size: 1rem;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .photo-back:hover .back-arrow { transform: translateX(-3px); }
-
-        /* ── Section ── */
-        .photo-section {
-            padding: 4rem 7% 0;
-        }
-
-        .photo-section-header {
-            display: flex;
-            align-items: baseline;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .photo-section-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            letter-spacing: 0.03em;
-            margin: 0;
-            color: white;
-        }
-
-        .photo-section-count {
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
         }
 
         /* ── Grid ── */
@@ -318,47 +223,21 @@
 </head>
 <body>
 
-<button class="btn-report btn-report--bottom">Report Bug</button>
+<button class="btn-report">Report Bug</button>
 <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" class="license-btn">CC BY-NC</a>
 
-<div class="photo-page">
+<div class="page-hero">
+    <a href="projects.html" class="back-btn">
+        <span class="back-arrow">&#8592;</span>
+        <span>Back</span>
+    </a>
 
-    <div class="photo-header">
-        <div class="photo-header-left">
-            <p class="eyebrow">Projects</p>
-            <h1>Photography</h1>
-        </div>
-        <a href="projects.html" class="photo-back">
-            <span class="back-arrow">&#8592;</span>
-            <span>Back</span>
-        </a>
-    </div>
-
-    <!--
-    ═══════════════════════════════════════════════
-    TO ADD A NEW SECTION (e.g. Japan, Iceland):
-    Copy the entire .photo-section block below,
-    change the <h2> title, and add your photos.
-    ═══════════════════════════════════════════════
-    -->
-
-    <!-- ── Alaska ── -->
-    <div class="photo-section" id="alaska">
-        <div class="photo-section-header">
-            <h2>Alaska</h2>
-            <span class="photo-section-count" data-section="alaska"></span>
-        </div>
+    <div class="page-content">
+        <p class="eyebrow">Projects</p>
+        <h1>Photography</h1>
+        <p class="subtitle">A personal selection of photos shot across various countries and landscapes.</p>
 
         <div class="photo-grid" data-section-grid="alaska">
-            <!--
-            TO ADD A PHOTO to this section:
-            <div class="photo-item" onclick="openLightbox(this, 'alaska')">
-                <img src="your-photo.jpg" alt="Caption">
-                <div class="photo-item-overlay">
-                    <span class="photo-caption">Caption</span>
-                </div>
-            </div>
-            -->
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="Alaska/Denali National Park.jpeg" alt="Denali National Park">
                 <a class="photo-download" href="Alaska/Denali National Park.jpeg" download onclick="event.stopPropagation()">
@@ -406,7 +285,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Lightbox -->
@@ -424,16 +302,6 @@
     let currentIndex = 0;
     let currentItems = [];
     let currentSection = '';
-
-    // Update per-section photo counts
-    document.querySelectorAll('[data-section-grid]').forEach(grid => {
-        const section = grid.dataset.sectionGrid;
-        const count = grid.querySelectorAll('.photo-item img').length;
-        const label = document.querySelector(`[data-section="${section}"]`);
-        if (label && count > 0) {
-            label.textContent = count + ' ' + (count === 1 ? 'photo' : 'photos');
-        }
-    });
 
     function updateNavArrows() {
         document.getElementById('lightbox-prev').classList.toggle('hidden', currentIndex === 0);
