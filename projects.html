@@ -6,7 +6,7 @@
     <meta name="description" content="Projects by Rohan Hejmadi — a collection of things built by a student developer interested in security and mathematics.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.svg?v=5" type="image/svg+xml">
     <link rel="canonical" href="https://rohanhejmadi.com/projects.html">
     <link rel="stylesheet" href="styles.css">
@@ -39,16 +39,16 @@
         }
 
         .project-card--photo p {
-            color: rgba(255,255,255,0.95);
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            color: rgba(255,255,255,1);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
         }
 
         .project-card--photo h2 {
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
         }
 
         .project-card--photo .project-label {
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
         }
 
         .project-card--games {
@@ -66,17 +66,17 @@
         }
 
         .project-card--games h2 {
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
         }
 
         .project-card--games .project-label {
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
             color: rgba(255, 255, 255, 1);
         }
 
         .project-card--games .project-card-bg {
             background-image: url('patrick-fOYg1lkZA7Y-unsplash.jpg');
-            background-size: 160%;
+            background-size: 180%;
         }
 
         .project-card--games:hover {
@@ -112,19 +112,15 @@
 
             <div class="project-card project-card--photo">
                 <div class="project-card-bg"></div>
-                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                    <p class="project-label">01</p>
-                    <h2>Photography</h2>
-                </div>
+                <p class="project-label" style="position: absolute; top: 1rem; right: 1rem; margin: 0; z-index: 2;">01</p>
+                <h2>Photography</h2>
                 <a href="photography.html" class="btn" style="margin-top: auto;">View</a>
             </div>
 
             <div class="project-card project-card--games">
                 <div class="project-card-bg"></div>
-                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                    <p class="project-label">02</p>
-                    <h2>Games</h2>
-                </div>
+                <p class="project-label" style="position: absolute; top: 1rem; right: 1rem; margin: 0; z-index: 2;">02</p>
+                <h2>Games</h2>
                 <span class="btn btn--disabled" style="margin-top: auto; opacity: 0.4; cursor: default;">Coming Soon</span>
             </div>
 
