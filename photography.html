@@ -183,6 +183,39 @@
             text-shadow: 0 1px 4px rgba(0,0,0,0.6);
         }
 
+        .photo-download {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 2rem;
+            height: 2rem;
+            background: #2ecc71;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 3;
+            text-decoration: none;
+        }
+
+        .photo-item:hover .photo-download {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .photo-download:hover {
+            background: #27ae60;
+        }
+
+        .photo-download svg {
+            width: 1rem;
+            height: 1rem;
+            fill: black;
+        }
+
         /* ── Lightbox ── */
         .lightbox {
             position: fixed;
@@ -328,30 +361,45 @@
             -->
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="Alaska/Denali National Park.jpeg" alt="Denali National Park">
+                <a class="photo-download" href="Alaska/Denali National Park.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
                 <div class="photo-item-overlay">
                     <span class="photo-caption">Denali National Park</span>
                 </div>
             </div>
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="Alaska/Pine resin.jpeg" alt="Pine resin">
+                <a class="photo-download" href="Alaska/Pine resin.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
                 <div class="photo-item-overlay">
                     <span class="photo-caption">Pine resin</span>
                 </div>
             </div>
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="Alaska/Susitna River.jpeg" alt="Susitna River">
+                <a class="photo-download" href="Alaska/Susitna River.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
                 <div class="photo-item-overlay">
                     <span class="photo-caption">Susitna River</span>
                 </div>
             </div>
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="Alaska/Triple Lakes Trail.jpeg" alt="Triple Lakes Trail">
+                <a class="photo-download" href="Alaska/Triple Lakes Trail.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
                 <div class="photo-item-overlay">
                     <span class="photo-caption">Triple Lakes Trail</span>
                 </div>
             </div>
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="Alaska/Turnagain Arm.jpeg" alt="Turnagain Arm">
+                <a class="photo-download" href="Alaska/Turnagain Arm.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
                 <div class="photo-item-overlay">
                     <span class="photo-caption">Turnagain Arm</span>
                 </div>
