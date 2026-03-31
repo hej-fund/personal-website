@@ -456,7 +456,7 @@ body {
     top: 1.5rem;
     right: 1.5rem;
     z-index: 1000;
-    padding: 0.5rem 1rem;
+    padding: 0.625rem 1.25rem;
     background: #ff2020;
     color: white;
     border: none;
@@ -464,7 +464,7 @@ body {
     cursor: pointer;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    font-size: 0.75rem;
+    font-size: 0.825rem;
     letter-spacing: 0.03em;
     overflow: hidden;
     transition: background 0.3s ease;
