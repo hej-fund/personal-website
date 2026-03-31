@@ -17,6 +17,53 @@
     <script type="text/babel" data-presets="react">
         const { useState, useMemo, useEffect, useCallback } = React;
 
+        function BackBtn({ href, onClick, label }) {
+          const [hov, setHov] = React.useState(false);
+          const s = {
+            wrap: { display: "inline-flex", alignItems: "center", gap: hov ? "0.75rem" : "0.5rem", color: hov ? "white" : "rgba(255,255,255,0.75)", textDecoration: "none", fontFamily: "'Jost', sans-serif", fontWeight: 300, fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", transition: "color 0.3s ease, gap 0.3s ease", cursor: "pointer", background: "none", border: "none", padding: 0 },
+            arrow: { fontSize: "1rem", display: "inline-block", transform: hov ? "translateX(-3px)" : "translateX(0)", transition: "transform 0.3s ease", verticalAlign: "middle", position: "relative", top: "-1px" },
+          };
+          if (href) return <a href={href} style={s.wrap} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}><span style={s.arrow}>&#8592;</span><span>{label}</span></a>;
+          return <button style={s.wrap} onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}><span style={s.arrow}>&#8592;</span><span>{label}</span></button>;
+        }
+
+        function HomeScreen({ onPlay }) {
+          return (
+            <div style={SH.root}>
+              <style>{CSS}</style>
+              <div style={SH.topBar}>
+                <BackBtn href="../games.html" label="Back" />
+              </div>
+              <div style={SH.center}>
+                <div className="fu" style={SH.head}>
+                  <svg width="30" height="30" viewBox="0 0 30 30" style={{ marginRight: 10 }}>
+                    <path d="M4 15L15 4L26 15L15 26Z" fill="none" stroke="#0f6" strokeWidth="1.5" opacity=".5" />
+                    <path d="M9 15L15 9L21 15L15 21Z" fill="none" stroke="#0f6" strokeWidth="2" />
+                    <circle cx="15" cy="15" r="2.2" fill="#0f6" />
+                  </svg>
+                  <h1 style={SH.title}>MIRROR MAZE</h1>
+                </div>
+                <div className="fu d1" style={SH.grid}>
+                  <div style={SH.card} className="br" onClick={() => onPlay(0)}>
+                    <span style={SH.cardLbl}>LEVEL 1</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        const SH = {
+          root: { minHeight: "100vh", background: "linear-gradient(168deg,#080a12 0%,#0c0f1c 50%,#0e1225 100%)", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "'Oxanium',sans-serif", color: "#dde4ec", position: "relative" },
+          topBar: { position: "absolute", top: "2.2rem", left: "2.5rem" },
+          center: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flex: 1, padding: "6rem 16px 40px" },
+          head: { display: "flex", alignItems: "center", marginBottom: 32 },
+          title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
+          grid: { display: "flex", flexDirection: "column", gap: 12, width: "100%", maxWidth: 420 },
+          card: { padding: "20px 24px", borderRadius: 12, border: "1px solid rgba(0,255,100,.18)", background: "rgba(0,255,100,.04)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6 },
+          cardLbl: { fontSize: 18, fontWeight: 600, letterSpacing: 1, color: "rgba(0,255,100,.85)", fontFamily: "'Oxanium',sans-serif", textAlign: "center" },
+        };
+
         const GRID = 8;
         const CELL = 64;
         const PAD = 36;
@@ -81,7 +128,7 @@
           return { pts, hits, color: src.color };
         }
 
-        function MirrorMaze() {
+        function MirrorMaze({ onBack }) {
           const [mirrors, setMirrors] = useState({});
           const [won, setWon] = useState(false);
           const [showWin, setShowWin] = useState(false);
@@ -132,6 +179,9 @@
           return (
             <div style={S.root}>
               <style>{CSS}</style>
+              <div style={{ position: "absolute", top: "2.2rem", left: "2.5rem" }}>
+                <BackBtn onClick={onBack} label="Back" />
+              </div>
               <div className="fu" style={S.head}>
                 <div style={S.logoRow}>
                   <svg width="30" height="30" viewBox="0 0 30 30">
@@ -142,8 +192,7 @@
                   <h1 style={S.title}>MIRROR MAZE</h1>
                 </div>
                 <span style={S.badge}>
-                  <b style={S.badgeLbl}>LEVEL 01</b>
-                  {LEVEL.name}
+                  <b style={S.badgeLbl}>LEVEL 1</b>
                 </span>
               </div>
               <p className="fu d1" style={S.hint}>{LEVEL.hint}</p>
@@ -281,7 +330,7 @@
         }
 
         const CSS = `
-        @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&family=Jost:wght@300;400&display=swap');
         *{box-sizing:border-box}
         @keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes ps{0%,100%{opacity:.25;transform:scale(1)}50%{opacity:.55;transform:scale(1.12)}}
@@ -302,13 +351,13 @@
         `;
 
         const S = {
-          root: { minHeight: "100vh", background: "linear-gradient(168deg,#080a12 0%,#0c0f1c 50%,#0e1225 100%)", display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 16px 40px", fontFamily: "'Oxanium',sans-serif", color: "#dde4ec" },
+          root: { minHeight: "100vh", background: "linear-gradient(168deg,#080a12 0%,#0c0f1c 50%,#0e1225 100%)", display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 16px 40px", fontFamily: "'Oxanium',sans-serif", color: "#dde4ec", position: "relative" },
           head: { display: "flex", flexDirection: "column", alignItems: "center", gap: 10 },
           logoRow: { display: "flex", alignItems: "center", gap: 10 },
           title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
-          badge: { display: "flex", alignItems: "center", gap: 10, padding: "3px 16px", borderRadius: 20, background: "rgba(0,255,100,.05)", border: "1px solid rgba(0,255,100,.13)", fontSize: 13, color: "rgba(0,255,100,.85)", letterSpacing: 1 },
-          badgeLbl: { fontSize: 9, fontWeight: 700, letterSpacing: 2, color: "rgba(0,255,100,.55)", fontFamily: "'IBM Plex Mono',monospace" },
-          hint: { margin: "6px 0 18px", fontSize: 13, color: "rgba(190,200,215,.4)", letterSpacing: 1, fontWeight: 300 },
+          badge: { display: "flex", alignItems: "center", gap: 10, padding: "6px 20px", borderRadius: 20, background: "rgba(0,255,100,.05)", border: "1px solid rgba(0,255,100,.13)", fontSize: 13, color: "rgba(0,255,100,.85)", letterSpacing: 1 },
+          badgeLbl: { fontSize: 13, fontWeight: 700, letterSpacing: 2, color: "rgba(0,255,100,.7)", fontFamily: "'IBM Plex Mono',monospace" },
+          hint: { margin: "14px 0 18px", fontSize: 13, color: "rgba(190,200,215,.4)", letterSpacing: 1, fontWeight: 300 },
           board: { position: "relative", background: "rgba(6,8,16,.55)", borderRadius: 14, padding: 10, border: "1px solid rgba(255,255,255,.05)", boxShadow: "0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03)", transition: "box-shadow .6s ease" },
           controls: { display: "flex", alignItems: "center", gap: 28, marginTop: 20 },
           stat: { display: "flex", flexDirection: "column", alignItems: "center", gap: 1, minWidth: 72 },
@@ -323,9 +372,16 @@
           wt: { margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 5, color: "#0f6" },
           ws: { margin: 0, fontSize: 14, color: "rgba(190,200,215,.55)", fontWeight: 300 },
           wb: { marginTop: 6, padding: "11px 34px", borderRadius: 8, border: "1px solid rgba(0,255,100,.25)", background: "rgba(0,255,100,.08)", color: "#0f6", fontSize: 12, fontWeight: 600, letterSpacing: 2.5, fontFamily: "'Oxanium',sans-serif", cursor: "pointer" },
+          backBtn: { alignSelf: "flex-start", background: "none", border: "none", color: "rgba(255,255,255,0.75)", fontFamily: "'Jost', sans-serif", fontWeight: 300, fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", marginBottom: 16, padding: 0, textDecoration: "none" },
         };
 
-        ReactDOM.createRoot(document.getElementById("root")).render(<MirrorMaze />);
+        function App() {
+          const [screen, setScreen] = useState("home");
+          if (screen === "home") return <HomeScreen onPlay={() => setScreen("game")} />;
+          return <MirrorMaze onBack={() => setScreen("home")} />;
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     </script>
 </body>
 </html>
