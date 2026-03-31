@@ -202,7 +202,7 @@
           return <button style={s.wrap} onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}><span style={s.arrow}>&#8592;</span><span>{label}</span></button>;
         }
 
-        function HomeScreen({ onPlay }) {
+        function HomeScreen({ onPlay, maxUnlocked }) {
           return (
             <div style={SH.root}>
               <style>{CSS}</style>
@@ -250,9 +250,26 @@
                   <h1 style={SH.title}>MIRROR MAZE</h1>
                 </div>
                 <div className="fu d1" style={SH.grid}>
-                  <div style={SH.card} className="br" onClick={() => onPlay(0)}>
-                    <span style={SH.cardLbl}>LEVEL 1</span>
-                  </div>
+                  {LEVELS.map((lv, idx) => {
+                    const locked = idx > maxUnlocked;
+                    return (
+                      <div style={{ ...SH.card, ...(locked ? { opacity: 0.55, cursor: "default" } : {}) }}
+                        className={locked ? "" : "br"} key={idx} onClick={() => !locked && onPlay(idx)}>
+                        <span style={{ ...SH.cardLbl, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, lineHeight: 1 }}>
+                          LEVEL {idx + 1}
+                          {locked && (
+                            <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" , position: "relative", top: -2 }}>
+                              <rect x="1.5" y="6.5" width="10" height="8" rx="1.5" stroke="rgba(0,255,100,.7)" strokeWidth="1.5"/>
+                              <path d="M3.5 6.5V4.5a3 3 0 016 0v2" stroke="rgba(0,255,100,.7)" strokeWidth="1.5" strokeLinecap="round"/>
+                              <rect x="5.5" y="9.5" width="2" height="2" rx="1" fill="rgba(0,255,100,.7)"/>
+                            </svg>
+                          )}
+                        </span>
+                        <span style={SH.cardSub}>{lv.name}</span>
+                        <span style={SH.cardMeta}>{lv.sources.length} beam{lv.sources.length > 1 ? "s" : ""} &nbsp;·&nbsp; {lv.maxMirrors} mirrors</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -268,6 +285,8 @@
           grid: { display: "flex", flexDirection: "column", gap: 12, width: "100%", maxWidth: 420 },
           card: { padding: "20px 24px", borderRadius: 12, border: "1px solid rgba(0,255,100,.18)", background: "rgba(0,255,100,.04)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6 },
           cardLbl: { fontSize: 18, fontWeight: 600, letterSpacing: 1, color: "rgba(0,255,100,.85)", fontFamily: "'Oxanium',sans-serif", textAlign: "center" },
+          cardSub: { fontSize: 12, color: "rgba(0,255,100,.55)", letterSpacing: 1.5, fontFamily: "'Jost',sans-serif", fontWeight: 300, textAlign: "center" },
+          cardMeta: { fontSize: 10, color: "rgba(190,200,215,.25)", letterSpacing: 1, fontFamily: "'IBM Plex Mono',monospace", textAlign: "center" },
         };
 
         const GRID = 8;
@@ -281,27 +300,52 @@
         };
 
         const PALETTE = {
-          red:  { beam: "#ff2d55", glow: "#ff2d5560" },
-          blue: { beam: "#0af",    glow: "#00aaff60" },
+          red:   { beam: "#ff2d55", glow: "#ff2d5560" },
+          blue:  { beam: "#0af",    glow: "#00aaff60" },
+          green: { beam: "#00ff9c", glow: "#00ff9c60" },
         };
 
-        const LEVEL = {
-          name: "First Light",
-          hint: "Guide each beam to its matching target",
-          maxMirrors: 4,
-          sources: [
-            { row: 1, col: -1, dir: "right", color: "red" },
-            { row: -1, col: 6, dir: "down",  color: "blue" },
-          ],
-          targets: [
-            { row: 6, col: 6, color: "red" },
-            { row: 6, col: 1, color: "blue" },
-          ],
-          walls: [
-            { row: 3, col: 3 },
-            { row: 4, col: 6 },
-          ],
-        };
+        const LEVELS = [
+          {
+            name: "First Light",
+            hint: "Guide each beam to its matching target",
+            maxMirrors: 4,
+            sources: [
+              { row: 1, col: -1, dir: "right", color: "red" },
+              { row: -1, col: 6, dir: "down",  color: "blue" },
+            ],
+            targets: [
+              { row: 6, col: 6, color: "red" },
+              { row: 6, col: 1, color: "blue" },
+            ],
+            walls: [
+              { row: 3, col: 3 },
+              { row: 4, col: 6 },
+            ],
+          },
+          {
+            name: "Crossfire",
+            hint: "Three beams — find where they converge",
+            maxMirrors: 4,
+            sources: [
+              { row: 2, col: -1, dir: "right", color: "red"   },
+              { row: -1, col: 7, dir: "down",  color: "blue"  },
+              { row: 8,  col: 3, dir: "up",    color: "green" },
+            ],
+            targets: [
+              { row: 6, col: 0, color: "red"   },
+              { row: 0, col: 1, color: "blue"  },
+              { row: 4, col: 7, color: "green" },
+            ],
+            walls: [
+              { row: 4, col: 0 },
+              { row: 0, col: 5 },
+              { row: 1, col: 4 },
+              { row: 5, col: 4 },
+              { row: 7, col: 1 },
+            ],
+          },
+        ];
 
         const kk = (r, c) => `${r},${c}`;
         const px = (col) => col * CELL + CELL / 2 + PAD;
@@ -335,27 +379,28 @@
           return { pts, hits, color: src.color };
         }
 
-        function MirrorMaze({ onBack }) {
+        function MirrorMaze({ onBack, onNext, onComplete, levelIndex }) {
+          const level = LEVELS[levelIndex];
           const [mirrors, setMirrors] = useState({});
           const [won, setWon] = useState(false);
           const [showWin, setShowWin] = useState(false);
-          const [showHelp, setShowHelp] = useState(true);
-          const [started, setStarted] = useState(false);
+          const [showHelp, setShowHelp] = useState(levelIndex === 0);
+          const [started, setStarted] = useState(levelIndex !== 0);
 
           useEffect(() => {
             document.body.style.margin = "0";
             document.body.style.overflow = "auto";
           }, []);
 
-          const wallSet  = useMemo(() => new Set(LEVEL.walls.map((w) => kk(w.row, w.col))), []);
-          const tgtSet   = useMemo(() => new Set(LEVEL.targets.map((t) => kk(t.row, t.col))), []);
+          const wallSet  = useMemo(() => new Set(level.walls.map((w) => kk(w.row, w.col))), [level]);
+          const tgtSet   = useMemo(() => new Set(level.targets.map((t) => kk(t.row, t.col))), [level]);
           const entrySet = useMemo(() => {
             const s = new Set();
-            LEVEL.sources.forEach((src) => { const [dr, dc] = DELTA[src.dir]; s.add(kk(src.row + dr, src.col + dc)); });
+            level.sources.forEach((src) => { const [dr, dc] = DELTA[src.dir]; s.add(kk(src.row + dr, src.col + dc)); });
             return s;
-          }, []);
+          }, [level]);
 
-          const beams = useMemo(() => LEVEL.sources.map((s) => traceBeam(s, mirrors, LEVEL.walls, LEVEL.targets)), [mirrors]);
+          const beams = useMemo(() => level.sources.map((s) => traceBeam(s, mirrors, level.walls, level.targets)), [mirrors, level]);
 
           const litSet = useMemo(() => {
             const s = new Set();
@@ -363,9 +408,9 @@
             return s;
           }, [beams]);
 
-          const solved = litSet.size === LEVEL.targets.length;
+          const solved = litSet.size === level.targets.length;
 
-          useEffect(() => { if (solved && !won) { setWon(true); setTimeout(() => setShowWin(true), 400); } }, [solved, won]);
+          useEffect(() => { if (solved && !won) { setWon(true); onComplete && onComplete(); setTimeout(() => setShowWin(true), 400); } }, [solved, won]);
 
           const click = useCallback((r, c) => {
             if (won) return;
@@ -374,7 +419,7 @@
             setMirrors((prev) => {
               const n = { ...prev };
               if (!n[id]) {
-                if (Object.keys(n).length >= LEVEL.maxMirrors) return prev;
+                if (Object.keys(n).length >= level.maxMirrors) return prev;
                 n[id] = "/";
               } else if (n[id] === "/") n[id] = "\\";
               else delete n[id];
@@ -434,10 +479,10 @@
                   <h1 style={S.title}>MIRROR MAZE</h1>
                 </div>
                 <span style={S.badge}>
-                  <b style={S.badgeLbl}>LEVEL 1</b>
+                  <b style={S.badgeLbl}>LEVEL {levelIndex + 1}</b>
                 </span>
               </div>
-              <p className="fu d1" style={S.hint}>{LEVEL.hint}</p>
+              <p className="fu d1" style={S.hint}>{level.hint}</p>
               <div className="fu d2" style={{ ...S.board, ...(showWin ? { boxShadow: "0 0 60px rgba(0,255,100,.15), 0 24px 64px rgba(0,0,0,.45)" } : {}) }}>
                 <div style={{ position: "relative", width: W, height: W }}>
                   <svg width={W} height={W} style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}>
@@ -460,7 +505,7 @@
                     {Array.from({ length: GRID + 1 }, (_, r) => Array.from({ length: GRID + 1 }, (_, c) => (
                       <circle key={`d${r}${c}`} cx={PAD + c * CELL} cy={PAD + r * CELL} r="1.2" fill="rgba(255,255,255,.09)" />
                     )))}
-                    {LEVEL.walls.map((w, i) => {
+                    {level.walls.map((w, i) => {
                       const x = w.col * CELL + PAD + 5, y = w.row * CELL + PAD + 5, s = CELL - 10;
                       return (
                         <g key={`w${i}`}>
@@ -470,7 +515,7 @@
                         </g>
                       );
                     })}
-                    {LEVEL.sources.map((src, i) => {
+                    {level.sources.map((src, i) => {
                       const pal = PALETTE[src.color], sx = px(src.col), sy = py(src.row);
                       const [dr, dc] = DELTA[src.dir];
                       const bw = dc !== 0 ? 13 : 18, bh = dr !== 0 ? 13 : 18;
@@ -490,7 +535,7 @@
                         </g>
                       );
                     })}
-                    {LEVEL.targets.map((t, i) => {
+                    {level.targets.map((t, i) => {
                       const pal = PALETTE[t.color], x = px(t.col), y = py(t.row), lit = litSet.has(kk(t.row, t.col));
                       return (
                         <g key={`tgt${i}`}>
@@ -544,7 +589,7 @@
               <div className="fu d3" style={{ ...S.controls, width: W + 22, marginLeft: -50, justifyContent: "space-between" }}>
                 <div style={{ ...S.stat, whiteSpace: "nowrap" }}>
                   <span style={S.statLbl}>MIRRORS LEFT</span>
-                  <span style={S.statVal}>{LEVEL.maxMirrors - mc}</span>
+                  <span style={S.statVal}>{level.maxMirrors - mc}</span>
                 </div>
                 <button onClick={() => setShowHelp(true)} style={{ ...S.btn, color: "#f5c518", borderColor: "rgba(245,197,24,.3)" }} className="br">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
@@ -562,7 +607,7 @@
                 </button>
                 <div style={S.stat}>
                   <span style={S.statLbl}>TARGETS</span>
-                  <span style={S.statVal}>{litSet.size}<span style={{ opacity: 0.35 }}> / {LEVEL.targets.length}</span></span>
+                  <span style={S.statVal}>{litSet.size}<span style={{ opacity: 0.35 }}> / {level.targets.length}</span></span>
                 </div>
               </div>
               {showHelp && (
@@ -603,7 +648,16 @@
                       <path d="M15 26L22 33L37 19" fill="none" stroke="#0f6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <h2 style={S.wt}>MAZE COMPLETE</h2>
-                    <button onClick={reset} style={S.wb} className="br">PLAY AGAIN</button>
+                    <p style={S.ws}>LEVEL {levelIndex + 1}</p>
+                    <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
+                      {onNext
+                        ? <>
+                            <button onClick={onBack} style={{ ...S.wb, border: "1px solid rgba(255,45,85,.25)", background: "rgba(255,45,85,.08)", color: "#ff2d55" }} className="br">HOME</button>
+                            <button onClick={onNext} style={S.wb} className="br">NEXT LEVEL →</button>
+                          </>
+                        : <button onClick={onBack} style={S.wb} className="br">HOME</button>
+                      }
+                    </div>
                   </div>
                 </div>
               )}
@@ -661,8 +715,26 @@
 
         function App() {
           const [screen, setScreen] = useState("home");
-          if (screen === "home") return <HomeScreen onPlay={() => setScreen("game")} />;
-          return <MirrorMaze onBack={() => setScreen("home")} />;
+          const [levelIndex, setLevelIndex] = useState(0);
+          const [maxUnlocked, setMaxUnlocked] = useState(() => Number(localStorage.getItem("mm_maxUnlocked") || 0));
+          const goHome = () => setScreen("home");
+          const goLevel = (idx) => { setLevelIndex(idx); setScreen("game"); };
+          const handleComplete = () => setMaxUnlocked((prev) => {
+            const next = Math.max(prev, levelIndex + 1);
+            localStorage.setItem("mm_maxUnlocked", next);
+            return next;
+          });
+          if (screen === "home") return <HomeScreen onPlay={goLevel} maxUnlocked={maxUnlocked} />;
+          const hasNext = levelIndex < LEVELS.length - 1;
+          return (
+            <MirrorMaze
+              key={levelIndex}
+              onBack={goHome}
+              onNext={hasNext ? () => goLevel(levelIndex + 1) : null}
+              onComplete={handleComplete}
+              levelIndex={levelIndex}
+            />
+          );
         }
 
         ReactDOM.createRoot(document.getElementById("root")).render(<App />);
