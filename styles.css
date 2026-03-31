@@ -620,7 +620,7 @@ body {
 }
 
 .btn-submit-bug {
-    padding: 0.5rem 1rem;
+    padding: 0.625rem 1.25rem;
     background: #ff2020;
     color: white;
     border: none;
@@ -628,7 +628,7 @@ body {
     cursor: pointer;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    font-size: 0.75rem;
+    font-size: 0.825rem;
     letter-spacing: 0.03em;
     transition: background 0.3s ease;
 }
@@ -643,7 +643,7 @@ body {
 }
 
 .btn-clear-bug {
-    padding: 0.5rem 1rem;
+    padding: 0.625rem 1.25rem;
     background: #b8860b;
     color: white;
     border: none;
@@ -651,7 +651,7 @@ body {
     cursor: pointer;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    font-size: 0.75rem;
+    font-size: 0.825rem;
     letter-spacing: 0.03em;
     transition: background 0.3s ease;
 }
