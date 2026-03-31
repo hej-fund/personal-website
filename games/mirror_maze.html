@@ -202,12 +202,23 @@
           return <button style={s.wrap} onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}><span style={s.arrow}>&#8592;</span><span>{label}</span></button>;
         }
 
-        function HomeScreen({ onPlay, maxUnlocked }) {
+        function VolumeBtn({ musicOn, toggleMusic }) {
+          return (
+            <button onClick={toggleMusic} style={{ background: "none", border: "none", cursor: "pointer", color: musicOn ? "rgba(255,106,0,.85)" : "rgba(255,255,255,.22)", padding: 0, transition: "color .2s", lineHeight: 1 }}>
+              {musicOn
+                ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+                : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+              }
+            </button>
+          );
+        }
+
+        function HomeScreen({ onPlay, maxUnlocked, musicOn, toggleMusic }) {
           return (
             <div style={SH.root}>
               <style>{CSS}</style>
-              <div style={SH.topBar}>
-                <BackBtn href="../games.html" label="Back" />
+              <div style={{ position: "absolute", top: "2.2rem", left: "2.5rem" }}>
+                <VolumeBtn musicOn={musicOn} toggleMusic={toggleMusic} />
               </div>
               <div style={SH.center}>
                 <div className="fu" style={SH.head}>
@@ -379,14 +390,56 @@
           return { pts, hits, color: src.color };
         }
 
-        function MirrorMaze({ onBack, onNext, onComplete, levelIndex }) {
+        function startMusic() {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const master = ctx.createGain();
+          master.gain.value = 0.35;
+          master.connect(ctx.destination);
+
+          // Delay/echo
+          const delay = ctx.createDelay(2.0);
+          delay.delayTime.value = 0.45;
+          const fb = ctx.createGain(); fb.gain.value = 0.38;
+          const wet = ctx.createGain(); wet.gain.value = 0.28;
+          delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
+
+          // Bass drone (two slightly detuned sines)
+          [[55, 0.20], [55.4, 0.13]].forEach(([freq, vol]) => {
+            const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = freq;
+            const g = ctx.createGain(); g.gain.value = vol;
+            o.connect(g); g.connect(master); o.start();
+          });
+
+          // A minor pentatonic arpeggio: A2 C3 E3 G3 A3 C4
+          const seq = [110, 130.81, 164.81, 196, 220, 261.63, 220, 196, 164.81, 130.81];
+          let i = 0;
+          const tempo = 0.44;
+
+          function tick() {
+            const t = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            osc.type = "triangle";
+            osc.frequency.value = seq[i++ % seq.length];
+            const env = ctx.createGain();
+            env.gain.setValueAtTime(0, t);
+            env.gain.linearRampToValueAtTime(0.18, t + 0.04);
+            env.gain.exponentialRampToValueAtTime(0.001, t + tempo * 0.85);
+            osc.connect(env); env.connect(master); env.connect(delay);
+            osc.start(t); osc.stop(t + tempo);
+          }
+
+          tick();
+          const interval = setInterval(tick, tempo * 1000);
+          return { ctx, stop() { clearInterval(interval); ctx.close(); } };
+        }
+
+        function MirrorMaze({ onBack, onNext, onComplete, levelIndex, musicOn, toggleMusic }) {
           const level = LEVELS[levelIndex];
           const [mirrors, setMirrors] = useState({});
           const [won, setWon] = useState(false);
           const [showWin, setShowWin] = useState(false);
           const [showHelp, setShowHelp] = useState(levelIndex === 0);
           const [started, setStarted] = useState(levelIndex !== 0);
-
           useEffect(() => {
             document.body.style.margin = "0";
             document.body.style.overflow = "auto";
@@ -599,6 +652,12 @@
                   </svg>
                   HELP
                 </button>
+                <button onClick={toggleMusic} style={{ ...S.btn, color: musicOn ? "#ff6a00" : "rgba(190,200,215,.4)", borderColor: musicOn ? "rgba(255,106,0,.3)" : "rgba(255,255,255,.1)", padding: "10px 14px" }} className="br">
+                  {musicOn
+                    ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block" }}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+                    : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block" }}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                  }
+                </button>
                 <button onClick={reset} style={{ ...S.btn, color: "#ff4d4d", borderColor: "rgba(255,77,77,.3)" }} className="br">
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style={{ marginRight: 6 }}>
                     <path d="M2 8a6 6 0 0110.2-4.3L10 6h5V1l-2.1 2.1A7.5 7.5 0 00.5 8H2zm12 0a6 6 0 01-10.2 4.3L6 10H1v5l2.1-2.1A7.5 7.5 0 0015.5 8H14z" />
@@ -717,6 +776,24 @@
           const [screen, setScreen] = useState("home");
           const [levelIndex, setLevelIndex] = useState(0);
           const [maxUnlocked, setMaxUnlocked] = useState(() => Number(localStorage.getItem("mm_maxUnlocked") || 0));
+          const [musicOn, setMusicOn] = useState(true);
+          const musicRef = React.useRef(null);
+
+          useEffect(() => {
+            musicRef.current = startMusic();
+            return () => { if (musicRef.current) { musicRef.current.stop(); musicRef.current = null; } };
+          }, []);
+
+          const toggleMusic = useCallback(() => {
+            if (musicOn) {
+              if (musicRef.current) musicRef.current.ctx.suspend();
+              setMusicOn(false);
+            } else {
+              if (musicRef.current) musicRef.current.ctx.resume();
+              setMusicOn(true);
+            }
+          }, [musicOn]);
+
           const goHome = () => setScreen("home");
           const goLevel = (idx) => { setLevelIndex(idx); setScreen("game"); };
           const handleComplete = () => setMaxUnlocked((prev) => {
@@ -724,7 +801,7 @@
             localStorage.setItem("mm_maxUnlocked", next);
             return next;
           });
-          if (screen === "home") return <HomeScreen onPlay={goLevel} maxUnlocked={maxUnlocked} />;
+          if (screen === "home") return <HomeScreen onPlay={goLevel} maxUnlocked={maxUnlocked} musicOn={musicOn} toggleMusic={toggleMusic} />;
           const hasNext = levelIndex < LEVELS.length - 1;
           return (
             <MirrorMaze
@@ -733,6 +810,8 @@
               onNext={hasNext ? () => goLevel(levelIndex + 1) : null}
               onComplete={handleComplete}
               levelIndex={levelIndex}
+              musicOn={musicOn}
+              toggleMusic={toggleMusic}
             />
           );
         }
