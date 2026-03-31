@@ -356,6 +356,29 @@
               { row: 7, col: 1 },
             ],
           },
+          {
+            name: "Prism",
+            hint: "The walls are watching — route carefully",
+            maxMirrors: 5,
+            sources: [
+              { row: -1, col: 3, dir: "down",  color: "red"   },
+              { row: 4,  col: 8, dir: "left",  color: "blue"  },
+              { row: 8,  col: 1, dir: "up",    color: "green" },
+            ],
+            targets: [
+              { row: 0, col: 6, color: "red"   },
+              { row: 6, col: 7, color: "blue"  },
+              { row: 7, col: 5, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 4 },
+              { row: 1, col: 6 },
+              { row: 2, col: 1 },
+              { row: 5, col: 7 },
+              { row: 6, col: 0 },
+              { row: 7, col: 3 },
+            ],
+          },
         ];
 
         const kk = (r, c) => `${r},${c}`;
