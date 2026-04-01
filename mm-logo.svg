@@ -1,0 +1,67 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="gG" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gR" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gB" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(0,11)">
+  <!-- Outer M — wide glow -->
+  <polyline points="15,175 15,5 100,85 185,5 185,175"
+    stroke="#39FF14" stroke-width="14" fill="none"
+    stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
+  <!-- Outer M — main -->
+  <polyline points="15,175 15,5 100,85 185,5 185,175"
+    stroke="#39FF14" stroke-width="5" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"
+    filter="url(#gG)"/>
+
+  <!-- Inner M — wide glow -->
+  <polyline points="38,175 38,44 100,118 162,44 162,175"
+    stroke="#39FF14" stroke-width="14" fill="none"
+    stroke-linecap="round" stroke-linejoin="round" opacity="0.15"/>
+  <!-- Inner M — main -->
+  <polyline points="38,175 38,44 100,118 162,44 162,175"
+    stroke="#39FF14" stroke-width="5" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"
+    filter="url(#gG)"/>
+
+  <!-- Red: exits top, grows to bottom, absorbed into bottom, exits bottom, grows to top, absorbed into top -->
+  <polyline points="15,42 38,67 15,92 38,117 15,142 38,162"
+    stroke="#ff2d55" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+    stroke-dasharray="0 9999" filter="url(#gR)">
+    <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+    <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </polyline>
+  <polyline points="15,42 38,67 15,92 38,117 15,142 38,162"
+    stroke="#ff2d55" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+    stroke-dasharray="0 9999" opacity="0.9">
+    <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+    <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </polyline>
+
+  <!-- Blue: reversed path = opposite visual direction with identical keyframes -->
+  <polyline points="162,162 185,142 162,117 185,92 162,67 185,42"
+    stroke="#00aaff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+    stroke-dasharray="0 9999" filter="url(#gB)">
+    <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+    <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </polyline>
+  <polyline points="162,162 185,142 162,117 185,92 162,67 185,42"
+    stroke="#00aaff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+    stroke-dasharray="0 9999" opacity="0.9">
+    <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+    <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </polyline>
+
+  </g>
+</svg>
