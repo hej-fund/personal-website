@@ -6,7 +6,7 @@
     <meta name="description" content="Games by Rohan Hejmadi — browser-based games built from scratch.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400&family=Oxanium:wght@600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.svg?v=5" type="image/svg+xml">
     <link rel="canonical" href="https://rohanhejmadi.com/games.html">
     <link rel="stylesheet" href="styles.css">
@@ -15,29 +15,48 @@
             position: relative;
             overflow: hidden;
             border-color: rgba(255,255,255,1);
-            background: transparent;
+            background: #080c1e;
+            box-shadow: inset 0 0 0 4px #080c1e, inset 0 0 0 6px rgba(255,255,255,0.35);
         }
 
         .project-card--mirror:hover {
             border-color: rgba(255,255,255,1);
         }
 
-        .project-card--mirror .project-card-bg {
-            position: absolute;
-            inset: 0;
-            background: url('games/wmremove-transformed.jpeg') center/cover no-repeat;
-            opacity: 1;
-            z-index: 0;
+        .project-card--mirror h2 {
+            font-family: 'Oxanium', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: -10px;
         }
 
-        .project-card--mirror h2,
         .project-card--mirror .btn {
             position: relative;
             z-index: 2;
+            align-self: center;
+            padding-top: 0.45rem;
+            padding-bottom: 0.45rem;
         }
 
-        .project-card--mirror h2 {
-            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+        .project-card--mirror svg:not(.mirror-maze-bg) {
+            position: absolute;
+            top: calc(50% - 10px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .mirror-maze-bg {
+            position: absolute;
+            inset: 5px;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            pointer-events: none;
+            opacity: 0.32;
         }
     </style>
 </head>
@@ -58,9 +77,67 @@
 
         <div class="projects-grid">
             <div class="project-card project-card--mirror">
-                <div class="project-card-bg"></div>
+                <svg class="mirror-maze-bg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                    <!-- green paths -->
+                    <path d="M0 20 H60 V80 H20 V140 H80 V100 H120 V160 H60 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 0 V40 H160 V20 H220 V80 H180 V120 H240 V60" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 60 H30 V120 H10 V180 H50 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M130 0 V50 H170 V30 H210 V90 H250 V50 H300" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- red paths -->
+                    <path d="M300 40 H260 V100 H300" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M40 0 V60 H0" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M140 80 H200 V140 H160 V200" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M70 0 V40 H110 V80 H70 V120 H30 V160 H70 V200" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M280 200 V150 H300" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- blue paths -->
+                    <path d="M220 200 V160 H280 V100 H240 V40 H300" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 100 H40 V160 H100 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M150 200 V170 H190 V130 H230 V170 H270 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 160 H20 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- orange accents -->
+                    <path d="M120 200 V140 H80 V180" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M200 0 V60 H260 V120 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M160 100 H190 V60 H230 V100 H210 V140 H250 V180 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 0 H20 V40 H60 V0" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 <h2>Mirror Maze</h2>
-                <a href="games/mirror_maze.html" target="_blank" class="btn" style="margin-top: auto;">Play!</a>
+                <a href="games/mirror_maze.html" target="_blank" class="btn" style="margin-top: auto; padding-left: 2.5rem; padding-right: 2.5rem;">Play!</a>
+                <svg width="100" height="100" viewBox="20 20 260 260" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                    <defs>
+                        <linearGradient id="greenGlowH" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00ff9c"/>
+                            <stop offset="50%" stop-color="#00c853"/>
+                            <stop offset="100%" stop-color="#b2ff59"/>
+                        </linearGradient>
+                        <filter id="softGlowH">
+                            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <filter id="redGlowH" x="-60%" y="-60%" width="220%" height="220%">
+                            <feGaussianBlur stdDeviation="5" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <filter id="blueGlowH" x="-60%" y="-60%" width="220%" height="220%">
+                            <feGaussianBlur stdDeviation="5" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <filter id="orangeGlowH" filterUnits="userSpaceOnUse" x="125" y="0" width="50" height="300">
+                            <feGaussianBlur stdDeviation="6" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <path d="M40 200 L100 140 L180 220 L260 140" stroke="#ff2d55" stroke-width="20" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.12"/>
+                    <path d="M260 200 L200 140 L120 220 L40 140" stroke="#00aaff" stroke-width="20" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.12"/>
+                    <path d="M40 260 L40 40 L120 40 L120 80 L80 80 L80 120 L140 120 L140 60 L180 60 L180 140 L100 140 L100 200 L160 200 L160 240 L60 240 L60 180 L120 180 L120 160 L80 160" stroke="url(#greenGlowH)" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlowH)"/>
+                    <g transform="translate(300,0) scale(-1,1)">
+                        <path d="M40 260 L40 40 L120 40 L120 80 L80 80 L80 120 L140 120 L140 60 L180 60 L180 140 L100 140 L100 200 L160 200 L160 240 L60 240 L60 180 L120 180 L120 160 L80 160" stroke="url(#greenGlowH)" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlowH)"/>
+                    </g>
+                    <line x1="150" y1="30" x2="150" y2="270" stroke="#ff6a00" stroke-width="5" stroke-dasharray="14,8" opacity="1" filter="url(#orangeGlowH)"/>
+                    <path d="M40 200 L100 140 L180 220 L260 140" stroke="#ff2d55" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+                    <path d="M40 200 L100 140 L180 220 L260 140" stroke="#ff2d55" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#redGlowH)" opacity="0.9"/>
+                    <path d="M260 200 L200 140 L120 220 L40 140" stroke="#00aaff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+                    <path d="M260 200 L200 140 L120 220 L40 140" stroke="#00aaff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#blueGlowH)" opacity="0.9"/>
+                </svg>
             </div>
         </div>
     </div>
