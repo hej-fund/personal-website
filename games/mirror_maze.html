@@ -262,7 +262,7 @@
                         </span>
                         <span style={SH.cardMeta}>{lv.sources.length} beam{lv.sources.length > 1 ? "s" : ""} &nbsp;·&nbsp; {lv.maxMirrors} mirrors</span>
                         {(() => {
-                          const t = { easy: ["EASY","rgba(0,255,100,.8)","rgba(0,255,100,.12)","rgba(0,255,100,.25)"], medium: ["MEDIUM","rgba(245,197,24,.85)","rgba(245,197,24,.1)","rgba(245,197,24,.28)"], hard: ["HARD","rgba(255,45,85,.85)","rgba(255,45,85,.1)","rgba(255,45,85,.28)"], extreme: ["EXTREME","rgba(180,80,255,.9)","rgba(180,80,255,.1)","rgba(180,80,255,.28)"] }[lv.difficulty];
+                          const t = { beginner: ["BEGINNER","rgba(0,170,255,.9)","rgba(0,170,255,.12)","rgba(0,170,255,.28)"], easy: ["EASY","rgba(0,255,100,.8)","rgba(0,255,100,.12)","rgba(0,255,100,.25)"], medium: ["MEDIUM","rgba(245,197,24,.85)","rgba(245,197,24,.1)","rgba(245,197,24,.28)"], hard: ["HARD","rgba(255,45,85,.85)","rgba(255,45,85,.1)","rgba(255,45,85,.28)"], extreme: ["EXTREME","rgba(180,80,255,.9)","rgba(180,80,255,.1)","rgba(180,80,255,.28)"] }[lv.difficulty];
                           return t ? <span style={{ marginTop: 4, fontSize: 9, fontWeight: 700, letterSpacing: 2, fontFamily: "'IBM Plex Mono',monospace", color: t[1], background: t[2], border: `1px solid ${t[3]}`, borderRadius: 4, padding: "2px 7px" }}>{t[0]}</span> : null;
                         })()}
                       </div>
@@ -305,8 +305,7 @@
 
         const LEVELS = [
           {
-            difficulty: "easy",
-            name: "First Light",
+            difficulty: "beginner",
             maxMirrors: 4,
             sources: [
               { row: 1, col: -1, dir: "right", color: "red" },
@@ -323,7 +322,6 @@
           },
           {
             difficulty: "easy",
-            name: "Crossfire",
             maxMirrors: 4,
             sources: [
               { row: 2, col: -1, dir: "right", color: "red"   },
@@ -344,31 +342,7 @@
             ],
           },
           {
-            difficulty: "medium",
-            name: "Prism",
-            maxMirrors: 5,
-            sources: [
-              { row: -1, col: 3, dir: "down",  color: "red"   },
-              { row: 4,  col: 8, dir: "left",  color: "blue"  },
-              { row: 8,  col: 1, dir: "up",    color: "green" },
-            ],
-            targets: [
-              { row: 0, col: 6, color: "red"   },
-              { row: 6, col: 7, color: "blue"  },
-              { row: 7, col: 5, color: "green" },
-            ],
-            walls: [
-              { row: 0, col: 4 },
-              { row: 1, col: 6 },
-              { row: 2, col: 1 },
-              { row: 5, col: 7 },
-              { row: 6, col: 0 },
-              { row: 7, col: 3 },
-            ],
-          },
-          {
-            difficulty: "medium",
-            name: "Refraction",
+            difficulty: "easy",
             maxMirrors: 7,
             sources: [
               { row: 8,  col: 0,  dir: "up",    color: "red"   },
@@ -393,7 +367,28 @@
           },
           {
             difficulty: "medium",
-            name: "Deflect",
+            maxMirrors: 5,
+            sources: [
+              { row: -1, col: 3, dir: "down",  color: "red"   },
+              { row: 4,  col: 8, dir: "left",  color: "blue"  },
+              { row: 8,  col: 1, dir: "up",    color: "green" },
+            ],
+            targets: [
+              { row: 0, col: 6, color: "red"   },
+              { row: 6, col: 7, color: "blue"  },
+              { row: 7, col: 5, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 4 },
+              { row: 1, col: 6 },
+              { row: 2, col: 1 },
+              { row: 5, col: 7 },
+              { row: 6, col: 0 },
+              { row: 7, col: 3 },
+            ],
+          },
+          {
+            difficulty: "medium",
             maxMirrors: 3,
             sources: [
               { row: -1, col: 3, dir: "down",  color: "red"   },
@@ -413,7 +408,6 @@
           },
           {
             difficulty: "hard",
-            name: "Tangle",
             maxMirrors: 6,
             sources: [
               { row: -1, col: 2, dir: "down",  color: "red"   },
@@ -435,8 +429,7 @@
           },
           {
             difficulty: "hard",
-            name: "Diverge",
-            maxMirrors: 6,
+            maxMirrors: 5,
             sources: [
               { row: 8,  col: 6, dir: "up",   color: "red"   },
               { row: 3,  col: 8, dir: "left",  color: "blue"  },
@@ -457,7 +450,6 @@
           },
           {
             difficulty: "extreme",
-            name: "Labyrinth",
             maxMirrors: 9,
             sources: [
               { row: -1, col: 0, dir: "down",  color: "red"   },
@@ -482,8 +474,7 @@
           },
           {
             difficulty: "extreme",
-            name: "Cascade",
-            maxMirrors: 9,
+            maxMirrors: 8,
             sources: [
               { row: 1,  col: -1, dir: "right", color: "red"   },
               { row: -1, col: 5,  dir: "down",  color: "blue"  },
