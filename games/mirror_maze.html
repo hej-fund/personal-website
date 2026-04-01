@@ -278,6 +278,10 @@
                         </span>
                         <span style={SH.cardSub}>{lv.name}</span>
                         <span style={SH.cardMeta}>{lv.sources.length} beam{lv.sources.length > 1 ? "s" : ""} &nbsp;·&nbsp; {lv.maxMirrors} mirrors</span>
+                        {(() => {
+                          const t = { easy: ["EASY","rgba(0,255,100,.8)","rgba(0,255,100,.12)","rgba(0,255,100,.25)"], medium: ["MEDIUM","rgba(245,197,24,.85)","rgba(245,197,24,.1)","rgba(245,197,24,.28)"], hard: ["HARD","rgba(255,45,85,.85)","rgba(255,45,85,.1)","rgba(255,45,85,.28)"], extreme: ["EXTREME","rgba(180,80,255,.9)","rgba(180,80,255,.1)","rgba(180,80,255,.28)"] }[lv.difficulty];
+                          return t ? <span style={{ marginTop: 4, fontSize: 9, fontWeight: 700, letterSpacing: 2, fontFamily: "'IBM Plex Mono',monospace", color: t[1], background: t[2], border: `1px solid ${t[3]}`, borderRadius: 4, padding: "2px 7px" }}>{t[0]}</span> : null;
+                        })()}
                       </div>
                     );
                   })}
@@ -293,8 +297,8 @@
           center: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flex: 1, padding: "6rem 16px 40px" },
           head: { display: "flex", alignItems: "center", marginBottom: 32 },
           title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
-          grid: { display: "flex", flexDirection: "column", gap: 12, width: "100%", maxWidth: 420 },
-          card: { padding: "20px 24px", borderRadius: 12, border: "1px solid rgba(0,255,100,.18)", background: "rgba(0,255,100,.04)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6 },
+          grid: { display: "flex", flexWrap: "wrap", gap: 12, width: "100%", maxWidth: 630, justifyContent: "center" },
+          card: { padding: "20px 24px", borderRadius: 12, border: "1px solid rgba(0,255,100,.18)", background: "rgba(0,255,100,.04)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, width: "calc(33.333% - 8px)", boxSizing: "border-box" },
           cardLbl: { fontSize: 18, fontWeight: 600, letterSpacing: 1, color: "rgba(0,255,100,.85)", fontFamily: "'Oxanium',sans-serif", textAlign: "center" },
           cardSub: { fontSize: 12, color: "rgba(0,255,100,.55)", letterSpacing: 1.5, fontFamily: "'Jost',sans-serif", fontWeight: 300, textAlign: "center" },
           cardMeta: { fontSize: 10, color: "rgba(190,200,215,.25)", letterSpacing: 1, fontFamily: "'IBM Plex Mono',monospace", textAlign: "center" },
@@ -318,8 +322,8 @@
 
         const LEVELS = [
           {
+            difficulty: "easy",
             name: "First Light",
-            hint: "Guide each beam to its matching target",
             maxMirrors: 4,
             sources: [
               { row: 1, col: -1, dir: "right", color: "red" },
@@ -335,8 +339,8 @@
             ],
           },
           {
+            difficulty: "easy",
             name: "Crossfire",
-            hint: "Three beams — find where they converge",
             maxMirrors: 4,
             sources: [
               { row: 2, col: -1, dir: "right", color: "red"   },
@@ -357,8 +361,8 @@
             ],
           },
           {
+            difficulty: "medium",
             name: "Prism",
-            hint: "The walls are watching — route carefully",
             maxMirrors: 5,
             sources: [
               { row: -1, col: 3, dir: "down",  color: "red"   },
@@ -377,6 +381,147 @@
               { row: 5, col: 7 },
               { row: 6, col: 0 },
               { row: 7, col: 3 },
+            ],
+          },
+          {
+            difficulty: "medium",
+            name: "Refraction",
+            maxMirrors: 7,
+            sources: [
+              { row: 8,  col: 0,  dir: "up",    color: "red"   },
+              { row: 0,  col: -1, dir: "right", color: "blue"  },
+              { row: -1, col: 7,  dir: "down",  color: "green" },
+            ],
+            targets: [
+              { row: 7, col: 5, color: "red"   },
+              { row: 5, col: 0, color: "blue"  },
+              { row: 0, col: 2, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 5 },
+              { row: 1, col: 6 },
+              { row: 2, col: 5 },
+              { row: 3, col: 1 },
+              { row: 4, col: 7 },
+              { row: 5, col: 4 },
+              { row: 6, col: 2 },
+              { row: 7, col: 2 },
+            ],
+          },
+          {
+            difficulty: "medium",
+            name: "Deflect",
+            maxMirrors: 3,
+            sources: [
+              { row: -1, col: 3, dir: "down",  color: "red"   },
+              { row: 2,  col: 8, dir: "left",  color: "blue"  },
+              { row: 8,  col: 6, dir: "up",    color: "green" },
+            ],
+            targets: [
+              { row: 6, col: 4, color: "red"   },
+              { row: 1, col: 6, color: "blue"  },
+              { row: 0, col: 4, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 0 }, { row: 0, col: 6 },
+              { row: 4, col: 2 }, { row: 6, col: 3 },
+              { row: 7, col: 4 },
+            ],
+          },
+          {
+            difficulty: "hard",
+            name: "Tangle",
+            maxMirrors: 6,
+            sources: [
+              { row: -1, col: 2, dir: "down",  color: "red"   },
+              { row: 8,  col: 4, dir: "up",    color: "blue"  },
+              { row: 0,  col: 8, dir: "left",  color: "green" },
+            ],
+            targets: [
+              { row: 2, col: 6, color: "red"   },
+              { row: 1, col: 1, color: "red"   },
+              { row: 5, col: 5, color: "blue"  },
+              { row: 5, col: 0, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 3 }, { row: 1, col: 7 },
+              { row: 2, col: 1 }, { row: 4, col: 3 },
+              { row: 4, col: 6 }, { row: 6, col: 3 },
+              { row: 7, col: 7 }, { row: 2, col: 5 },
+            ],
+          },
+          {
+            difficulty: "hard",
+            name: "Diverge",
+            maxMirrors: 6,
+            sources: [
+              { row: 8,  col: 6, dir: "up",   color: "red"   },
+              { row: 3,  col: 8, dir: "left",  color: "blue"  },
+              { row: -1, col: 1, dir: "down",  color: "green" },
+            ],
+            targets: [
+              { row: 0, col: 2, color: "red"   },
+              { row: 6, col: 7, color: "blue"  },
+              { row: 2, col: 4, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 4 }, { row: 0, col: 7 },
+              { row: 2, col: 3 }, { row: 2, col: 7 },
+              { row: 4, col: 0 }, { row: 6, col: 1 },
+              { row: 7, col: 4 }, { row: 7, col: 7 },
+              { row: 3, col: 4 }, { row: 5, col: 5 },
+            ],
+          },
+          {
+            difficulty: "extreme",
+            name: "Labyrinth",
+            maxMirrors: 9,
+            sources: [
+              { row: -1, col: 0, dir: "down",  color: "red"   },
+              { row: 7,  col: -1, dir: "right", color: "blue"  },
+              { row: 5,  col: 8,  dir: "left",  color: "green" },
+            ],
+            targets: [
+              { row: 0, col: 3, color: "red"   },
+              { row: 7, col: 3, color: "red"   },
+              { row: 6, col: 1, color: "blue"  },
+              { row: 2, col: 5, color: "blue"  },
+              { row: 7, col: 2, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 6 }, { row: 0, col: 7 },
+              { row: 1, col: 3 }, { row: 2, col: 6 },
+              { row: 5, col: 0 }, { row: 5, col: 5 },
+              { row: 6, col: 3 }, { row: 6, col: 6 },
+              { row: 7, col: 5 }, { row: 7, col: 7 },
+              { row: 0, col: 1 },
+            ],
+          },
+          {
+            difficulty: "extreme",
+            name: "Cascade",
+            maxMirrors: 9,
+            sources: [
+              { row: 1,  col: -1, dir: "right", color: "red"   },
+              { row: -1, col: 5,  dir: "down",  color: "blue"  },
+              { row: 8,  col: 3,  dir: "up",    color: "green" },
+            ],
+            targets: [
+              { row: 0, col: 1, color: "red"   },
+              { row: 4, col: 2, color: "red"   },
+              { row: 7, col: 5, color: "blue"  },
+              { row: 5, col: 7, color: "blue"  },
+              { row: 5, col: 4, color: "green" },
+              { row: 3, col: 6, color: "green" },
+            ],
+            walls: [
+              { row: 0, col: 2 },
+              { row: 0, col: 7 },
+              { row: 2, col: 0 },
+              { row: 2, col: 6 },
+              { row: 4, col: 6 },
+              { row: 6, col: 5 },
+              { row: 7, col: 0 },
             ],
           },
         ];
@@ -558,7 +703,6 @@
                   <b style={S.badgeLbl}>LEVEL {levelIndex + 1}</b>
                 </span>
               </div>
-              <p className="fu d1" style={S.hint}>{level.hint}</p>
               <div className="fu d2" style={{ ...S.board, ...(showWin ? { boxShadow: "0 0 60px rgba(0,255,100,.15), 0 24px 64px rgba(0,0,0,.45)" } : {}) }}>
                 <div style={{ position: "relative", width: W, height: W }}>
                   <svg width={W} height={W} style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}>
@@ -642,8 +786,6 @@
                       const t = `rotate(${rot},${cx},${cy})`;
                       return (
                         <g key={`mr${id}`} className="mp">
-                          <rect x={cx-len/2} y={cy-4.5} width={len} height={9} rx="2.5"
-                            fill="rgba(8,18,45,.9)" transform={t} />
                           <line x1={cx-len/2+4} y1={cy-1} x2={cx+len/2-4} y2={cy-1}
                             stroke="rgba(255,255,255,.9)" strokeWidth="2" strokeLinecap="round" transform={t} />
                           <line x1={cx-len/2+4} y1={cy+2} x2={cx+len/2-4} y2={cy+2}
@@ -698,13 +840,22 @@
                     <h2 style={{ ...S.wt, color: "#e4ecf4", marginBottom: 6 }}>HOW TO PLAY</h2>
                     <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }}>
                       <div style={{ ...S.li, alignItems: "center" }}>
+                        <svg width="20" height="14" viewBox="0 0 20 14" style={{ marginRight: 5, marginLeft: -3, flexShrink: 0, display: "block" }}>
+                          <line x1="0" y1="7" x2="20" y2="7" stroke="#0af" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
+                          <circle cx="10" cy="7" r="5.5" fill="#0af" opacity="0.12" />
+                          <circle cx="10" cy="7" r="5" fill="none" stroke="#0af" strokeWidth="1.5" />
+                          <circle cx="10" cy="7" r="2" fill="#0af" />
+                        </svg>
+                        Guide the beams to their matching targets
+                      </div>
+                      <div style={{ ...S.li, alignItems: "center" }}>
                         <svg width="14" height="14" viewBox="0 0 14 14" style={{ marginRight: 8, flexShrink: 0, display: "block" }}>
-                          <rect x="1" y="5.5" width="12" height="3" rx="1" fill="rgba(230,235,255,.75)" transform="rotate(-45,7,7)" />
+                          <line x1="2" y1="12" x2="12" y2="2" stroke="rgba(230,235,255,.85)" strokeWidth="2" strokeLinecap="round" />
                         </svg>
                         Click a cell to place a mirror
                       </div>
                       <div style={{ ...S.li, alignItems: "center" }}>
-                        <span style={{ fontSize: 16, marginRight: 8, lineHeight: 1, color: "rgba(170,210,255,.9)", flexShrink: 0 }}>↻</span>
+                        <span style={{ fontSize: 16, marginRight: 8, lineHeight: 1, color: "#b39ddb", flexShrink: 0 }}>↻</span>
                         Click a mirror to rotate it
                       </div>
                       <div style={{ ...S.li, alignItems: "center" }}>
@@ -777,8 +928,7 @@
           title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
           badge: { display: "flex", alignItems: "center", gap: 10, padding: "6px 20px", borderRadius: 20, background: "rgba(0,255,100,.05)", border: "1px solid rgba(0,255,100,.13)", fontSize: 13, color: "rgba(0,255,100,.85)", letterSpacing: 1 },
           badgeLbl: { fontSize: 13, fontWeight: 700, letterSpacing: 2, color: "rgba(0,255,100,.7)", fontFamily: "'IBM Plex Mono',monospace" },
-          hint: { margin: "14px 0 18px", fontSize: 13, color: "rgba(190,200,215,.4)", letterSpacing: 1, fontWeight: 300 },
-          board: { position: "relative", background: "rgba(6,8,16,.55)", borderRadius: 14, padding: 10, border: "1px solid rgba(255,255,255,.05)", boxShadow: "0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03)", transition: "box-shadow .6s ease" },
+          board: { position: "relative", background: "rgba(6,8,16,.55)", borderRadius: 14, padding: 10, border: "1px solid rgba(255,255,255,.05)", boxShadow: "0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03)", transition: "box-shadow .6s ease", marginTop: 18 },
           controls: { display: "flex", alignItems: "center", gap: 28, marginTop: 20 },
           stat: { display: "flex", flexDirection: "column", alignItems: "center", gap: 1, minWidth: 72 },
           statLbl: { fontSize: 9, fontWeight: 600, letterSpacing: 2.5, color: "rgba(190,200,215,.35)", fontFamily: "'IBM Plex Mono',monospace" },
