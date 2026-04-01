@@ -275,7 +275,6 @@
                             </svg>
                           )}
                         </span>
-                        <span style={SH.cardSub}>{lv.name}</span>
                         <span style={SH.cardMeta}>{lv.sources.length} beam{lv.sources.length > 1 ? "s" : ""} &nbsp;·&nbsp; {lv.maxMirrors} mirrors</span>
                         {(() => {
                           const t = { easy: ["EASY","rgba(0,255,100,.8)","rgba(0,255,100,.12)","rgba(0,255,100,.25)"], medium: ["MEDIUM","rgba(245,197,24,.85)","rgba(245,197,24,.1)","rgba(245,197,24,.28)"], hard: ["HARD","rgba(255,45,85,.85)","rgba(255,45,85,.1)","rgba(255,45,85,.28)"], extreme: ["EXTREME","rgba(180,80,255,.9)","rgba(180,80,255,.1)","rgba(180,80,255,.28)"] }[lv.difficulty];
@@ -797,7 +796,7 @@
                     <h2 style={{ ...S.wt, color: "#e4ecf4", marginBottom: 6 }}>HOW TO PLAY</h2>
                     <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }}>
                       <div style={{ ...S.li, alignItems: "center" }}>
-                        <svg width="24" height="17" viewBox="0 0 20 14" style={{ marginRight: 5, marginLeft: -3, flexShrink: 0, display: "block" }}>
+                        <svg width="24" height="17" viewBox="0 0 20 14" style={{ marginRight: 4, marginLeft: -3, flexShrink: 0, display: "block" }}>
                           <line x1="0" y1="7" x2="20" y2="7" stroke="#0af" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
                           <circle cx="10" cy="7" r="5.5" fill="#0af" opacity="0.12" />
                           <circle cx="10" cy="7" r="5" fill="none" stroke="#0af" strokeWidth="1.5" />
@@ -812,7 +811,7 @@
                         Click a cell to place a mirror
                       </div>
                       <div style={{ ...S.li, alignItems: "center" }}>
-                        <span style={{ fontSize: 19, marginRight: 8, lineHeight: 1, color: "#b39ddb", flexShrink: 0 }}>↻</span>
+                        <span style={{ fontSize: 19, marginRight: 8, lineHeight: 1, color: "#b39ddb", flexShrink: 0, width: 17, display: "inline-block", textAlign: "center" }}>↻</span>
                         Click a mirror to rotate it
                       </div>
                       <div style={{ ...S.li, alignItems: "center" }}>
