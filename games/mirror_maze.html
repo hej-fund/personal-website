@@ -550,48 +550,6 @@
           return { pts, hits, color: src.color };
         }
 
-        function startMusic() {
-          const ctx = new (window.AudioContext || window.webkitAudioContext)();
-          const master = ctx.createGain();
-          master.gain.value = 0.35;
-          master.connect(ctx.destination);
-
-          // Delay/echo
-          const delay = ctx.createDelay(2.0);
-          delay.delayTime.value = 0.45;
-          const fb = ctx.createGain(); fb.gain.value = 0.38;
-          const wet = ctx.createGain(); wet.gain.value = 0.28;
-          delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
-
-          // Bass drone (two slightly detuned sines)
-          [[55, 0.20], [55.4, 0.13]].forEach(([freq, vol]) => {
-            const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = freq;
-            const g = ctx.createGain(); g.gain.value = vol;
-            o.connect(g); g.connect(master); o.start();
-          });
-
-          // A minor pentatonic arpeggio: A2 C3 E3 G3 A3 C4
-          const seq = [110, 130.81, 164.81, 196, 220, 261.63, 220, 196, 164.81, 130.81];
-          let i = 0;
-          const tempo = 0.44;
-
-          function tick() {
-            const t = ctx.currentTime;
-            const osc = ctx.createOscillator();
-            osc.type = "triangle";
-            osc.frequency.value = seq[i++ % seq.length];
-            const env = ctx.createGain();
-            env.gain.setValueAtTime(0, t);
-            env.gain.linearRampToValueAtTime(0.18, t + 0.04);
-            env.gain.exponentialRampToValueAtTime(0.001, t + tempo * 0.85);
-            osc.connect(env); env.connect(master); env.connect(delay);
-            osc.start(t); osc.stop(t + tempo);
-          }
-
-          tick();
-          const interval = setInterval(tick, tempo * 1000);
-          return { ctx, stop() { clearInterval(interval); ctx.close(); } };
-        }
 
         function MirrorMaze({ onBack, onNext, onComplete, levelIndex, musicOn, toggleMusic }) {
           const level = LEVELS[levelIndex];
@@ -945,19 +903,22 @@
           const [levelIndex, setLevelIndex] = useState(0);
           const [maxUnlocked, setMaxUnlocked] = useState(() => Number(localStorage.getItem("mm_maxUnlocked") || 0));
           const [musicOn, setMusicOn] = useState(true);
-          const musicRef = React.useRef(null);
+          const audioRef = React.useRef(null);
 
           useEffect(() => {
-            musicRef.current = startMusic();
-            return () => { if (musicRef.current) { musicRef.current.stop(); musicRef.current = null; } };
+            const audio = new Audio("Chillin-with-My-Puzzles_Looping.ogg");
+            audio.loop = true;
+            audio.volume = 0.5;
+            audioRef.current = audio;
+            audio.play().catch(() => {});
           }, []);
 
           const toggleMusic = useCallback(() => {
             if (musicOn) {
-              if (musicRef.current) musicRef.current.ctx.suspend();
+              if (audioRef.current) audioRef.current.pause();
               setMusicOn(false);
             } else {
-              if (musicRef.current) musicRef.current.ctx.resume();
+              if (audioRef.current) audioRef.current.play().catch(() => {});
               setMusicOn(true);
             }
           }, [musicOn]);
