@@ -49,14 +49,14 @@
         .bug-modal-overlay.active { display: flex; }
         .bug-modal {
             position: relative;
-            background: #0f1419;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
+            background: rgba(8,10,20,.97);
+            border: 1px solid rgba(0,255,100,.15);
+            border-radius: 14px;
             padding: 2.5rem 2.5rem 2rem;
             width: 100%;
             max-width: 460px;
             margin: 1rem;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+            box-shadow: 0 0 80px rgba(0,255,100,.06), 0 24px 60px rgba(0,0,0,0.7);
         }
         .bug-modal-close {
             position: absolute;
@@ -73,52 +73,60 @@
         }
         .bug-modal-close:hover { color: white; }
         .bug-modal-eyebrow {
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
+            font-family: 'Oxanium', sans-serif;
+            font-weight: 600;
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
+            color: rgba(0,255,100,.5);
             margin: 0 0 0.6rem;
         }
         .bug-modal-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: 2rem;
-            letter-spacing: 0.02em;
-            color: white;
+            font-family: 'Oxanium', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #e4ecf4;
             margin: 0 0 1.75rem;
         }
         .bug-form { display: flex; flex-direction: column; gap: 1.25rem; }
         .bug-form-group { display: flex; flex-direction: column; gap: 0.4rem; }
         .bug-form-group label {
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
+            font-family: 'Oxanium', sans-serif;
+            font-weight: 600;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
+            color: rgba(190,200,215,.5);
         }
         .bug-form-group input,
-        .bug-form-group textarea {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 6px;
+        .bug-form-group textarea,
+        .bug-form-group select {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
             padding: 0.65rem 0.9rem;
-            color: white;
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.9rem;
+            color: #e4ecf4;
+            font-family: 'Oxanium', sans-serif;
+            font-weight: 400;
+            font-size: 0.85rem;
             resize: vertical;
             transition: border-color 0.2s ease;
             outline: none;
+            appearance: none;
+            -webkit-appearance: none;
         }
+        .bug-form-group select { background: #0d1120 !important; }
+        .bug-form-group select option { background: #0d1120; color: #e4ecf4; }
         .bug-form-group input::placeholder,
-        .bug-form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+        .bug-form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
         .bug-form-group input:focus,
-        .bug-form-group textarea:focus { border-color: rgba(255,255,255,0.35); }
+        .bug-form-group textarea:focus,
+        .bug-form-group select:focus { border-color: rgba(0,255,100,.3); }
         .bug-form-group input.field-error,
-        .bug-form-group textarea.field-error { border-color: #ff2020; }
+        .bug-form-group textarea.field-error,
+        .bug-form-group select.field-error { border-color: #ff2d55; }
         .bug-form-actions {
             display: flex;
             align-items: center;
@@ -157,9 +165,10 @@
         }
         .btn-clear-bug:hover { background: rgba(184,134,11,.16); border-color: rgba(184,134,11,.5); }
         .bug-form-status {
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.85rem;
+            font-family: 'Oxanium', sans-serif;
+            font-weight: 400;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
             padding: 0.6rem 0.9rem;
             border-radius: 6px;
             display: none;
@@ -186,12 +195,10 @@
 
         function BackBtn({ href, onClick, label }) {
           const [hov, setHov] = React.useState(false);
-          const s = {
-            wrap: { display: "inline-flex", alignItems: "center", gap: hov ? "0.75rem" : "0.5rem", color: hov ? "white" : "rgba(255,255,255,0.75)", textDecoration: "none", fontFamily: "'Jost', sans-serif", fontWeight: 300, fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", transition: "color 0.3s ease, gap 0.3s ease", cursor: "pointer", background: "none", border: "none", padding: 0 },
-            arrow: { fontSize: "1rem", display: "inline-block", transform: hov ? "translateX(-3px)" : "translateX(0)", transition: "transform 0.3s ease", verticalAlign: "middle", position: "relative", top: "-1px" },
-          };
-          if (href) return <a href={href} style={s.wrap} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}><span style={s.arrow}>&#8592;</span><span>{label}</span></a>;
-          return <button style={s.wrap} onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}><span style={s.arrow}>&#8592;</span><span>{label}</span></button>;
+          const s = { display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 18px", borderRadius: 8, border: `1px solid ${hov ? "rgba(255,255,255,.25)" : "rgba(255,255,255,.1)"}`, background: hov ? "rgba(255,255,255,.07)" : "rgba(255,255,255,.03)", color: hov ? "#e4ecf4" : "rgba(190,200,215,.85)", fontFamily: "'Oxanium',sans-serif", fontWeight: 600, fontSize: 11, letterSpacing: 2.5, textTransform: "uppercase", cursor: "pointer", textDecoration: "none", transition: "all .2s" };
+          const inner = <><span style={{ fontSize: 12, lineHeight: 1 }}>&#8592;</span><span>{label}</span></>;
+          if (href) return <a href={href} style={s} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{inner}</a>;
+          return <button style={s} onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{inner}</button>;
         }
 
         function VolumeBtn({ musicOn, toggleMusic }) {
@@ -606,7 +613,7 @@
           return (
             <div style={S.root}>
               <style>{CSS}</style>
-              <div style={{ position: "absolute", top: "2.2rem", left: "2.5rem" }}>
+              <div style={{ position: "absolute", top: "1.5rem", left: "1.5rem" }}>
                 <BackBtn onClick={onBack} label="Back" />
               </div>
               <div className="fu" style={S.head}>
@@ -947,6 +954,6 @@
 
         ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     </script>
-<script src="../report-bug.js"></script>
+<script src="report-bug-mirror.js"></script>
 </body>
 </html>
