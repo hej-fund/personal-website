@@ -27,6 +27,10 @@
             border-color: rgba(255,255,255,1);
         }
 
+        @keyframes retroShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
         .project-card--mirror h2 {
             font-family: 'Oxanium', sans-serif;
             font-weight: 700;
@@ -36,6 +40,11 @@
             z-index: 2;
             text-align: center;
             margin-top: -10px;
+            background: linear-gradient(90deg, #39FF14, #00aaff, #ff2d55, #b44fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: retroShift 5s linear infinite;
         }
 
         .project-card--mirror .btn {

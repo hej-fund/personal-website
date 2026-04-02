@@ -242,7 +242,7 @@
               </div>
               <div style={SH.center}>
                 <div className="fu" style={SH.head}>
-                  <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 10 }}>
+                  <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                       <filter id="hgG" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                       <filter id="hgR" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -263,7 +263,29 @@
                       </polyline>
                     </g>
                   </svg>
-                  <h1 style={SH.title}>MIRROR MAZE</h1>
+                  <span style={{...SH.title, marginLeft: -12}} className="retro-grad">IRROR</span>
+                  <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{marginLeft: -2}}>
+                    <defs>
+                      <filter id="hmG" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                      <filter id="hmR" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                      <filter id="hmB" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    </defs>
+                    <g transform="translate(0,11)">
+                      <polyline points="15,175 15,5 100,85 185,5 185,175" stroke="#39FF14" strokeWidth="14" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.2"/>
+                      <polyline points="15,175 15,5 100,85 185,5 185,175" stroke="#39FF14" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#hmG)"/>
+                      <polyline points="38,175 38,44 100,118 162,44 162,175" stroke="#39FF14" strokeWidth="14" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.15"/>
+                      <polyline points="38,175 38,44 100,118 162,44 162,175" stroke="#39FF14" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#hmG)"/>
+                      <polyline points="15,42 38,67 15,92 38,117 15,142 38,162" stroke="#00aaff" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="0 9999" filter="url(#hmB)">
+                        <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                        <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                      </polyline>
+                      <polyline points="162,162 185,142 162,117 185,92 162,67 185,42" stroke="#ff2d55" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="0 9999" filter="url(#hmR)">
+                        <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                        <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                      </polyline>
+                    </g>
+                  </svg>
+                  <span style={{...SH.title, marginLeft: -12}} className="retro-grad">AZE</span>
                 </div>
                 <div className="fu d1" style={SH.grid}>
                   {LEVELS.map((lv, idx) => {
@@ -299,8 +321,8 @@
           root: { minHeight: "100vh", background: "linear-gradient(168deg,#080a12 0%,#0c0f1c 50%,#0e1225 100%)", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "'Oxanium',sans-serif", color: "#dde4ec", position: "relative" },
           topBar: { position: "absolute", top: "2.2rem", left: "2.5rem" },
           center: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flex: 1, padding: "6rem 16px 40px" },
-          head: { display: "flex", alignItems: "center", marginBottom: 32 },
-          title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
+          head: { display: "flex", alignItems: "center", marginBottom: 32, gap: 20 },
+          title: { margin: 0, marginTop: 3, fontSize: 32, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4", lineHeight: 1 },
           grid: { display: "flex", flexWrap: "wrap", gap: 12, width: "100%", maxWidth: 630, justifyContent: "center" },
           card: { padding: "20px 24px", borderRadius: 12, border: "1px solid rgba(0,255,100,.18)", background: "rgba(0,255,100,.04)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, width: "calc(33.333% - 8px)", boxSizing: "border-box" },
           cardLbl: { fontSize: 18, fontWeight: 600, letterSpacing: 1, color: "rgba(0,255,100,.85)", fontFamily: "'Oxanium',sans-serif", textAlign: "center" },
@@ -635,7 +657,29 @@
                       </polyline>
                     </g>
                   </svg>
-                  <h1 style={S.title}>MIRROR MAZE</h1>
+                  <span style={{...S.title, marginLeft: 0}} className="retro-grad">IRROR</span>
+                  <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{marginLeft: 12}}>
+                    <defs>
+                      <filter id="gmG" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                      <filter id="gmR" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                      <filter id="gmB" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    </defs>
+                    <g transform="translate(0,11)">
+                      <polyline points="15,175 15,5 100,85 185,5 185,175" stroke="#39FF14" strokeWidth="14" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.2"/>
+                      <polyline points="15,175 15,5 100,85 185,5 185,175" stroke="#39FF14" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#gmG)"/>
+                      <polyline points="38,175 38,44 100,118 162,44 162,175" stroke="#39FF14" strokeWidth="14" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.15"/>
+                      <polyline points="38,175 38,44 100,118 162,44 162,175" stroke="#39FF14" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#gmG)"/>
+                      <polyline points="15,42 38,67 15,92 38,117 15,142 38,162" stroke="#00aaff" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="0 9999" filter="url(#gmB)">
+                        <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                        <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                      </polyline>
+                      <polyline points="162,162 185,142 162,117 185,92 162,67 185,42" stroke="#ff2d55" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="0 9999" filter="url(#gmR)">
+                        <animate attributeName="stroke-dasharray" values="0 9999;170 9999;0 9999;170 9999;0 9999" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                        <animate attributeName="stroke-dashoffset" values="0;0;-170;0;0" keyTimes="0;0.25;0.5;0.75;1" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+                      </polyline>
+                    </g>
+                  </svg>
+                  <span style={{...S.title, marginLeft: 0}} className="retro-grad">AZE</span>
                 </div>
                 <span style={S.badge}>
                   <b style={S.badgeLbl}>LEVEL {levelIndex + 1}</b>
@@ -860,13 +904,15 @@
         .br:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.2)!important}
         .cx{transition:color .2s}
         .cx:hover{color:rgba(255,255,255,.9)!important;background:none!important;border-color:transparent!important}
+        @keyframes retroShift{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+        .retro-grad{background:linear-gradient(90deg,#39FF14,#00aaff,#ff2d55,#b44fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:retroShift 5s linear infinite}
         `;
 
         const S = {
           root: { minHeight: "100vh", background: "linear-gradient(168deg,#080a12 0%,#0c0f1c 50%,#0e1225 100%)", display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 16px 40px", fontFamily: "'Oxanium',sans-serif", color: "#dde4ec", position: "relative" },
           head: { display: "flex", flexDirection: "column", alignItems: "center", gap: 10 },
-          logoRow: { display: "flex", alignItems: "center", gap: 10 },
-          title: { margin: 0, fontSize: 26, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4" },
+          logoRow: { display: "flex", alignItems: "center", gap: 7 },
+          title: { margin: 0, marginTop: 3, fontSize: 32, fontWeight: 700, letterSpacing: 7, color: "#e4ecf4", lineHeight: 1 },
           badge: { display: "flex", alignItems: "center", gap: 10, padding: "6px 20px", borderRadius: 20, background: "rgba(0,255,100,.05)", border: "1px solid rgba(0,255,100,.13)", fontSize: 13, color: "rgba(0,255,100,.85)", letterSpacing: 1 },
           badgeLbl: { fontSize: 13, fontWeight: 700, letterSpacing: 2, color: "rgba(0,255,100,.7)", fontFamily: "'IBM Plex Mono',monospace" },
           board: { position: "relative", background: "rgba(6,8,16,.55)", borderRadius: 14, padding: 10, border: "1px solid rgba(255,255,255,.05)", boxShadow: "0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03)", transition: "box-shadow .6s ease", marginTop: 18 },

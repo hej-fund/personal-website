@@ -3,6 +3,12 @@ const EMAILJS_SERVICE_ID  = 'service_sfe86tk';
 const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
 
 (function () {
+    // Clear saved state on page refresh
+    if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
+        sessionStorage.removeItem('bugPage');
+        sessionStorage.removeItem('bugDesc');
+    }
+
     const sdk = document.createElement('script');
     sdk.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
     sdk.onload = () => emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -65,8 +71,15 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
             .replace(/'/g, '&#x27;');
     }
 
+    function saveState() {
+        sessionStorage.setItem('bugPage', pageInput.value);
+        sessionStorage.setItem('bugDesc', descInput.value);
+    }
+
     function resetForm() {
         form.reset();
+        sessionStorage.removeItem('bugPage');
+        sessionStorage.removeItem('bugDesc');
         pageInput.classList.remove('field-error');
         descInput.classList.remove('field-error');
         msgBox.className = 'bug-form-status';
@@ -78,7 +91,10 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
     }
 
     function openModal() {
-        resetForm();
+        const savedPage = sessionStorage.getItem('bugPage');
+        const savedDesc = sessionStorage.getItem('bugDesc');
+        if (savedPage) pageInput.value = savedPage;
+        if (savedDesc) descInput.value = savedDesc;
         overlay.classList.add('active');
     }
 
@@ -90,9 +106,11 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
 
     pageInput.addEventListener('change', function () {
         if (this.value) this.classList.remove('field-error');
+        saveState();
     });
     descInput.addEventListener('input', function () {
         if (this.value.trim()) this.classList.remove('field-error');
+        saveState();
     });
 
     document.querySelector('.btn-report').addEventListener('click', openModal);
@@ -133,6 +151,8 @@ const EMAILJS_TEMPLATE_ID = 'template_n9y4rip';
             submitBtn.style.background = 'rgba(0,255,100,.15)';
             submitBtn.style.color = '#0f6';
             submitBtn.style.borderColor = 'rgba(0,255,100,.3)';
+            sessionStorage.removeItem('bugPage');
+            sessionStorage.removeItem('bugDesc');
             setTimeout(() => { closeModal(); resetForm(); }, 750);
         }).catch(() => {
             msgBox.className = 'bug-form-status error';
