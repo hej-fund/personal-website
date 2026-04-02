@@ -944,7 +944,17 @@
             audio.loop = true;
             audio.volume = 0.5;
             audioRef.current = audio;
-            audio.play().catch(() => {});
+            const start = () => {
+              audio.play().catch(() => {});
+              document.removeEventListener("click", start);
+              document.removeEventListener("keydown", start);
+              document.removeEventListener("touchstart", start);
+            };
+            audio.play().catch(() => {
+              document.addEventListener("click", start);
+              document.addEventListener("keydown", start);
+              document.addEventListener("touchstart", start);
+            });
           }, []);
 
           const toggleMusic = useCallback(() => {
