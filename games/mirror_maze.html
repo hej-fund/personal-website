@@ -859,7 +859,7 @@
                 <div style={S.ov} className="fu">
                     <div style={{ ...S.wc, position: "relative" }}>
                     <button onClick={() => setShowWin(false)} style={{ position: "absolute", top: 12, right: 14, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: 8, border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.03)", color: "rgba(190,200,215,.85)", fontFamily: "'Oxanium',sans-serif", fontWeight: 600, fontSize: 13, cursor: "pointer", transition: "all .2s", padding: 0 }} className="br">✕</button>
-                    <svg width="64" height="64" viewBox="0 0 64 64" className="fl">
+                    <svg width="64" height="64" viewBox="0 0 64 64" className="fl" style={{overflow: "visible"}}>
                       <defs>
                         <filter id="winGlow" x="-40%" y="-40%" width="180%" height="180%">
                           <feGaussianBlur stdDeviation="3" result="b"/>
