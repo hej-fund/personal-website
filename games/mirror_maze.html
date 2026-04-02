@@ -858,10 +858,22 @@
               {showWin && (
                 <div style={S.ov} className="fu">
                     <div style={{ ...S.wc, position: "relative" }}>
-                    <button onClick={() => setShowWin(false)} style={{ position: "absolute", top: 12, right: 14, background: "none", border: "none", cursor: "pointer", color: "rgba(190,200,215,.4)", fontSize: 18, lineHeight: 1, padding: 4 }} className="cx">✕</button>
-                    <svg width="52" height="52" viewBox="0 0 52 52" className="fl">
-                      <circle cx="26" cy="26" r="24" fill="none" stroke="#0f6" strokeWidth="2.5" />
-                      <path d="M15 26L22 33L37 19" fill="none" stroke="#0f6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    <button onClick={() => setShowWin(false)} style={{ position: "absolute", top: 12, right: 14, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, borderRadius: 8, border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.03)", color: "rgba(190,200,215,.85)", fontFamily: "'Oxanium',sans-serif", fontWeight: 600, fontSize: 13, cursor: "pointer", transition: "all .2s", padding: 0 }} className="br">✕</button>
+                    <svg width="64" height="64" viewBox="0 0 64 64" className="fl">
+                      <defs>
+                        <filter id="winGlow" x="-40%" y="-40%" width="180%" height="180%">
+                          <feGaussianBlur stdDeviation="3" result="b"/>
+                          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                      </defs>
+                      {/* glow ring */}
+                      <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(57,255,20,0.12)" strokeWidth="10"/>
+                      {/* outer circle */}
+                      <circle cx="32" cy="32" r="28" fill="none" stroke="#39FF14" strokeWidth="1.5" filter="url(#winGlow)"/>
+                      {/* inner circle */}
+                      <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(57,255,20,0.25)" strokeWidth="1"/>
+                      {/* checkmark */}
+                      <path d="M21 32L28 39L43 22" fill="none" stroke="#39FF14" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" filter="url(#winGlow)"/>
                     </svg>
                     <h2 style={S.wt}>MAZE COMPLETE</h2>
                     <p style={S.ws}>LEVEL {levelIndex + 1}</p>
