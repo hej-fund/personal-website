@@ -285,7 +285,7 @@
                       </polyline>
                     </g>
                   </svg>
-                  <span style={{...SH.title, marginLeft: -12}} className="retro-grad">AZE</span>
+                  <span style={{...SH.title, marginLeft: -14, paddingLeft: 2}} className="retro-grad">AZE</span>
                 </div>
                 <div className="fu d1" style={SH.grid}>
                   {LEVELS.map((lv, idx) => {
@@ -679,7 +679,7 @@
                       </polyline>
                     </g>
                   </svg>
-                  <span style={{...S.title, marginLeft: 0}} className="retro-grad">AZE</span>
+                  <span style={{...S.title, marginLeft: -2, paddingLeft: 2}} className="retro-grad">AZE</span>
                 </div>
                 <span style={S.badge}>
                   <b style={S.badgeLbl}>LEVEL {levelIndex + 1}</b>
@@ -916,8 +916,8 @@
         .br:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.2)!important}
         .cx{transition:color .2s}
         .cx:hover{color:rgba(255,255,255,.9)!important;background:none!important;border-color:transparent!important}
-        @keyframes retroShift{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
-        .retro-grad{background:linear-gradient(90deg,#39FF14,#00aaff,#ff2d55,#b44fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:retroShift 5s linear infinite}
+        @keyframes retroSlide{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+        .retro-grad{background:linear-gradient(90deg,#ff0000 0%,#ff8800 7.14%,#ffff00 14.28%,#00ff88 21.42%,#00aaff 28.57%,#8844ff 35.71%,#ff2d55 42.85%,#ff0000 50%,#ff8800 57.14%,#ffff00 64.28%,#00ff88 71.42%,#00aaff 78.57%,#8844ff 85.71%,#ff2d55 92.85%,#ff0000 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:3px transparent;-webkit-text-fill-color:#080a12;paint-order:stroke fill;overflow:visible;animation:retroSlide 4s linear infinite}
         `;
 
         const S = {

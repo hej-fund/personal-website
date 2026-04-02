@@ -17,7 +17,6 @@
     <style>
         .project-card--mirror {
             position: relative;
-            overflow: hidden;
             border-color: rgba(255,255,255,1);
             background: #080c1e;
             box-shadow: inset 0 0 0 4px #080c1e, inset 0 0 0 6px rgba(255,255,255,0.35);
@@ -27,9 +26,9 @@
             border-color: rgba(255,255,255,1);
         }
 
-        @keyframes retroShift {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+        @keyframes retroSlide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
         .project-card--mirror h2 {
             font-family: 'Oxanium', sans-serif;
@@ -40,19 +39,28 @@
             z-index: 2;
             text-align: center;
             margin-top: -10px;
-            background: linear-gradient(90deg, #39FF14, #00aaff, #ff2d55, #b44fff);
+            background: linear-gradient(90deg,
+                #ff0000 0%,   #ff8800 7.14%, #ffff00 14.28%, #00ff88 21.42%,
+                #00aaff 28.57%, #8844ff 35.71%, #ff2d55 42.85%,
+                #ff0000 50%,  #ff8800 57.14%, #ffff00 64.28%, #00ff88 71.42%,
+                #00aaff 78.57%, #8844ff 85.71%, #ff2d55 92.85%, #ff0000 100%);
+            background-size: 200% 100%;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: retroShift 5s linear infinite;
+            -webkit-text-stroke: 3px transparent;
+            -webkit-text-fill-color: #080c1e;
+            paint-order: stroke fill;
+            overflow: visible;
+            animation: retroSlide 4s linear infinite;
         }
 
         .project-card--mirror .btn {
             position: relative;
             z-index: 2;
             align-self: center;
-            padding-top: 0.45rem;
-            padding-bottom: 0.45rem;
+            padding-top: 0.55rem;
+            padding-bottom: 0.6rem;
+            transform: translateY(0.25rem);
         }
 
         .project-card--mirror svg:not(.mirror-maze-bg) {
@@ -70,6 +78,7 @@
             height: calc(100% - 10px);
             pointer-events: none;
             opacity: 0.32;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -107,6 +116,49 @@
                     <path d="M0 100 H40 V160 H100 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M150 200 V170 H190 V130 H230 V170 H270 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M0 160 H20 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- extra density everywhere -->
+                    <path d="M0 40 H15 V90 H35 V50 H55 V110 H25 V150 H45 V180" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M50 200 V170 H90 V130 H50 V100 H80 V60 H50" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M90 200 V160 H130 V120 H100 V80 H140 V40 H110 V0" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 80 H25 V110 H5 V150 H30 V170 H10 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M120 0 H150 V30 H130 V70 H160 V50 H190 V0" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 200 V150 H140 V180 H170 V140 H200 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M180 200 V160 H210 V180 H240 V150 H220 V120 H260 V160 H300" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M170 0 H190 V50 H210 V20 H240 V60 H220 V100 H200 V70 H170 V110" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M300 80 H275 V120 H295 V160 H270 V140 H250 V180 H280 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 120 H20 V170 H40 V140 H60 V180 H80 V160 H100 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- top left of center -->
+                    <path d="M60 20 H85 V45 H65 V65 H90 V40 H110 V60" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M75 0 V30 H95 V15 H115 V45 H90 V65 H115 V50" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M55 40 H80 V20 H100 V50 H75 V70 H100 V55" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M65 55 H90 V35 H110 V60 H85 V75 H105 V55" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- slightly left of center -->
+                    <path d="M90 70 H115 V100 H95 V125 H120 V105 H140 V130" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M80 110 H105 V90 H125 V115 H100 V140 H125 V120" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M95 130 H120 V155 H100 V170 H130 V145 H115 V125" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M80 80 H100 V60 H120 V85 H105 V110 H85 V95" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- center -->
+                    <path d="M110 80 H150 V110 H120 V140 H160 V110 H190 V80 H160 V60 H130 V80" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M130 100 H160 V130 H140 V150 H170 V120 H200 V100 H170 V80 H150 V100" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M100 90 H120 V120 H100 V150 H130 V130 H150 V160 H120 V180" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M170 90 H200 V120 H180 V150 H210 V130 H230 V100 H210 V80 H190 V100" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- very top -->
+                    <path d="M0 0 H50 V15 H20 V0" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M80 0 H110 V20 H90 V0" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M150 0 H180 V15 H160 V25 H200 V0" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M220 0 H250 V20 H230 V10 H210 V0" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- very bottom -->
+                    <path d="M0 200 H40 V185 H15 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M60 200 H100 V185 H80 V175 H110 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M130 200 H160 V185 H145 V175 H170 V200" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M200 200 H230 V185 H210 V175 H250 V190 H270 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M260 200 H290 V185 H275 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- top-right density -->
+                    <path d="M240 0 V30 H270 V10 H300" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M260 0 V20 H290 V50 H260 V70 H300" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M200 0 H220 V40 H250 V20 H280 V60 H300" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M210 0 V50 H240 V30 H270 V70 H250 V90 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M280 0 V40 H300 V0" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     <!-- orange accents -->
                     <path d="M120 200 V140 H80 V180" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M200 0 V60 H260 V120 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
