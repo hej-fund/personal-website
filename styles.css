@@ -680,3 +680,125 @@ body {
     color: #ff2020;
     border: 1px solid rgba(231, 76, 60, 0.3);
 }
+
+/* ─── Blog index ──────────────────────────────────── */
+.blog-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 2rem;
+    max-width: 700px;
+}
+
+.blog-card {
+    padding: 2rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: border-color 0.3s ease;
+}
+
+.blog-card:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.blog-card-meta {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+.blog-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    color: white;
+    margin: 0;
+}
+
+.blog-card > p {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0.25rem 0 0;
+}
+
+/* ─── Blog article ────────────────────────────────── */
+.article-header {
+    max-width: 680px;
+}
+
+.article-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: white;
+    margin: 0 0 1rem;
+}
+
+.article-header .article-meta {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 0 0.6rem;
+}
+
+.article-header .subtitle {
+    margin: 0.5rem 0 0;
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.article-body {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 2.5rem;
+    margin-top: 2rem;
+    max-width: 680px;
+}
+
+.article-body p {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0 0 1.5rem;
+}
+
+.article-body h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+    letter-spacing: 0.02em;
+    color: white;
+    margin: 2.75rem 0 1rem;
+}
+
+.article-pullquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.85);
+    border-left: 2px solid rgba(255, 255, 255, 0.3);
+    padding-left: 1.5rem;
+    margin: 2rem 0 2rem;
+}
