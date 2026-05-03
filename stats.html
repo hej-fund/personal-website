@@ -89,8 +89,16 @@
 
     .chart-controls {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
         gap: 0.75rem;
         margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .chart-btn-group {
+        display: flex;
+        gap: 0.5rem;
         flex-wrap: wrap;
     }
 
@@ -249,9 +257,17 @@
                 <p class="eyebrow">Daily Traffic</p>
                 <h2>Visualized over time</h2>
                 <div class="chart-controls">
-                    <button class="chart-btn active" data-metric="uniques">Uniques</button>
-                    <button class="chart-btn" data-metric="page_views">Page Views</button>
-                    <button class="chart-btn" data-metric="requests">Requests</button>
+                    <div class="chart-btn-group">
+                        <button class="chart-btn active" data-metric="uniques">Uniques</button>
+                        <button class="chart-btn" data-metric="page_views">Page Views</button>
+                        <button class="chart-btn" data-metric="requests">Requests</button>
+                    </div>
+                    <div class="chart-btn-group">
+                        <button class="chart-filter-btn chart-btn" data-days="7">7D</button>
+                        <button class="chart-filter-btn chart-btn" data-days="30">30D</button>
+                        <button class="chart-filter-btn chart-btn" data-days="90">90D</button>
+                        <button class="chart-filter-btn chart-btn active" data-days="all">All</button>
+                    </div>
                 </div>
                 <div class="chart-wrap">
                     <canvas id="chart"></canvas>
@@ -339,7 +355,7 @@ function renderKPIs(days) {
     const trendPct = prev7 > 0 ? ((last7 - prev7) / prev7 * 100) : null;
 
     document.getElementById('kpi-uniques').textContent     = fmtNum(totalUniques);
-    document.getElementById('kpi-uniques-sub').textContent = `across ${days.length} days`;
+    document.getElementById('kpi-uniques-sub').textContent = 'all time';
 
     document.getElementById('kpi-pageviews').textContent     = fmtNum(totalPV);
     document.getElementById('kpi-pageviews-sub').textContent = 'total HTML loads';
@@ -356,13 +372,7 @@ function renderKPIs(days) {
     }
 }
 
-function renderChart(days) {
-    const labels   = days.map(d => d.date);
-    const datasets = {
-        uniques:    days.map(d => d.uniques),
-        page_views: days.map(d => d.page_views),
-        requests:   days.map(d => d.requests),
-    };
+function renderChart(allDays) {
     const labelMap = {
         uniques:    'Unique Visitors',
         page_views: 'Page Views',
@@ -370,6 +380,7 @@ function renderChart(days) {
     };
 
     let activeMetric = 'uniques';
+    let activeDays   = allDays;
     const ctx = document.getElementById('chart').getContext('2d');
 
     function buildGradient() {
@@ -382,10 +393,10 @@ function renderChart(days) {
     const chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels,
+            labels: activeDays.map(d => d.date),
             datasets: [{
                 label: labelMap[activeMetric],
-                data: datasets[activeMetric],
+                data: activeDays.map(d => d[activeMetric]),
                 borderColor: '#2ecc71',
                 backgroundColor: buildGradient(),
                 borderWidth: 2,
@@ -443,15 +454,30 @@ function renderChart(days) {
         },
     });
 
-    document.querySelectorAll('.chart-btn').forEach(btn => {
+    function updateChart() {
+        chart.data.labels                          = activeDays.map(d => d.date);
+        chart.data.datasets[0].data               = activeDays.map(d => d[activeMetric]);
+        chart.data.datasets[0].label              = labelMap[activeMetric];
+        chart.data.datasets[0].backgroundColor    = buildGradient();
+        chart.update();
+    }
+
+    document.querySelectorAll('.chart-btn[data-metric]').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.chart-btn[data-metric]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             activeMetric = btn.dataset.metric;
-            chart.data.datasets[0].data            = datasets[activeMetric];
-            chart.data.datasets[0].label           = labelMap[activeMetric];
-            chart.data.datasets[0].backgroundColor = buildGradient();
-            chart.update();
+            updateChart();
+        });
+    });
+
+    document.querySelectorAll('.chart-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.chart-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const n = btn.dataset.days;
+            activeDays = n === 'all' ? allDays : allDays.slice(-parseInt(n));
+            updateChart();
         });
     });
 }
