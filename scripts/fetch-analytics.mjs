@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const GRAPHQL_ENDPOINT = 'https://api.cloudflare.com/client/v4/graphql';
-const MAX_BACKFILL_DAYS = 365;
+const MAX_BACKFILL_DAYS = 364;
 
 const QUERY = `query ($zoneTag: String!, $start: String!, $end: String!) {
   viewer {
