@@ -16,7 +16,7 @@ body {
     text-align: left;
     padding-left: 7%;
 
-    background: url('Background/guerrillabuzz-SYofhg_IX3A-unsplash.jpg') center/cover no-repeat;
+    background: url('background.jpg') center/cover no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -126,7 +126,7 @@ body {
     padding: 0 2rem;
     color: white;
 
-    background: url('Background/guerrillabuzz-SYofhg_IX3A-unsplash.jpg') center/cover no-repeat;
+    background: url('background.jpg') center/cover no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -257,7 +257,7 @@ body {
     align-items: flex-start;
     padding: 8rem 7% 6rem;
 
-    background: url('Background/guerrillabuzz-SYofhg_IX3A-unsplash.jpg') center/cover no-repeat;
+    background: url('background.jpg') center/cover no-repeat;
     position: relative;
 }
 

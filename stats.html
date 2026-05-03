@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics — Rohan Hejmadi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.svg?v=5" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+    .page-hero {
+        padding-bottom: 6rem;
+        align-items: flex-start;
+    }
+
+    .stats-meta {
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0.4rem 0 3rem;
+    }
+
+    .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 1rem;
+        margin-bottom: 3.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        padding-top: 2rem;
+    }
+
+    .kpi-card {
+        padding: 1.75rem 2rem;
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+    }
+
+    .kpi-label {
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0 0 0.75rem;
+    }
+
+    .kpi-value {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 400;
+        font-size: clamp(2rem, 4vw, 2.75rem);
+        letter-spacing: 0.01em;
+        line-height: 1;
+        color: white;
+        margin: 0;
+    }
+
+    .kpi-sub {
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 0.5rem 0 0;
+    }
+
+    .trend-up   { color: #2ecc71; }
+    .trend-down { color: #e74c3c; }
+
+    .stats-section {
+        margin-bottom: 3.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        padding-top: 2rem;
+    }
+
+    .stats-section h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 300;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        letter-spacing: 0.03em;
+        color: white;
+        margin: 0 0 1.5rem;
+    }
+
+    .chart-controls {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .chart-btn {
+        padding: 0.5rem 1.25rem;
+        background: transparent;
+        border: 1.5px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: rgba(255, 255, 255, 0.55);
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .chart-btn:hover {
+        border-color: rgba(255, 255, 255, 0.55);
+        color: white;
+    }
+
+    .chart-btn.active {
+        background: #2ecc71;
+        border-color: #2ecc71;
+        color: #000;
+    }
+
+    .chart-wrap {
+        height: 280px;
+        position: relative;
+    }
+
+    .table-scroll {
+        max-height: 440px;
+        overflow-y: auto;
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+    }
+
+    .table-scroll::-webkit-scrollbar { width: 6px; }
+    .table-scroll::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); }
+    .table-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 3px;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 0.65rem 1.25rem;
+        text-align: right;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .data-table th {
+        position: sticky;
+        top: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        font-size: 0.68rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        padding-top: 0.9rem;
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .data-table th:first-child,
+    .data-table td:first-child { text-align: left; }
+
+    .data-table td:first-child {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+    }
+
+    .data-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
+
+    .state-message {
+        padding: 2.5rem 0;
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        font-size: 0.95rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    #main-content { display: none; }
+
+    @media (max-width: 640px) {
+        .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        .data-table th, .data-table td { padding: 0.6rem 0.9rem; font-size: 0.8rem; }
+    }
+    </style>
+</head>
+<body>
+
+<div class="page-hero">
+    <a href="/" class="back-btn">
+        <span class="back-arrow">&#8592;</span>
+        <span>Back</span>
+    </a>
+
+    <div class="page-content">
+        <p class="eyebrow">Site Analytics</p>
+        <h1 id="site-title">rohanhejmadi.com</h1>
+        <p class="stats-meta" id="data-range">Loading…</p>
+
+        <div id="state-error" class="state-message" style="display:none">
+            <p>Could not load analytics data. Make sure the <strong>Update Analytics</strong> workflow has run at least once and <code>data/analytics.json</code> has been committed to the repo.</p>
+        </div>
+
+        <div id="state-empty" class="state-message" style="display:none">
+            <p>No data yet. Trigger the <strong>Update Analytics</strong> workflow in GitHub Actions to fetch the first batch, then visit this page again.</p>
+        </div>
+
+        <div id="main-content">
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <p class="kpi-label">Unique Visitors</p>
+                    <p class="kpi-value" id="kpi-uniques">—</p>
+                    <p class="kpi-sub" id="kpi-uniques-sub"></p>
+                </div>
+                <div class="kpi-card">
+                    <p class="kpi-label">Page Views</p>
+                    <p class="kpi-value" id="kpi-pageviews">—</p>
+                    <p class="kpi-sub" id="kpi-pageviews-sub"></p>
+                </div>
+                <div class="kpi-card">
+                    <p class="kpi-label">Peak Day</p>
+                    <p class="kpi-value" id="kpi-peak">—</p>
+                    <p class="kpi-sub" id="kpi-peak-sub"></p>
+                </div>
+                <div class="kpi-card">
+                    <p class="kpi-label">Last 7 Days</p>
+                    <p class="kpi-value" id="kpi-last7">—</p>
+                    <p class="kpi-sub" id="kpi-last7-sub"></p>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <p class="eyebrow">Daily Traffic</p>
+                <h2>Visualized over time</h2>
+                <div class="chart-controls">
+                    <button class="chart-btn active" data-metric="uniques">Uniques</button>
+                    <button class="chart-btn" data-metric="page_views">Page Views</button>
+                    <button class="chart-btn" data-metric="requests">Requests</button>
+                </div>
+                <div class="chart-wrap">
+                    <canvas id="chart"></canvas>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <p class="eyebrow">The Record</p>
+                <h2>All days</h2>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Uniques</th>
+                                <th>Page Views</th>
+                                <th>Requests</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- #main-content -->
+    </div><!-- .page-content -->
+</div><!-- .page-hero -->
+
+<script>
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function fmtDate(iso) {
+    const [y, m, d] = iso.split('-');
+    return `${MONTHS[+m - 1]} ${+d}, ${y}`;
+}
+
+function fmtNum(n) {
+    return n.toLocaleString();
+}
+
+async function init() {
+    let data;
+    try {
+        const resp = await fetch('/data/analytics.json');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        data = await resp.json();
+    } catch {
+        document.getElementById('data-range').textContent = 'No data available';
+        document.getElementById('state-error').style.display = 'block';
+        return;
+    }
+
+    if (!data.days || data.days.length === 0) {
+        document.getElementById('data-range').textContent = 'No data available';
+        document.getElementById('state-empty').style.display = 'block';
+        return;
+    }
+
+    const days = data.days;
+
+    if (data.site_name) {
+        document.getElementById('site-title').textContent = data.site_name;
+        document.title = `Analytics — ${data.site_name}`;
+    }
+
+    const first = days[0].date;
+    const last  = days.at(-1).date;
+    document.getElementById('data-range').textContent =
+        `${fmtDate(first)} – ${fmtDate(last)} · ${days.length} days`;
+
+    document.getElementById('main-content').style.display = 'block';
+
+    renderKPIs(days);
+    renderChart(days);
+    renderTable(days);
+}
+
+function renderKPIs(days) {
+    const totalUniques = days.reduce((s, d) => s + d.uniques, 0);
+    const totalPV      = days.reduce((s, d) => s + d.page_views, 0);
+    const peak         = days.reduce((mx, d) => d.uniques > mx.uniques ? d : mx, days[0]);
+
+    const last7 = days.slice(-7).reduce((s, d) => s + d.uniques, 0);
+    const prev7 = days.slice(-14, -7).reduce((s, d) => s + d.uniques, 0);
+    const trendPct = prev7 > 0 ? ((last7 - prev7) / prev7 * 100) : null;
+
+    document.getElementById('kpi-uniques').textContent     = fmtNum(totalUniques);
+    document.getElementById('kpi-uniques-sub').textContent = `across ${days.length} days`;
+
+    document.getElementById('kpi-pageviews').textContent     = fmtNum(totalPV);
+    document.getElementById('kpi-pageviews-sub').textContent = 'total HTML loads';
+
+    document.getElementById('kpi-peak').textContent     = fmtNum(peak.uniques);
+    document.getElementById('kpi-peak-sub').textContent = `on ${fmtDate(peak.date)}`;
+
+    document.getElementById('kpi-last7').textContent = fmtNum(last7);
+    if (trendPct !== null) {
+        const dir = trendPct >= 0 ? '▲' : '▼';
+        const cls = trendPct >= 0 ? 'trend-up' : 'trend-down';
+        document.getElementById('kpi-last7-sub').innerHTML =
+            `<span class="${cls}">${dir} ${Math.abs(trendPct).toFixed(1)}% vs prev. 7 days</span>`;
+    }
+}
+
+function renderChart(days) {
+    const labels   = days.map(d => d.date);
+    const datasets = {
+        uniques:    days.map(d => d.uniques),
+        page_views: days.map(d => d.page_views),
+        requests:   days.map(d => d.requests),
+    };
+    const labelMap = {
+        uniques:    'Unique Visitors',
+        page_views: 'Page Views',
+        requests:   'Requests',
+    };
+
+    let activeMetric = 'uniques';
+    const ctx = document.getElementById('chart').getContext('2d');
+
+    function buildGradient() {
+        const g = ctx.createLinearGradient(0, 0, 0, 280);
+        g.addColorStop(0, 'rgba(46, 204, 113, 0.28)');
+        g.addColorStop(1, 'rgba(46, 204, 113, 0)');
+        return g;
+    }
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: labelMap[activeMetric],
+                data: datasets[activeMetric],
+                borderColor: '#2ecc71',
+                backgroundColor: buildGradient(),
+                borderWidth: 2,
+                fill: true,
+                tension: 0.25,
+                pointRadius: 0,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: '#2ecc71',
+                pointHoverBorderColor: '#fff',
+                pointHoverBorderWidth: 2,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    titleColor: 'rgba(255, 255, 255, 0.5)',
+                    bodyColor: '#fff',
+                    titleFont: { family: 'Jost', size: 11, weight: '300' },
+                    bodyFont: { family: 'Cormorant Garamond', size: 15 },
+                    padding: 12,
+                    displayColors: false,
+                    callbacks: {
+                        title: items => fmtDate(items[0].label),
+                        label: c => ` ${fmtNum(c.parsed.y)} ${labelMap[activeMetric].toLowerCase()}`,
+                    },
+                },
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    border: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.35)',
+                        font: { family: 'Jost', size: 10, weight: '300' },
+                        maxRotation: 0,
+                        autoSkipPadding: 20,
+                    },
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.07)' },
+                    border: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.35)',
+                        font: { family: 'Jost', size: 10, weight: '300' },
+                        callback: v => fmtNum(v),
+                    },
+                },
+            },
+        },
+    });
+
+    document.querySelectorAll('.chart-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeMetric = btn.dataset.metric;
+            chart.data.datasets[0].data            = datasets[activeMetric];
+            chart.data.datasets[0].label           = labelMap[activeMetric];
+            chart.data.datasets[0].backgroundColor = buildGradient();
+            chart.update();
+        });
+    });
+}
+
+function renderTable(days) {
+    document.getElementById('table-body').innerHTML = days.slice().reverse().map(d => `
+        <tr>
+            <td>${fmtDate(d.date)}</td>
+            <td>${fmtNum(d.uniques)}</td>
+            <td>${fmtNum(d.page_views)}</td>
+            <td>${fmtNum(d.requests)}</td>
+        </tr>
+    `).join('');
+}
+
+init();
+</script>
+
+</body>
+</html>
