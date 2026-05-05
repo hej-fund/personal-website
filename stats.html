@@ -367,7 +367,7 @@ function renderKPIs(days) {
         const dir = trendPct >= 0 ? '▲' : '▼';
         const cls = trendPct >= 0 ? 'trend-up' : 'trend-down';
         document.getElementById('kpi-last7-sub').innerHTML =
-            `<span class="${cls}">${dir} ${Math.abs(trendPct).toFixed(1)}% vs prev. 7 days</span>`;
+            `<span class="${cls}">${dir} ${Math.abs(trendPct).toFixed(1)}%</span>`;
     }
 }
 
