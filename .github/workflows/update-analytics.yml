@@ -2,7 +2,7 @@ name: Update Analytics
 
 on:
   schedule:
-    - cron: '58 23 * * *'  # Daily at 23:58 UTC
+    - cron: '1 0 * * *'  # Daily at 00:01 UTC (7:01 PM CDT)
   workflow_dispatch:
 
 permissions:
