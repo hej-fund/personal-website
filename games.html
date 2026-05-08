@@ -71,15 +71,6 @@
             pointer-events: none;
         }
 
-        .mirror-maze-bg {
-            position: absolute;
-            inset: 5px;
-            width: calc(100% - 10px);
-            height: calc(100% - 10px);
-            pointer-events: none;
-            opacity: 0.32;
-            overflow: hidden;
-        }
     </style>
 </head>
 <body>
@@ -99,71 +90,13 @@
 
         <div class="projects-grid">
             <div class="project-card project-card--mirror">
-                <svg class="mirror-maze-bg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <!-- green paths -->
-                    <path d="M0 20 H60 V80 H20 V140 H80 V100 H120 V160 H60 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 0 V40 H160 V20 H220 V80 H180 V120 H240 V60" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0 60 H30 V120 H10 V180 H50 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M130 0 V50 H170 V30 H210 V90 H250 V50 H300" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- red paths -->
-                    <path d="M300 40 H260 V100 H300" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M40 0 V60 H0" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M140 80 H200 V140 H160 V200" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M70 0 V40 H110 V80 H70 V120 H30 V160 H70 V200" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M280 200 V150 H300" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- blue paths -->
-                    <path d="M220 200 V160 H280 V100 H240 V40 H300" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0 100 H40 V160 H100 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M150 200 V170 H190 V130 H230 V170 H270 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0 160 H20 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- extra density everywhere -->
-                    <path d="M0 40 H15 V90 H35 V50 H55 V110 H25 V150 H45 V180" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M50 200 V170 H90 V130 H50 V100 H80 V60 H50" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M90 200 V160 H130 V120 H100 V80 H140 V40 H110 V0" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0 80 H25 V110 H5 V150 H30 V170 H10 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M120 0 H150 V30 H130 V70 H160 V50 H190 V0" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 200 V150 H140 V180 H170 V140 H200 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M180 200 V160 H210 V180 H240 V150 H220 V120 H260 V160 H300" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M170 0 H190 V50 H210 V20 H240 V60 H220 V100 H200 V70 H170 V110" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M300 80 H275 V120 H295 V160 H270 V140 H250 V180 H280 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0 120 H20 V170 H40 V140 H60 V180 H80 V160 H100 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- top left of center -->
-                    <path d="M60 20 H85 V45 H65 V65 H90 V40 H110 V60" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M75 0 V30 H95 V15 H115 V45 H90 V65 H115 V50" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M55 40 H80 V20 H100 V50 H75 V70 H100 V55" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M65 55 H90 V35 H110 V60 H85 V75 H105 V55" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- slightly left of center -->
-                    <path d="M90 70 H115 V100 H95 V125 H120 V105 H140 V130" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M80 110 H105 V90 H125 V115 H100 V140 H125 V120" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M95 130 H120 V155 H100 V170 H130 V145 H115 V125" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M80 80 H100 V60 H120 V85 H105 V110 H85 V95" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- center -->
-                    <path d="M110 80 H150 V110 H120 V140 H160 V110 H190 V80 H160 V60 H130 V80" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M130 100 H160 V130 H140 V150 H170 V120 H200 V100 H170 V80 H150 V100" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M100 90 H120 V120 H100 V150 H130 V130 H150 V160 H120 V180" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M170 90 H200 V120 H180 V150 H210 V130 H230 V100 H210 V80 H190 V100" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- very top -->
-                    <path d="M0 0 H50 V15 H20 V0" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M80 0 H110 V20 H90 V0" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M150 0 H180 V15 H160 V25 H200 V0" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M220 0 H250 V20 H230 V10 H210 V0" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- very bottom -->
-                    <path d="M0 200 H40 V185 H15 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M60 200 H100 V185 H80 V175 H110 V200" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M130 200 H160 V185 H145 V175 H170 V200" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M200 200 H230 V185 H210 V175 H250 V190 H270 V200" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M260 200 H290 V185 H275 V200" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- top-right density -->
-                    <path d="M240 0 V30 H270 V10 H300" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M260 0 V20 H290 V50 H260 V70 H300" stroke="#ff2d55" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M200 0 H220 V40 H250 V20 H280 V60 H300" stroke="#00aaff" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M210 0 V50 H240 V30 H270 V70 H250 V90 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M280 0 V40 H300 V0" stroke="#00ff9c" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- orange accents -->
-                    <path d="M120 200 V140 H80 V180" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M200 0 V60 H260 V120 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M160 100 H190 V60 H230 V100 H210 V140 H250 V180 H300" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0 0 H20 V40 H60 V0" stroke="#ff6a00" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg id="mm-grid-svg" class="mirror-maze-bg" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:5px;width:calc(100% - 10px);height:calc(100% - 10px);pointer-events:none;">
+                    <defs>
+                        <pattern id="mm-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                            <path id="mm-grid-path" d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#mm-grid)"/>
                 </svg>
                 <h2>Mirror Maze</h2>
                 <a href="games/mirror_maze.html" target="_blank" class="btn" style="margin-top: auto; padding-left: 2.5rem; padding-right: 2.5rem;">Play!</a>
@@ -210,6 +143,21 @@
     </div>
 </div>
 
+<script>
+requestAnimationFrame(function() {
+    const svg = document.getElementById('mm-grid-svg');
+    const w = svg.clientWidth;
+    const h = svg.clientHeight;
+    const cols = Math.round(w / 24);
+    const rows = Math.round(h / 24);
+    const cw = w / cols;
+    const ch = h / rows;
+    const pat = document.getElementById('mm-grid');
+    pat.setAttribute('width', cw);
+    pat.setAttribute('height', ch);
+    document.getElementById('mm-grid-path').setAttribute('d', `M ${cw} 0 L 0 0 0 ${ch}`);
+});
+</script>
 <script src="scripts/report-bug.js"></script>
 </body>
 </html>
