@@ -687,6 +687,10 @@
                 </div>
                 <span style={S.badge}>
                   <b style={S.badgeLbl}>LEVEL {levelIndex + 1}</b>
+                  {(() => {
+                    const t = { beginner: ["BEGINNER","rgba(0,170,255,.9)"], easy: ["EASY","rgba(0,255,100,.8)"], medium: ["MEDIUM","rgba(245,197,24,.85)"], hard: ["HARD","rgba(255,45,85,.85)"], extreme: ["EXTREME","rgba(180,80,255,.9)"] }[level.difficulty];
+                    return t ? <><span style={{ width: 1, height: 12, background: "rgba(0,255,100,.2)", display: "inline-block" }} /><span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, fontFamily: "'IBM Plex Mono',monospace", color: t[1] }}>{t[0]}</span></> : null;
+                  })()}
                 </span>
               </div>
               <div className="fu d2" style={{ ...S.board, ...(showWin ? { boxShadow: "0 0 60px rgba(0,255,100,.15), 0 24px 64px rgba(0,0,0,.45)" } : {}) }}>

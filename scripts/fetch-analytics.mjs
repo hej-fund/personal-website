@@ -46,7 +46,7 @@ try {
   // first run — no existing file
 }
 
-const todayStr = utcDateString(0);
+const todayStr = utcDateString(-1);
 let startStr;
 
 if (existing?.days?.length > 0) {
