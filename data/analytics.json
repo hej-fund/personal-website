@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T04:12:26Z",
+  "generated_at": "2026-09-14T04:31:02Z",
   "site_name": "rohanhejmadi.com",
   "days": [
     {
@@ -1009,6 +1009,18 @@
       "uniques": 85,
       "page_views": 66,
       "requests": 932
+    },
+    {
+      "date": "2026-09-12",
+      "uniques": 67,
+      "page_views": 78,
+      "requests": 1140
+    },
+    {
+      "date": "2026-09-13",
+      "uniques": 60,
+      "page_views": 53,
+      "requests": 1385
     }
   ]
 }
