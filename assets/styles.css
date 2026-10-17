@@ -802,3 +802,110 @@ body {
     padding-left: 1.5rem;
     margin: 2rem 0 2rem;
 }
+
+/* ─── Header bar (interior pages) ─────────────────────── */
+.site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem 0 2.5rem;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+}
+
+.nav-brand img {
+    width: 34px;
+    height: 34px;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.25rem;
+    margin-left: auto;
+}
+
+.nav-links a {
+    position: relative;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    padding: 0.4rem 0;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0.25em;          /* trims the trailing letter-spacing */
+    bottom: 0;
+    height: 1px;
+    background: white;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+    color: white;
+}
+
+.nav-links a:hover::after,
+.nav-links a[aria-current="page"]::after {
+    transform: scaleX(1);
+}
+
+/* the link for the page you're on is plain text: no pointer, nothing to click */
+.nav-links a:not([href]) {
+    cursor: default;
+}
+
+/* Report Bug sits in the header on interior pages (it floats top-right on the home page) */
+.site-nav .btn-report {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-left: 2.25rem;
+}
+
+/* no hover arrow on Report Bug */
+.btn-report::after {
+    display: none;
+}
+
+.btn-report:hover {
+    padding-right: 1.25rem;
+}
+
+/* keep the Back link clear of the header */
+.site-nav ~ .page-hero .back-btn {
+    top: calc(64px + 2.2rem);
+}
+
+/* ─── Background nudged slightly right ─────────────────── */
+/* the wall colour fills any sliver uncovered on very wide screens */
+.hero,
+.page-hero,
+.coming-soon-hero {
+    background-color: #df7255;
+    background-position: calc(50% + 4vw) center;
+}

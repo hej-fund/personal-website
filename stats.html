@@ -209,6 +209,16 @@
 </head>
 <body>
 
+<header class="site-nav">
+    <a href="/" class="nav-brand" aria-label="Home"><img src="favicon.svg?v=5" alt="" width="34" height="34"></a>
+    <nav class="nav-links">
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a aria-current="page">Stats</a>
+    </nav>
+    <button class="btn-report">Report Bug</button>
+</header>
+
 <div class="page-hero">
     <a href="/" class="back-btn">
         <span class="back-arrow">&#8592;</span>
@@ -495,5 +505,6 @@ function renderTable(days) {
 init();
 </script>
 
+<script src="scripts/report-bug.js"></script>
 </body>
 </html>
