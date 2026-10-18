@@ -865,12 +865,14 @@ body {
 }
 
 .nav-links a:hover,
-.nav-links a[aria-current="page"] {
+.nav-links a[aria-current="page"],
+.nav-links a.is-active {
     color: white;
 }
 
 .nav-links a:hover::after,
-.nav-links a[aria-current="page"]::after {
+.nav-links a[aria-current="page"]::after,
+.nav-links a.is-active::after {
     transform: scaleX(1);
 }
 
@@ -908,4 +910,198 @@ body {
 .coming-soon-hero {
     background-color: #df7255;
     background-position: calc(50% + 4vw) center;
+}
+
+/* ─── Phone: home page becomes one long scroll ─────────── */
+/* About + Projects are pulled in from their pages by scripts/mobile-scroll.js */
+.mobile-scroll {
+    display: none;
+}
+
+/* Project card looks, copied from projects.html so the pulled-in cards match */
+.mobile-section .project-card--photo,
+.mobile-section .project-card--games {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(255, 255, 255, 1);
+    background: transparent;
+}
+
+.mobile-section .project-card-bg {
+    position: absolute;
+    inset: 0;
+    background: center/cover no-repeat;
+    z-index: 0;
+}
+
+.mobile-section .project-card--photo .project-card-bg {
+    background-image: url('photo-cover.jpg');
+}
+
+.mobile-section .project-card--games .project-card-bg {
+    background-image: url('games-cover.jpg');
+    background-size: 180%;
+}
+
+.mobile-section .project-card--photo .project-label,
+.mobile-section .project-card--photo h2,
+.mobile-section .project-card--photo .btn,
+.mobile-section .project-card--games .project-label,
+.mobile-section .project-card--games h2,
+.mobile-section .project-card--games .btn {
+    position: relative;
+    z-index: 2;
+}
+
+.mobile-section .project-card--photo h2,
+.mobile-section .project-card--games h2,
+.mobile-section .project-card--photo .project-label,
+.mobile-section .project-card--games .project-label {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.mobile-section .project-card--games .project-label {
+    color: rgba(255, 255, 255, 1);
+}
+
+@media (max-width: 760px) {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* hero */
+    .hero {
+        padding: 0 1.5rem;
+    }
+
+    #typed-name {
+        font-size: clamp(2.4rem, 11vw, 3.5rem);
+    }
+
+    .buttons {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .btn-report {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+
+    /* scrolling sections */
+    .mobile-scroll {
+        display: block;
+        background: linear-gradient(#141414, #0b0b0b);
+        color: white;
+    }
+
+    .mobile-section {
+        padding: 4.5rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        scroll-margin-top: 56px;        /* land below the header when jumped to */
+    }
+
+    /* About: photo sits between the text and Contact Me / socials */
+    .mobile-section .about-layout {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .mobile-section .about-layout .page-content {
+        display: contents;
+    }
+
+    .mobile-section .about-layout .eyebrow { order: 1; }
+    .mobile-section .about-layout h1 { order: 2; }
+    .mobile-section .about-layout .body-text { order: 3; }
+    .mobile-section .about-layout .about-photo-wrap { order: 4; margin-top: 1.5rem; }
+    .mobile-section .about-layout .contact-row { order: 5; }
+
+    .mobile-section .page-content {
+        max-width: none;
+    }
+
+    .mobile-section .about-photo-wrap {
+        align-self: center;
+    }
+
+    .mobile-section .about-photo {
+        width: min(300px, 75vw);
+        height: auto;
+        aspect-ratio: 3 / 4;
+    }
+
+    .page-content h1 {
+        font-size: clamp(2.25rem, 10vw, 3.5rem);
+    }
+
+    .contact-row {
+        flex-wrap: wrap;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stats: Uniques / Page Views / Requests fit on one line */
+    .chart-btn-group:first-child {
+        flex-wrap: nowrap;
+        gap: 0.4rem;
+    }
+
+    .chart-btn-group:first-child .chart-btn {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+
+    /* home page header: hidden until the name screen is scrolled past */
+    /* slides via `top` rather than a transform: phone browsers draw transformed layers as a
+       cached bitmap, which left the logo soft */
+    .site-nav--home {
+        top: -57px;
+        visibility: hidden;
+        transition: top 0.3s ease, visibility 0s linear 0.3s;
+    }
+
+    .site-nav--home.is-visible {
+        top: 0;
+        visibility: visible;
+        transition: top 0.3s ease, visibility 0s;
+    }
+
+    /* compact header bar */
+    .site-nav {
+        height: 56px;
+        padding: 0 1rem;
+    }
+
+    .nav-brand img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .nav-links {
+        gap: 1.1rem;
+    }
+
+    .nav-links a {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+    }
+
+    .site-nav .btn-report {
+        margin-left: 0.9rem;
+        padding: 0.45rem 0.8rem;
+        font-size: 0.72rem;
+    }
+
+    .site-nav ~ .page-hero .back-btn {
+        top: calc(56px + 1.25rem);
+        left: 1rem;
+    }
 }
