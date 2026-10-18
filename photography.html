@@ -32,6 +32,20 @@
             background-size: 128px 128px;
         }
 
+        /* ── Section titles ── */
+        .photo-section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            letter-spacing: 0.03em;
+            color: white;
+            margin: 3.5rem 0 1.25rem;
+        }
+
+        .photo-section-title:first-of-type {
+            margin-top: 0;
+        }
+
         /* ── Grid ── */
         .photo-grid {
             display: grid;
@@ -250,6 +264,7 @@
         <h1>Photography</h1>
         <p class="subtitle">A personal selection of photos shot across various countries and landscapes.</p>
 
+        <h2 class="photo-section-title">Alaska</h2>
         <div class="photo-grid" data-section-grid="alaska">
             <div class="photo-item" onclick="openLightbox(this, 'alaska')">
                 <img src="photos/alaska/denali-national-park.jpeg" alt="Denali National Park">
@@ -294,6 +309,109 @@
                 </a>
                 <div class="photo-item-overlay">
                     <span class="photo-caption">Turnagain Arm</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'alaska')">
+                <img src="photos/alaska/denali-park-village.jpeg" alt="Denali Park Village">
+                <a class="photo-download" href="photos/alaska/denali-park-village.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Denali Park Village</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'alaska')">
+                <img src="photos/alaska/mount-denali.jpeg" alt="Mount Denali">
+                <a class="photo-download" href="photos/alaska/mount-denali.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Mount Denali</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'alaska')">
+                <img src="photos/alaska/kenai-fjords.jpeg" alt="Kenai Fjords">
+                <a class="photo-download" href="photos/alaska/kenai-fjords.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Kenai Fjords</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="photo-section-title">Singapore</h2>
+        <div class="photo-grid" data-section-grid="singapore">
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/flower-dome-cloud-forest.jpeg" alt="Flower Dome &amp; Cloud Forest">
+                <a class="photo-download" href="photos/singapore/flower-dome-cloud-forest.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Flower Dome &amp; Cloud Forest</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/marina-bay-sands.jpeg" alt="Marina Bay Sands">
+                <a class="photo-download" href="photos/singapore/marina-bay-sands.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Marina Bay Sands</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/national-orchid-garden.jpeg" alt="National Orchid Garden">
+                <a class="photo-download" href="photos/singapore/national-orchid-garden.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">National Orchid Garden</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/fuchsia.jpeg" alt="Fuchsia">
+                <a class="photo-download" href="photos/singapore/fuchsia.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Fuchsia</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/foxtail-orchids.jpeg" alt="Foxtail orchids">
+                <a class="photo-download" href="photos/singapore/foxtail-orchids.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Foxtail orchids</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/dinosaur-model.jpeg" alt="Dinosaur model">
+                <a class="photo-download" href="photos/singapore/dinosaur-model.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Dinosaur model</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/supertree-grove.jpeg" alt="Supertree Grove">
+                <a class="photo-download" href="photos/singapore/supertree-grove.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Supertree Grove</span>
+                </div>
+            </div>
+            <div class="photo-item" onclick="openLightbox(this, 'singapore')">
+                <img src="photos/singapore/owl-sculpture.jpeg" alt="Owl sculpture">
+                <a class="photo-download" href="photos/singapore/owl-sculpture.jpeg" download onclick="event.stopPropagation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+                </a>
+                <div class="photo-item-overlay">
+                    <span class="photo-caption">Owl sculpture</span>
                 </div>
             </div>
         </div>
