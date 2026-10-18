@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=500">
     <title>Mirror Maze</title>
     <meta name="description" content="Mirror Maze — a puzzle game where you place mirrors to guide colored laser beams to their targets. 9 levels from beginner to extreme.">
     <meta name="keywords" content="mirror maze, puzzle game, laser puzzle, logic game">
@@ -33,6 +34,19 @@
     <script src="https://unpkg.com/@babel/standalone@7.29.10/babel.min.js"></script>
     <style>
         body { margin: 0; background: #080a12; }
+
+        /* ── Phones: clear the Back / Report Bug buttons and let the controls row wrap ── */
+        @media (max-width: 560px) {
+            .mm-root { padding-top: 84px !important; }
+            .mm-controls {
+                width: auto !important;
+                max-width: 100%;
+                margin-left: 0 !important;
+                flex-wrap: wrap;
+                justify-content: center !important;
+                gap: 12px 16px !important;
+            }
+        }
 
         /* ── Report Bug button ── */
         .btn-report {
@@ -631,7 +645,7 @@
           const mc = Object.keys(mirrors).length;
 
           return (
-            <div style={S.root}>
+            <div style={S.root} className="mm-root">
               <style>{CSS}</style>
               <div style={{ position: "absolute", top: "1.5rem", left: "1.5rem" }}>
                 <BackBtn onClick={onBack} label="Back" />
@@ -794,7 +808,7 @@
                   }))}
                 </div>
               </div>
-              <div className="fu d3" style={{ ...S.controls, width: W + 22, marginLeft: -100, justifyContent: "space-between" }}>
+              <div className="fu d3 mm-controls" style={{ ...S.controls, width: W + 22, marginLeft: -100, justifyContent: "space-between" }}>
                 <div style={{ ...S.stat, whiteSpace: "nowrap" }}>
                   <span style={S.statLbl}>MIRRORS LEFT</span>
                   <span style={S.statVal}>{level.maxMirrors - mc}</span>

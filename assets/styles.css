@@ -1074,6 +1074,12 @@ body {
         transition: top 0.3s ease, visibility 0s;
     }
 
+    /* standalone pages (Photography, Games) */
+    .page-hero {
+        padding: calc(56px + 4.5rem) 1.5rem 5rem;
+        justify-content: flex-start;
+    }
+
     /* compact header bar */
     .site-nav {
         height: 56px;

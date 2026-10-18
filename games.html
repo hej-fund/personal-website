@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Games — Rohan Hejmadi</title>
     <meta name="description" content="Games by Rohan Hejmadi — browser-based games built from scratch.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +20,6 @@
             position: relative;
             border-color: rgba(255,255,255,1);
             background: #080c1e;
-            box-shadow: inset 0 0 0 4px #080c1e, inset 0 0 0 6px rgba(255,255,255,0.35);
         }
 
         .project-card--mirror:hover {
@@ -98,16 +98,8 @@
 
         <div class="projects-grid">
             <div class="project-card project-card--mirror">
-                <svg id="mm-grid-svg" class="mirror-maze-bg" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:5px;width:calc(100% - 10px);height:calc(100% - 10px);pointer-events:none;">
-                    <defs>
-                        <pattern id="mm-grid" width="24" height="24" patternUnits="userSpaceOnUse">
-                            <path id="mm-grid-path" d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#mm-grid)"/>
-                </svg>
                 <h2>Mirror Maze</h2>
-                <a href="games/mirror_maze.html" target="_blank" class="btn" style="margin-top: auto; padding-left: 2.5rem; padding-right: 2.5rem;">Play!</a>
+                <a href="games/mirror_maze.html" target="_blank" rel="noopener" class="btn" style="margin-top: auto; padding-left: 2.5rem; padding-right: 2.5rem;">Play!</a>
                 <svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="display:block;">
                     <defs>
                         <filter id="cgG" x="-60%" y="-60%" width="220%" height="220%">
@@ -151,21 +143,7 @@
     </div>
 </div>
 
-<script>
-requestAnimationFrame(function() {
-    const svg = document.getElementById('mm-grid-svg');
-    const w = svg.clientWidth;
-    const h = svg.clientHeight;
-    const cols = Math.round(w / 24);
-    const rows = Math.round(h / 24);
-    const cw = w / cols;
-    const ch = h / rows;
-    const pat = document.getElementById('mm-grid');
-    pat.setAttribute('width', cw);
-    pat.setAttribute('height', ch);
-    document.getElementById('mm-grid-path').setAttribute('d', `M ${cw} 0 L 0 0 0 ${ch}`);
-});
-</script>
 <script src="scripts/report-bug.js"></script>
+<script src="scripts/mobile-scroll.js"></script>
 </body>
 </html>

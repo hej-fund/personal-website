@@ -1,6 +1,6 @@
-// Phone layout for the home page: one long scroll with a compact header.
-// About, Projects and Stats are pulled in from their own pages, so their content only lives in one
-// place. Desktop is untouched: the sections are hidden above the breakpoint and the header is removed.
+// Phone layout. Home page: one long scroll with a compact header; About, Projects and Stats are
+// pulled in from their own pages, so their content only lives in one place. Other pages: header
+// links and Back point at the matching spot on that scroll. Desktop is untouched.
 (function () {
     const mq = window.matchMedia('(max-width: 760px)');
     const HEADER_H = 56;                  // phone header height (matches the CSS)
@@ -10,6 +10,49 @@
         { id: 'm-stats', page: 'stats.html', label: 'Stats', select: '.page-content', scripts: true },
     ];
     const hero = document.querySelector('.hero');
+
+    // where the scroll page was when the visitor left it, so Back can return there
+    const store = {
+        get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+        set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* storage blocked */ } },
+        del: function (k) { try { sessionStorage.removeItem(k); } catch (e) { /* storage blocked */ } },
+    };
+
+    // ─── Other pages: on phones, header links and Back go to the matching spot on the scroll page ───
+    // (pages without a viewport tag report a ~980px layout width on phones, so check the screen too)
+    if (!hero) {
+        const target = { About: 'm-about', Projects: 'm-projects', Stats: 'm-stats' };
+        const backTarget = { 'projects.html': 'm-projects' };   // sub-pages of Projects
+        const isPhone = function () { return mq.matches || Math.min(screen.width, screen.height) <= 760; };
+        const rewire = function (a, id) {
+            if (a.dataset.desktopHref === undefined) a.dataset.desktopHref = a.getAttribute('href') || '';
+            if (isPhone()) a.setAttribute('href', 'index.html#' + id);
+            else if (a.dataset.desktopHref) a.setAttribute('href', a.dataset.desktopHref);
+            else a.removeAttribute('href');                    // current page stays unclickable on desktop
+        };
+        const applyLinks = function () {
+            document.querySelectorAll('.site-nav .nav-links a').forEach(function (a) {
+                const id = target[a.textContent.trim()];
+                if (id) rewire(a, id);
+            });
+            document.querySelectorAll('.back-btn').forEach(function (a) {
+                const id = backTarget[a.dataset.desktopHref !== undefined ? a.dataset.desktopHref : a.getAttribute('href')];
+                if (id) rewire(a, id);
+            });
+        };
+        applyLinks();
+        mq.addEventListener('change', applyLinks);
+        document.querySelectorAll('.back-btn').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                if (!isPhone() || store.get('mReturnY') === null) return;   // nothing saved: go to the section
+                e.preventDefault();
+                store.set('mReturn', '1');
+                location.href = 'index.html';
+            });
+        });
+        return;
+    }
+
     const reportBtn = document.querySelector('.btn-report');
     const reportHome = { parent: reportBtn && reportBtn.parentNode, next: reportBtn && reportBtn.nextSibling };
     let loaded = false, ready = false, header = null, observer = null, heroWatch = null;
@@ -85,6 +128,15 @@
             ready = true;
             updateButtons();
             buildHeader();
+            // came back via a page's Back link: return to where the scroll was
+            if (store.get('mReturn') === '1' && mq.matches) {
+                store.del('mReturn');
+                const y = Number(store.get('mReturnY'));
+                if (!isNaN(y)) window.scrollTo({ top: y, behavior: 'instant' });
+            // arrived from another page's link (index.html#m-...)
+            } else if (/^#m-/.test(location.hash) && mq.matches) {
+                setTimeout(function () { jumpTo(location.hash.slice(1)); }, 300);
+            }
         });
     }
 
@@ -177,6 +229,15 @@
         }, 50);
         setTimeout(function () { clearInterval(settle); }, 4000);
     }
+
+    // leaving the scroll page (e.g. a project's View button): remember the position for Back
+    document.addEventListener('click', function (e) {
+        const a = e.target.closest && e.target.closest('a[href]');
+        if (!a || !mq.matches || a.target === '_blank') return;
+        const href = a.getAttribute('href');
+        if (href.charAt(0) === '#' || /^(mailto:|https?:)/.test(href)) return;
+        store.set('mReturnY', String(Math.round(window.scrollY)));
+    }, true);
 
     document.addEventListener('click', function (e) {
         const a = e.target.closest && e.target.closest('a[href^="#m-"]');
