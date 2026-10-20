@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.svg?v=8" type="image/svg+xml">
+    <link rel="icon" href="assets/logo-256.png?v=1" type="image/png" sizes="256x256">
     <link rel="canonical" href="https://rohanhejmadi.com/photography.html">
     <meta property="og:title" content="Photography — Rohan Hejmadi">
     <meta property="og:description" content="A personal selection of photographs by Rohan Hejmadi, shot across various countries and landscapes.">
@@ -243,7 +243,7 @@
 <body>
 
 <header class="site-nav">
-    <a href="/" class="nav-brand" aria-label="Home"><img src="favicon.svg?v=8" alt="" width="34" height="34"></a>
+    <a href="/" class="nav-brand" aria-label="Home"><img src="assets/logo-256.png?v=1" alt="" width="34" height="34"></a>
     <nav class="nav-links">
         <a href="about.html">About</a>
         <a href="projects.html" aria-current="page">Projects</a>
@@ -461,6 +461,8 @@
     function closeLightbox() {
         document.getElementById('lightbox').classList.remove('active');
         document.body.style.overflow = '';
+        const img = document.getElementById('lightbox-img');      // clear any swipe position
+        img.style.transform = img.style.transition = img.style.opacity = '';
     }
 
     function closeLightboxOnBg(e) {
@@ -478,6 +480,62 @@
         if (e.key === 'ArrowLeft' && currentIndex > 0) navigateLightbox(-1);
         if (e.key === 'ArrowRight' && currentIndex < currentItems.length - 1) navigateLightbox(1);
     });
+
+    // Touch: swipe up for the next photo, down for the previous one. The photo follows the finger,
+    // short swipes snap back, and the first / last photo resists instead of moving.
+    (function () {
+        const box = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        const SWIPE = 60, ANIM = 220;
+        let startX = 0, startY = 0, dy = 0, tracking = false, busy = false;
+
+        function setY(y, animate) {
+            img.style.transition = animate ? `transform ${ANIM}ms ease, opacity ${ANIM}ms ease` : 'none';
+            img.style.transform = `translateY(${y}px)`;
+        }
+
+        box.addEventListener('touchstart', e => {
+            if (busy || e.touches.length !== 1) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            dy = 0;
+            tracking = true;
+        }, { passive: true });
+
+        box.addEventListener('touchmove', e => {
+            if (!tracking) return;
+            const dx = e.touches[0].clientX - startX;
+            dy = e.touches[0].clientY - startY;
+            if (Math.abs(dx) > Math.abs(dy)) return;               // sideways: not a photo swipe
+            e.preventDefault();                                     // keep the page behind from bouncing
+            const atEnd = (dy < 0 && currentIndex === currentItems.length - 1) || (dy > 0 && currentIndex === 0);
+            setY(atEnd ? dy * 0.3 : dy, false);
+        }, { passive: false });
+
+        box.addEventListener('touchend', () => {
+            if (!tracking) return;
+            tracking = false;
+            const dir = dy < -SWIPE ? 1 : dy > SWIPE ? -1 : 0;     // up = next, down = previous
+            const target = currentIndex + dir;
+            if (!dir || target < 0 || target >= currentItems.length) {
+                setY(0, true);
+                return;
+            }
+            busy = true;
+            const off = window.innerHeight * (dir > 0 ? -1 : 1);
+            setY(off, true);
+            img.style.opacity = '0';
+            setTimeout(() => {
+                navigateLightbox(dir);
+                setY(-off, false);                                  // bring the new photo in from the other side
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    setY(0, true);
+                    img.style.opacity = '1';
+                    setTimeout(() => { busy = false; }, ANIM);
+                }));
+            }, ANIM);
+        });
+    })();
 </script>
 
 <script src="scripts/report-bug.js"></script>
