@@ -150,7 +150,7 @@
         }).join('');
         // high-res PNG of favicon.svg: phone browsers draw small SVG images soft
         header.innerHTML =
-            '<a href="#top" class="nav-brand" aria-label="Back to top"><img src="assets/logo-256.png" alt="" width="34" height="34"></a>' +
+            '<a href="#top" class="nav-brand" aria-label="Back to top"><img src="assets/logo-256.png?v=1" alt="" width="34" height="34"></a>' +
             '<nav class="nav-links">' + links + '</nav>';
         document.body.insertBefore(header, document.body.firstChild);
 
