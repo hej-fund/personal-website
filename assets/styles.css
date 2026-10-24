@@ -993,7 +993,7 @@ body {
     /* scrolling sections */
     .mobile-scroll {
         display: block;
-        background: linear-gradient(#141414, #0b0b0b);
+        background: #0a0a0a;          /* continues straight out of the hero's faded bottom edge */
         color: white;
     }
 
@@ -1122,8 +1122,9 @@ body {
     --safe-left: env(safe-area-inset-left, 0px);
 }
 
-html {
-    background-color: #0b0b0b;
+html,
+body {
+    background-color: #0a0a0a;    /* Safari tints its bars with this (and theme-color) */
 }
 
 .site-nav {
@@ -1207,5 +1208,54 @@ html {
     .site-nav ~ .page-hero .back-btn {
         top: calc(56px + 1.25rem + var(--safe-top));
         left: calc(1rem + var(--safe-left));
+    }
+}
+
+/* ─── Phones: blend into Safari's bars (they are tinted #0a0a0a via theme-color) ─── */
+/* Safari keeps its status bar and toolbars for itself and paints them one solid colour, so the
+   page edges fade into that same colour to read as one continuous surface. */
+@media (max-width: 760px) {
+    /* size to the visible area so nothing jumps when Safari's toolbars shrink */
+    .hero {
+        height: 100svh;
+    }
+
+    .page-hero {
+        min-height: 100svh;
+    }
+
+    /* the photo fades into the bar colour at its top and bottom edges */
+    .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: linear-gradient(to bottom,
+            #0a0a0a 0,
+            rgba(10, 10, 10, 0) 120px,
+            rgba(10, 10, 10, 0) calc(100% - 180px),
+            #0a0a0a 100%);
+    }
+
+    /* the header is the top edge once you scroll: make it the bar colour */
+    .site-nav {
+        background: #0a0a0a;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* soft fade along the bottom of the screen into Safari's toolbar, wherever you are on the page */
+    body::after {
+        content: "";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 48px;
+        z-index: 50;
+        pointer-events: none;
+        background: linear-gradient(rgba(10, 10, 10, 0), #0a0a0a);
     }
 }

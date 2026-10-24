@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=500, viewport-fit=cover">
+    <meta name="viewport" content="width=500">
+    <meta name="theme-color" content="#080a12">
     <title>Mirror Maze</title>
     <meta name="description" content="Mirror Maze — a puzzle game where you place mirrors to guide colored laser beams to their targets. 9 levels from beginner to extreme.">
     <meta name="keywords" content="mirror maze, puzzle game, laser puzzle, logic game">
@@ -35,12 +36,6 @@
     <style>
         body { margin: 0; background: #080a12; }
 
-        /* ── Edge-to-edge on notched / rounded phones: keep content clear of the notch and home bar ── */
-        body {
-            padding-top: env(safe-area-inset-top, 0px);
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-        }
-
         /* ── Phones: clear the Back / Report Bug buttons and let the controls row wrap ── */
         @media (max-width: 560px) {
             .mm-root { padding-top: 84px !important; }
@@ -57,8 +52,8 @@
         /* ── Report Bug button ── */
         .btn-report {
             position: fixed;
-            top: calc(1.5rem + env(safe-area-inset-top, 0px));
-            right: calc(1.5rem + env(safe-area-inset-right, 0px));
+            top: 1.5rem;
+            right: 1.5rem;
             z-index: 1000;
             padding: 10px 22px;
             background: rgba(255,45,85,.08);
