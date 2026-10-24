@@ -1211,9 +1211,7 @@ body {
     }
 }
 
-/* ─── Phones: blend into Safari's bars (they are tinted #0a0a0a via theme-color) ─── */
-/* Safari keeps its status bar and toolbars for itself and paints them one solid colour, so the
-   page edges fade into that same colour to read as one continuous surface. */
+/* ─── Phones: Safari's bars are colour-matched to the content at each edge by scripts/edge-color.js ─── */
 @media (max-width: 760px) {
     /* size to the visible area so nothing jumps when Safari's toolbars shrink */
     .hero {
@@ -1224,38 +1222,11 @@ body {
         min-height: 100svh;
     }
 
-    /* the photo fades into the bar colour at its top and bottom edges */
-    .hero::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        background: linear-gradient(to bottom,
-            #0a0a0a 0,
-            rgba(10, 10, 10, 0) 120px,
-            rgba(10, 10, 10, 0) calc(100% - 180px),
-            #0a0a0a 100%);
-    }
-
-    /* the header is the top edge once you scroll: make it the bar colour */
+    /* solid header, so the top bar can match it exactly once it covers the top edge */
     .site-nav {
         background: #0a0a0a;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         border-bottom-color: rgba(255, 255, 255, 0.08);
-    }
-
-    /* soft fade along the bottom of the screen into Safari's toolbar, wherever you are on the page */
-    body::after {
-        content: "";
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 48px;
-        z-index: 50;
-        pointer-events: none;
-        background: linear-gradient(rgba(10, 10, 10, 0), #0a0a0a);
     }
 }
