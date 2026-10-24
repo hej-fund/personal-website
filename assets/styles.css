@@ -1111,3 +1111,101 @@ body {
         left: 1rem;
     }
 }
+
+/* ─── Edge-to-edge on notched / rounded phones (viewport-fit=cover) ─── */
+/* the page now reaches the screen edges; fixed controls are pushed clear of the notch,
+   rounded corners and home bar. On screens without those, every inset is 0. */
+:root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+}
+
+html {
+    background-color: #0b0b0b;
+}
+
+.site-nav {
+    height: calc(64px + var(--safe-top));
+    padding-top: var(--safe-top);
+    padding-left: calc(2.5rem + var(--safe-left));
+    padding-right: calc(1.5rem + var(--safe-right));
+}
+
+.btn-report {
+    top: calc(1.5rem + var(--safe-top));
+    right: calc(1.5rem + var(--safe-right));
+}
+
+.site-nav .btn-report {
+    top: auto;
+    right: auto;
+}
+
+.back-btn {
+    left: calc(2.5rem + var(--safe-left));
+}
+
+.site-nav ~ .page-hero .back-btn {
+    top: calc(64px + 2.2rem + var(--safe-top));
+}
+
+.license-btn {
+    bottom: calc(2.2rem + var(--safe-bottom));
+    left: calc(2.5rem + var(--safe-left));
+}
+
+.lightbox .lightbox-close {
+    top: calc(2rem + var(--safe-top));
+    right: calc(2.5rem + var(--safe-right));
+}
+
+.lightbox .lightbox-section-label {
+    top: calc(2rem + var(--safe-top));
+    left: calc(2.5rem + var(--safe-left));
+}
+
+@media (max-width: 760px) {
+    .site-nav {
+        height: calc(56px + var(--safe-top));
+        padding-left: calc(1rem + var(--safe-left));
+        padding-right: calc(1rem + var(--safe-right));
+    }
+
+    .site-nav--home {
+        top: calc(-57px - var(--safe-top));
+    }
+
+    .site-nav--home.is-visible {
+        top: 0;
+    }
+
+    .hero {
+        padding-left: calc(1.5rem + var(--safe-left));
+        padding-right: calc(1.5rem + var(--safe-right));
+    }
+
+    .page-hero {
+        padding-top: calc(56px + 4.5rem + var(--safe-top));
+    }
+
+    .mobile-section {
+        scroll-margin-top: calc(56px + var(--safe-top));
+    }
+
+    .btn-report {
+        top: calc(1rem + var(--safe-top));
+        right: calc(1rem + var(--safe-right));
+    }
+
+    .site-nav .btn-report {
+        top: auto;
+        right: auto;
+    }
+
+    .site-nav ~ .page-hero .back-btn {
+        top: calc(56px + 1.25rem + var(--safe-top));
+        left: calc(1rem + var(--safe-left));
+    }
+}

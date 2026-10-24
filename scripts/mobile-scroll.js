@@ -3,7 +3,8 @@
 // links and Back point at the matching spot on that scroll. Desktop is untouched.
 (function () {
     const mq = window.matchMedia('(max-width: 760px)');
-    const HEADER_H = 56;                  // phone header height (matches the CSS)
+    // phone header height: 56px plus the notch inset on notched phones, so measure it
+    function headerH() { const h = document.querySelector('.site-nav'); return h ? h.offsetHeight : 56; }
     const SECTIONS = [
         { id: 'm-about', page: 'about.html', label: 'About', select: '.about-layout' },
         { id: 'm-projects', page: 'projects.html', label: 'Projects', select: '.page-content' },
@@ -175,7 +176,7 @@
         // Report Bug moves into it then (same button, so the bug form stays wired up) and back after
         let past = null;
         heroWatch = function () {
-            const now = hero.getBoundingClientRect().bottom <= HEADER_H + 1;   // touching the header counts as past
+            const now = hero.getBoundingClientRect().bottom <= headerH() + 1;   // touching the header counts as past
             if (now === past || !header) return;
             past = now;
             header.classList.toggle('is-visible', past);
@@ -216,7 +217,7 @@
         const el = document.getElementById(id);
         if (!el) return;
         // native anchor scroll (honours the CSS scroll-margin-top), then a re-check once it settles
-        const target = function () { return el.getBoundingClientRect().top + window.scrollY - HEADER_H; };
+        const target = function () { return el.getBoundingClientRect().top + window.scrollY - headerH(); };
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         let last = -1, still = 0;
         const settle = setInterval(function () {
